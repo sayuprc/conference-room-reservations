@@ -12,6 +12,7 @@ $finder = PhpCsFixer\Finder::create()
         __DIR__ . '/tests',
         __DIR__ . '/lang',
         __DIR__ . '/public',
+        __DIR__ . '/packages',
     ])
     ->exclude([
         'cache',
