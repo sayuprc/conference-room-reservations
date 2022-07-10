@@ -37,7 +37,7 @@ return (new PhpCsFixer\Config())
             'position_after_anonymous_constructs' => 'same',
         ],
 
-        'cast_spaces' => ['space' => 'single'],
+        'cast_spaces' => ['space' => 'none'],
         'class_attributes_separation' => [
             'elements' => [
                 'const' => 'one',
