@@ -20,7 +20,7 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     {
         $this->db = array_map(function (int $i) {
             return new Room(new RoomId((string)$i), new RoomName('Room . ' . $i));
-        }, range(1, 10));
+        }, range(1, 20));
     }
 
     /**
@@ -29,5 +29,12 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     public function findAll(): array
     {
         return $this->db;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function store(Room $room): void
+    {
     }
 }

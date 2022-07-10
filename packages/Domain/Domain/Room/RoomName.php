@@ -11,7 +11,7 @@ class RoomName
     /**
      * 会議室名の最大文字長。
      */
-    private const MAX_LENGTH = 64;
+    const MAX_LENGTH = 64;
 
     /**
      * @var string $value 会議室ID(UUID v4)

@@ -10,7 +10,9 @@
 </head>
 
 <body class="w-full">
-    <div>
+    @include('app.header')
+
+    <div class="my-4">
         @yield('content')
     </div>
 </body>
