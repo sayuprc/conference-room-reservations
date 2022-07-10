@@ -12,4 +12,13 @@ interface RoomRepositoryInterface
      * @return array<Room>
      */
     public function findAll(): array;
+
+    /**
+     * 会議室の保存。
+     *
+     * @param Room $room
+     *
+     * @return void
+     */
+    public function store(Room $room): void;
 }

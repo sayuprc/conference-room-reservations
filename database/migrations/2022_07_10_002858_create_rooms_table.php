@@ -15,7 +15,7 @@ return new class() extends Migration {
     public function up()
     {
         Schema::create('rooms', function (Blueprint $table) {
-            $table->char('room_id', 32)->primary();
+            $table->char('room_id', 36)->primary();
             $table->string('name', 64);
 
             $table->timestamps();

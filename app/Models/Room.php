@@ -20,4 +20,9 @@ class Room extends Model
      * 主キーの型
      */
     protected $keyType = 'string';
+
+    /**
+     * @var array<string> $guarded 代入不可属性
+     */
+    protected $guarded = [];
 }
