@@ -24,12 +24,12 @@
             @foreach ($rooms as $room)
                 <div class="rounded-lg bg-white px-8 py-4 shadow-md dark:bg-gray-800">
                     <div class="mt-2">
-                        <a href="#"
+                        <a href="{{ $room->detailUrl }}"
                             class="text-2xl font-bold text-gray-700 hover:text-gray-600 hover:underline dark:text-white dark:hover:text-gray-200">{{ $room->name }}</a>
                     </div>
 
                     <div class="mt-4">
-                        <a href="#" class="text-blue-600 hover:underline dark:text-blue-400">もっと見る</a>
+                        <a href="{{ $room->detailUrl }}" class="text-blue-600 hover:underline dark:text-blue-400">もっと見る</a>
                     </div>
                 </div>
             @endforeach
