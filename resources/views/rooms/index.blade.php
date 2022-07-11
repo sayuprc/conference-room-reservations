@@ -29,7 +29,8 @@
                     </div>
 
                     <div class="mt-4">
-                        <a href="{{ $room->detailUrl }}" class="text-blue-600 hover:underline dark:text-blue-400">もっと見る</a>
+                        <a href="{{ $room->detailUrl }}"
+                            class="text-blue-600 hover:underline dark:text-blue-400">もっと見る</a>
                     </div>
                 </div>
             @endforeach

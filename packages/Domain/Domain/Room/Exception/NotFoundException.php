@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace packages\Domain\Domain\Room;
+namespace packages\Domain\Domain\Room\Exception;
 
 use Exception;
 
