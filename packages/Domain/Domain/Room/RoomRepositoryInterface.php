@@ -7,6 +7,15 @@ namespace packages\Domain\Domain\Room;
 interface RoomRepositoryInterface
 {
     /**
+     * 特定の会議室を取得する。
+     *
+     * @param RoomId $roomId
+     *
+     * @return Room
+     */
+    public function find(RoomId $roomId): Room;
+
+    /**
      * すべての会議室を取得する。
      *
      * @return array<Room>

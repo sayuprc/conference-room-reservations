@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace packages\InMemoryInfrastructure\Room;
 
+use packages\Domain\Domain\Room\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomName;
@@ -21,6 +22,22 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
         $this->db = array_map(function (int $i) {
             return new Room(new RoomId((string)$i), new RoomName('Room . ' . $i));
         }, range(1, 20));
+    }
+
+    /**
+     * @inheritdoc
+     *
+     * @throws NotFoundException
+     */
+    public function find(RoomId $roomId): Room
+    {
+        foreach ($this->db as $room) {
+            if ($room->getRoomId()->getValue() === $roomId->getValue()) {
+                return $room;
+            }
+        }
+
+        throw new NotFoundException('ID: ' . $roomId->getValue() . ' is not found.');
     }
 
     /**

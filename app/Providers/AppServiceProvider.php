@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use packages\Domain\Application\Room\RoomGetInteractor;
 use packages\Domain\Application\Room\RoomGetListInteractor;
 use packages\Domain\Application\Room\RoomRegisterInteractor;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\Infrastructure\Room\RoomRepository;
 use packages\InMemoryInfrastructure\Room\InMemoryRoomRepository;
+use packages\MockInteractor\Room\MockRoomGetInteractor;
 use packages\MockInteractor\Room\MockRoomGetListInteractor;
 use packages\MockInteractor\Room\MockRoomRegisterInteractor;
+use packages\UseCase\Room\Get\RoomGetUseCaseInterface;
 use packages\UseCase\Room\GetList\RoomGetListUseCaseInterface;
 use packages\UseCase\Room\Register\RoomRegisterUseCaseInterface;
 
@@ -33,6 +36,9 @@ class AppServiceProvider extends ServiceProvider
 
             // 会議室登録ユースケース
             $this->app->bind(RoomRegisterUseCaseInterface::class, MockRoomRegisterInteractor::class);
+
+            // 会議室取得ユースケース
+            $this->app->bind(RoomGetUseCaseInterface::class, MockRoomGetInteractor::class);
         } else {
             // 会議室リポジトリ
             $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
@@ -42,6 +48,9 @@ class AppServiceProvider extends ServiceProvider
 
             // 会議室登録ユースケース
             $this->app->bind(RoomRegisterUseCaseInterface::class, RoomRegisterInteractor::class);
+
+            // 会議室取得ユースケース
+            $this->app->bind(RoomGetUseCaseInterface::class, RoomGetInteractor::class);
         }
     }
 
