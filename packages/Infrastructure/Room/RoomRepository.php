@@ -6,9 +6,15 @@ namespace packages\Infrastructure\Room;
 
 use App\Models\Reservation as EloquentReservation;
 use App\Models\Room as EloquentRoom;
+use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use packages\Domain\Domain\Reservation\EndAt;
+use packages\Domain\Domain\Reservation\Note;
 use packages\Domain\Domain\Reservation\Reservation;
+use packages\Domain\Domain\Reservation\ReservationId;
+use packages\Domain\Domain\Reservation\StartAt;
+use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
@@ -24,15 +30,32 @@ class RoomRepository implements RoomRepositoryInterface
      */
     public function find(RoomId $roomId): Room
     {
-        $storedRoom = EloquentRoom::find($roomId->getValue());
+        $storedRoom = EloquentRoom::with('reservations')->find($roomId->getValue());
 
         if ($storedRoom === null) {
             throw new NotFoundException('ID: ' . $roomId->getValue() . ' is not found.');
         }
 
+        $storedRoomId = new RoomId($storedRoom->room_id);
+
         return new Room(
-            new RoomId($storedRoom->room_id),
-            new RoomName($storedRoom->name)
+            $storedRoomId,
+            new RoomName($storedRoom->name),
+            array_map(
+                fn (Reservation $r): Reservation => $r,
+                $storedRoom->reservations()->get()->map(
+                    function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
+                        return new Reservation(
+                            $storedRoomId,
+                            new ReservationId($reservation->reservation_id),
+                            new Summary($reservation->summary),
+                            new StartAt(new DateTime($reservation->start_at)),
+                            new EndAt(new DateTime($reservation->end_at)),
+                            new Note($reservation->note)
+                        );
+                    }
+                )->toArray()
+            )
         );
     }
 
