@@ -7,14 +7,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class Reservation extends Model
 {
     use HasFactory;
 
     /**
      * 主キーの名前
      */
-    protected $primaryKey = 'room_id';
+    protected $primaryKey = 'reservation_id';
 
     /**
      * 主キーの型
@@ -27,10 +27,10 @@ class Room extends Model
     protected $guarded = [];
 
     /**
-     * 会議室の予約を取得する。
+     * 予約が属する会議室を取得する。
      */
-    public function reservations()
+    public function room()
     {
-        return $this->hasMany(Reservation::class);
+        return $this->belongsTo(Room::class);
     }
 }

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Reservation\RegisterReservationController;
 use App\Http\Controllers\Room\DetailRoomController;
 use App\Http\Controllers\Room\IndexRoomController;
 use App\Http\Controllers\Room\RegisterController;
@@ -17,3 +18,6 @@ Route::get('/rooms/show/{id}', [DetailRoomController::class, 'handle'])->name('d
 
 Route::get('/rooms/register', [RegisterController::class, 'create']);
 Route::post('/rooms/register', [RegisterController::class, 'handle']);
+
+Route::get('/reservations/register', [RegisterReservationController::class, 'create'])->name('reservations.register');
+Route::post('/reservations/register', [RegisterReservationController::class, 'handle']);
