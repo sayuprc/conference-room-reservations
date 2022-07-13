@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Room;
 
-use Tests\TestCase;
+use Tests\Feature\FeatureTestCase;
 
-class RegisterRoom extends TestCase
+class RegisterRoomTest extends FeatureTestCase
 {
     /**
      * 会議室登録画面表示テスト
