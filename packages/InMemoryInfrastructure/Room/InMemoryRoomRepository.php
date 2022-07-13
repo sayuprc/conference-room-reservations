@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace packages\InMemoryInfrastructure\Room;
 
-use packages\Domain\Domain\Room\NotFoundException;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomName;
