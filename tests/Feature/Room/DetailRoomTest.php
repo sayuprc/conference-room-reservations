@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Room;
 
-use Tests\TestCase;
+use Tests\Feature\FeatureTestCase;
 
-class DetailRoomTest extends TestCase
+class DetailRoomTest extends FeatureTestCase
 {
     /**
      * 会議室の詳細閲覧テスト
