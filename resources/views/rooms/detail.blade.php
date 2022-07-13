@@ -19,19 +19,33 @@
         </div>
     @endif
 
-    <div class="mx-auto flex w-3/4">
-        <div class="bg-white dark:bg-gray-800">
-            <div>
-                <p class="text-2xl font-bold text-gray-700 dark:text-white"> {{ $room->name }}</p>
+    <div class="mx-auto w-3/4">
+        <div class="flex">
+            <div class="bg-white dark:bg-gray-800">
+                <div>
+                    <p class="text-2xl font-bold text-gray-700 dark:text-white"> {{ $room->name }}</p>
+                </div>
+            </div>
+
+            <div class="ml-6">
+                <form action="/reservations/register" method="GET">
+                    <input type="hidden" name="room_id" value="{{ $room->id }}">
+                    <button type="submit"
+                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">予約登録</button>
+                </form>
             </div>
         </div>
 
-        <div class="ml-6">
-            <form action="/reservations/register" method="GET">
-                <input type="hidden" name="room_id" value="{{ $room->id }}">
-                <button type="submit"
-                    class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">予約登録</button>
-            </form>
+        <div class="mt-8 grid grid-cols-3 gap-4">
+            @foreach ($room->reservations as $key => $reservation)
+                <div class="rounded shadow-lg">
+                    <div class="px-6 py-4">
+                        <div class="mb-2 text-xl font-bold">{{ $reservation->summary }}</div>
+                        <div>{{ $reservation->startAt }} ~ {{ $reservation->endAt }}</div>
+                        <p class="text-base text-gray-700">{{ $reservation->note }} </p>
+                    </div>
+                </div>
+            @endforeach
         </div>
     </div>
 @endsection
