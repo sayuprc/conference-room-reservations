@@ -36,6 +36,6 @@
             @endforeach
         </div>
     @else
-        <h2>会議室がありません。</h2>
+        <h2 class="mx-auto w-3/4">会議室がありません。</h2>
     @endif
 @endsection
