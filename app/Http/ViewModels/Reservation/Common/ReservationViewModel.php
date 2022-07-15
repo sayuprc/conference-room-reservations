@@ -55,8 +55,7 @@ class ReservationViewModel
         DateTimeInterface $startAt,
         DateTimeInterface $endAt,
         string $note
-    )
-    {
+    ) {
         $this->roomId = $roomId;
         $this->reservationId = $reservationId;
         $this->summary = $summary;
