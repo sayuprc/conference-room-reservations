@@ -22,9 +22,8 @@ class RoomGetListViewModel
     public string $detailUrl;
 
     /**
-     * @param string $id        会議室ID
-     * @param string $name      会議室名
-     * @param string $detailUrl 詳細画面へのURL
+     * @param string $id   会議室ID
+     * @param string $name 会議室名
      *
      * @return void
      */

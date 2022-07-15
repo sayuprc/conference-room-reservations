@@ -12,6 +12,11 @@ use packages\UseCase\Room\GetList\RoomGetListUseCaseInterface;
 
 class IndexRoomController extends Controller
 {
+    /**
+     * 会議室の一覧を表示する。
+     *
+     * @param RoomGetListUseCaseInterface $interactor
+     */
     public function handle(RoomGetListUseCaseInterface $interactor)
     {
         $response = $interactor->handle(new RoomGetListRequest());

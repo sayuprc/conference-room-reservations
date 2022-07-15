@@ -10,6 +10,9 @@ use packages\UseCase\Room\Register\RoomRegisterUseCaseInterface;
 
 class MockRoomRegisterInteractor implements RoomRegisterUseCaseInterface
 {
+    /**
+     * @return void
+     */
     public function __construct()
     {
     }

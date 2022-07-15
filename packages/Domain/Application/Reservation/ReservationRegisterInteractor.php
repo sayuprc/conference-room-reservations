@@ -46,7 +46,7 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
     }
 
     /**
-     * 登録処理実行
+     * 予約の登録処理を実行する。
      *
      * @param ReservationRegisterRequest $request
      *

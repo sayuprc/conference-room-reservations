@@ -9,7 +9,9 @@ use DateTime;
 class ReservationSpecification
 {
     /**
-     * すでに終了しているの予約を取り除く
+     * すでに終了しているの予約を取り除く。
+     *
+     * **パフォーマンスが悪いと感じた場合、このクラスは利用せずに、リポジトリでフィルターする**
      *
      * @param array<Reservation> $reservations
      *

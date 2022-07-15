@@ -24,6 +24,9 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
      */
     private array $db;
 
+    /**
+     * @return void
+     */
     public function __construct()
     {
         foreach (range(1, 20) as $i) {

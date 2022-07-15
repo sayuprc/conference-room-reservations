@@ -13,7 +13,7 @@ class IndexRoomTest extends FeatureTestCase
      *
      * @return void
      */
-    public function testShowIndex()
+    public function testShowIndex(): void
     {
         $response = $this->get('/rooms');
 
