@@ -8,9 +8,7 @@ use App\Http\Controllers\Room\IndexRoomController;
 use App\Http\Controllers\Room\RegisterController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', fn () => redirect()->route('index'));
 
 Route::get('/rooms', [IndexRoomController::class, 'handle'])->name('index');
 
