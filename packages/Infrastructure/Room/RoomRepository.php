@@ -52,7 +52,7 @@ class RoomRepository implements RoomRepositoryInterface
         return new Room(
             $storedRoomId,
             new RoomName($storedRoom->name),
-            $this->reservationSpecification->getBeforeStartedReservations(
+            $this->reservationSpecification->removeFinished(
                 array_map(
                     fn (Reservation $r): Reservation => $r,
                     $storedRoom->reservations()->get()->map(
