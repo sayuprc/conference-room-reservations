@@ -13,6 +13,7 @@ use packages\Domain\Domain\Reservation\EndAt;
 use packages\Domain\Domain\Reservation\Note;
 use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Reservation\ReservationId;
+use packages\Domain\Domain\Reservation\ReservationSpecification;
 use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
@@ -23,6 +24,16 @@ use packages\Domain\Domain\Room\RoomRepositoryInterface;
 
 class RoomRepository implements RoomRepositoryInterface
 {
+    /**
+     * @var ReservationSpecification $reservationSpecification
+     */
+    private ReservationSpecification $reservationSpecification;
+
+    public function __construct(ReservationSpecification $reservationSpecification)
+    {
+        $this->reservationSpecification = $reservationSpecification;
+    }
+
     /**
      * @inheritdoc
      *
@@ -41,20 +52,22 @@ class RoomRepository implements RoomRepositoryInterface
         return new Room(
             $storedRoomId,
             new RoomName($storedRoom->name),
-            array_map(
-                fn (Reservation $r): Reservation => $r,
-                $storedRoom->reservations()->get()->map(
-                    function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
-                        return new Reservation(
-                            $storedRoomId,
-                            new ReservationId($reservation->reservation_id),
-                            new Summary($reservation->summary),
-                            new StartAt(new DateTime($reservation->start_at)),
-                            new EndAt(new DateTime($reservation->end_at)),
-                            new Note($reservation->note)
-                        );
-                    }
-                )->toArray()
+            $this->reservationSpecification->removeFinished(
+                array_map(
+                    fn (Reservation $r): Reservation => $r,
+                    $storedRoom->reservations()->get()->map(
+                        function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
+                            return new Reservation(
+                                $storedRoomId,
+                                new ReservationId($reservation->reservation_id),
+                                new Summary($reservation->summary),
+                                new StartAt(new DateTime($reservation->start_at)),
+                                new EndAt(new DateTime($reservation->end_at)),
+                                new Note($reservation->note)
+                            );
+                        }
+                    )->toArray()
+                )
             )
         );
     }
