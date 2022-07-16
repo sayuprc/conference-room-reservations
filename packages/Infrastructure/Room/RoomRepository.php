@@ -29,6 +29,11 @@ class RoomRepository implements RoomRepositoryInterface
      */
     private ReservationSpecification $reservationSpecification;
 
+    /**
+     * @param ReservationSpecification $reservationSpecification
+     *
+     * @return void
+     */
     public function __construct(ReservationSpecification $reservationSpecification)
     {
         $this->reservationSpecification = $reservationSpecification;

@@ -15,7 +15,7 @@ class FeatureTestCase extends TestCase
     private static bool $isSetuped = false;
 
     /**
-     * テストデータ挿入
+     * テストデータを挿入する。
      *
      * @return void
      */

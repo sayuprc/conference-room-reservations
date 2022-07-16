@@ -22,7 +22,7 @@ class ReservationSpecificationTest extends TestCase
      *
      * @return void
      */
-    public function testFilterSpecification()
+    public function testFilterSpecification(): void
     {
         $specification = new ReservationSpecification();
 

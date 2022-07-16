@@ -25,7 +25,7 @@ class ReservationServiceTest extends TestCase
      *
      * @return void
      */
-    public function testCanRegister()
+    public function testCanRegister(): void
     {
         $repository = new InMemoryRoomRepository();
 
@@ -76,7 +76,7 @@ class ReservationServiceTest extends TestCase
      *
      * @return void
      */
-    public function testFailureCanRegister()
+    public function testFailureCanRegister(): void
     {
         $repository = new InMemoryRoomRepository();
 

@@ -14,7 +14,7 @@ use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
 class RegisterReservationController extends Controller
 {
     /**
-     * 登録画面表示
+     * 登録画面を表示する。
      *
      * @param ShowRegisterRequest $request
      */
@@ -24,7 +24,7 @@ class RegisterReservationController extends Controller
     }
 
     /**
-     * 予約登録実行
+     * 予約の登録を実行する。
      *
      * @param RegisterRequest                     $request
      * @param ReservationRegisterUseCaseInterface $interactor

@@ -13,7 +13,7 @@ class DetailRoomTest extends FeatureTestCase
      *
      * @return void
      */
-    public function testShowRoomDetail()
+    public function testShowRoomDetail(): void
     {
         $response = $this->get('/rooms/show/1');
 

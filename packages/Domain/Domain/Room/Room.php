@@ -67,6 +67,13 @@ class Room
         return $this->reservations;
     }
 
+    /**
+     * 会議室に予約を追加する。
+     *
+     * @param Reservation $reservation
+     *
+     * @return Room
+     */
     public function addReservation(Reservation $reservation): Room
     {
         return new Room(
