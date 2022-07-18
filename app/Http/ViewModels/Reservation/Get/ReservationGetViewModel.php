@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\ViewModels\Reservation\GetList;
+namespace App\Http\ViewModels\Reservation\Get;
 
 use DateTimeInterface;
 
-class ReservationGetListViewModel
+class ReservationGetViewModel
 {
     /**
      * @var string $roomId
@@ -24,14 +24,24 @@ class ReservationGetListViewModel
     public string $summary;
 
     /**
-     * @var string $startAt
+     * @var string $startAtDate
      */
-    public string $startAt;
+    public string $startAtDate;
 
     /**
-     * @var string $endAt
+     * @var string $startAtTime
      */
-    public string $endAt;
+    public string $startAtTime;
+
+    /**
+     * @var string $endAtDate
+     */
+    public string $endAtDate;
+
+    /**
+     * @var string $endAtTime
+     */
+    public string $endAtTime;
 
     /**
      * @var string $note
@@ -39,9 +49,9 @@ class ReservationGetListViewModel
     public string $note;
 
     /**
-     * @var string $detailUrl;
+     * @var string $roomUrl;
      */
-    public string $detailUrl;
+    public string $roomUrl;
 
     /**
      * @param string            $roomId
@@ -64,11 +74,12 @@ class ReservationGetListViewModel
         $this->roomId = $roomId;
         $this->reservationId = $reservationId;
         $this->summary = $summary;
-        $this->startAt = $startAt->format('H:i');
-        $this->endAt = $endAt->format('H:i');
-        // textareaのCRLFが画面上で再現できないのでエスケープする。
-        $this->note = nl2br(e($note));
+        $this->startAtDate = $startAt->format('Y-m-d');
+        $this->startAtTime = $startAt->format('H:i');
+        $this->endAtDate = $endAt->format('Y-m-d');
+        $this->endAtTime = $endAt->format('H:i');
+        $this->note = $note;
 
-        $this->detailUrl = sprintf('/reservations/show/%s/%s', $this->roomId, $this->reservationId);
+        $this->roomUrl = sprintf('/rooms/show/%s', $this->roomId);
     }
 }
