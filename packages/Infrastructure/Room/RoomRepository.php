@@ -57,8 +57,9 @@ class RoomRepository implements RoomRepositoryInterface
         return new Room(
             $storedRoomId,
             new RoomName($storedRoom->name),
-            $this->reservationSpecification->removeFinished(
-                array_map(
+            $this->reservationSpecification->orderByStartAtAsc(
+                $this->reservationSpecification->removeFinished(
+                    array_map(
                     fn (Reservation $r): Reservation => $r,
                     $storedRoom->reservations()->get()->map(
                         function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
@@ -72,6 +73,7 @@ class RoomRepository implements RoomRepositoryInterface
                             );
                         }
                     )->toArray()
+                )
                 )
             )
         );
