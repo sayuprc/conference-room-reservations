@@ -20,7 +20,11 @@ class RegisterReservationController extends Controller
      */
     public function create(ShowRegisterRequest $request)
     {
-        return view('rooms.reservations.register', ['room_id' => $request->validated('room_id')]);
+        $roomId = $request->validated('room_id');
+
+        $detailUrl = sprintf('/rooms/show/%s', $roomId);
+
+        return view('rooms.reservations.register', ['room_id' => $roomId, 'detail_url' => $detailUrl]);
     }
 
     /**

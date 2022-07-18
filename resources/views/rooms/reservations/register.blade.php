@@ -88,5 +88,9 @@
                 </div>
             </form>
         </section>
+
+        <div class="mx-auto mt-5 w-3/4">
+            <a href="{{ $detail_url }}" class="text-blue-500 no-underline hover:underline">戻る</a>
+        </div>
     </div>
 @endsection
