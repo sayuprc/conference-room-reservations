@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\ViewModels\Reservation\Get;
+namespace App\Http\ViewModels\Reservation\GetList;
 
 use DateTimeInterface;
 
-class ReservationGetViewModel
+class ReservationGetListViewModel
 {
     /**
      * @var string $roomId
@@ -59,8 +59,8 @@ class ReservationGetViewModel
         $this->roomId = $roomId;
         $this->reservationId = $reservationId;
         $this->summary = $summary;
-        $this->startAt = $startAt->format('m/d H:i');
-        $this->endAt = $endAt->format('m/d H:i');
+        $this->startAt = $startAt->format('H:i');
+        $this->endAt = $endAt->format('H:i');
         // textareaのCRLFが画面上で再現できないのでエスケープする。
         $this->note = nl2br(e($note));
     }

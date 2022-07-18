@@ -36,14 +36,20 @@
             </div>
         </div>
 
-        <div class="mt-8 grid grid-cols-3 gap-4">
-            @foreach ($room->reservations as $key => $reservation)
-                <div class="rounded shadow-lg">
-                    <div class="px-6 py-4">
-                        <div class="mb-2 text-xl font-bold">{{ $reservation->summary }}</div>
-                        <div class="mb-2 text-base text-gray-700">{{ $reservation->startAt }} ~ {{ $reservation->endAt }}</div>
-                        {{-- ViewModelでエスケープ済みなので、HTMLタグエスケープはしない --}}
-                        <p class="text-base text-gray-700">{!! $reservation->note !!} </p>
+        <div>
+            @foreach ($room->reservations as $day => $reservations)
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-gray-700">{{ $day }}</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        @foreach ($reservations as $reservation)
+                            <div class="rounded px-6 py-4 shadow-lg">
+                                <div class="mb-2 font-bold">{{ $reservation->summary }}</div>
+                                <div class="mb-2 text-base text-gray-700">{{ $reservation->startAt }} ~
+                                    {{ $reservation->endAt }}</div>
+                                {{-- ViewModelでエスケープ済みなので、HTMLタグエスケープはしない --}}
+                                <p class="text-base text-gray-700">{!! $reservation->note !!} </p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             @endforeach
