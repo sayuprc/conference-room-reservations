@@ -61,6 +61,7 @@ class ReservationGetViewModel
         $this->summary = $summary;
         $this->startAt = $startAt->format('m/d H:i');
         $this->endAt = $endAt->format('m/d H:i');
-        $this->note = $note;
+        // textareaのCRLFが画面上で再現できないのでエスケープする。
+        $this->note = nl2br(e($note));
     }
 }
