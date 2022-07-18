@@ -38,4 +38,16 @@ class ReservationId
     {
         return $this->value;
     }
+
+    /**
+     * 他のReservationIdと等価であるかを検証する。
+     *
+     * @param ReservationId $otherId
+     *
+     * @return bool
+     */
+    public function equals(ReservationId $otherId): bool
+    {
+        return $this->value === $otherId->value;
+    }
 }
