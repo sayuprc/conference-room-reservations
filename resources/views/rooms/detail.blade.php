@@ -19,6 +19,21 @@
         </div>
     @endif
 
+    @if (session('exception'))
+        <div class="mx-auto mt-4 w-3/4 bg-red-500 text-white">
+            <div class="container mx-auto flex items-center justify-start px-6 py-4">
+                <div class="flex">
+                    <svg viewBox="0 0 40 40" class="h-6 w-6 fill-current">
+                        <path
+                            d="M20 3.36667C10.8167 3.36667 3.3667 10.8167 3.3667 20C3.3667 29.1833 10.8167 36.6333 20 36.6333C29.1834 36.6333 36.6334 29.1833 36.6334 20C36.6334 10.8167 29.1834 3.36667 20 3.36667ZM19.1334 33.3333V22.9H13.3334L21.6667 6.66667V17.1H27.25L19.1334 33.3333Z">
+                        </path>
+                    </svg>
+                </div>
+                <div class="ml-1">{{ session('exception') }}</div>
+            </div>
+        </div>
+    @endif
+
     <div class="mx-auto w-3/4">
         <div class="flex">
             <div class="bg-white dark:bg-gray-800">
@@ -36,13 +51,21 @@
             </div>
         </div>
 
-        <div class="mt-8 grid grid-cols-3 gap-4">
-            @foreach ($room->reservations as $key => $reservation)
-                <div class="rounded shadow-lg">
-                    <div class="px-6 py-4">
-                        <div class="mb-2 text-xl font-bold">{{ $reservation->summary }}</div>
-                        <div>{{ $reservation->startAt }} ~ {{ $reservation->endAt }}</div>
-                        <p class="text-base text-gray-700">{{ $reservation->note }} </p>
+        <div>
+            @foreach ($room->reservations as $day => $reservations)
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-gray-700">{{ $day }}</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        @foreach ($reservations as $reservation)
+                            <div class="rounded px-6 py-4 shadow-lg">
+                                <div class="mb-2 font-bold"><a
+                                        href="{{ $reservation->detailUrl }}">{{ $reservation->summary }}</a></div>
+                                <div class="mb-2 text-base text-gray-700">{{ $reservation->startAt }} ~
+                                    {{ $reservation->endAt }}</div>
+                                {{-- ViewModelでエスケープ済みなので、HTMLタグエスケープはしない --}}
+                                <p class="text-base text-gray-700">{!! $reservation->note !!} </p>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             @endforeach

@@ -12,7 +12,7 @@ use packages\UseCase\Room\Register\RoomRegisterUseCaseInterface;
 class RegisterController extends Controller
 {
     /**
-     * 登録画面表示
+     * 会議室の登録画面を表示する。
      */
     public function create()
     {
@@ -20,7 +20,10 @@ class RegisterController extends Controller
     }
 
     /**
-     * 登録実行
+     * 会議室の登録を実行する。
+     *
+     * @param RegisterRequest              $request
+     * @param RoomRegisterUseCaseInterface $interactor
      */
     public function handle(RegisterRequest $request, RoomRegisterUseCaseInterface $interactor)
     {

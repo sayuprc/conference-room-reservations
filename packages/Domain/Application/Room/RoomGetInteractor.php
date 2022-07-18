@@ -27,6 +27,9 @@ class RoomGetInteractor implements RoomGetUseCaseInterface
         $this->repository = $repository;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function handle(RoomGetRequest $request): RoomGetResponse
     {
         $roomId = new RoomId($request->roomId);

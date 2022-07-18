@@ -2,14 +2,19 @@
 
 declare(strict_types=1);
 
-namespace packages\UseCase\Reservation\Register;
+namespace packages\UseCase\Reservation\Update;
 
-class ReservationRegisterRequest
+class ReservationUpdateRequest
 {
     /**
      * @var string $roomId
      */
     private string $roomId;
+
+    /**
+     * @var string $reservationId
+     */
+    private string $reservationId;
 
     /**
      * @var string $summary
@@ -33,6 +38,7 @@ class ReservationRegisterRequest
 
     /**
      * @param string $roomId
+     * @param string $reservationId
      * @param string $sumamry
      * @param string $startAt
      * @param string $endAt
@@ -40,9 +46,16 @@ class ReservationRegisterRequest
      *
      * @return void
      */
-    public function __construct(string $roomId, string $sumamry, string $startAt, string $endAt, string $note)
-    {
+    public function __construct(
+        string $roomId,
+        string $reservationId,
+        string $sumamry,
+        string $startAt,
+        string $endAt,
+        string $note
+    ) {
         $this->roomId = $roomId;
+        $this->reservationId = $reservationId;
         $this->summary = $sumamry;
         $this->startAt = $startAt;
         $this->endAt = $endAt;
@@ -57,6 +70,16 @@ class ReservationRegisterRequest
     public function getRoomId(): string
     {
         return $this->roomId;
+    }
+
+    /**
+     * 予約IDを取得する。
+     *
+     * @return string
+     */
+    public function getReservationId(): string
+    {
+        return $this->reservationId;
     }
 
     /**

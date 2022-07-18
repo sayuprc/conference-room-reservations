@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Http\ViewModels\Reservation\Get;
+namespace App\Http\ViewModels\Reservation\GetList;
 
 use DateTimeInterface;
 
-class ReservationGetViewModel
+class ReservationGetListViewModel
 {
     /**
      * @var string $roomId
@@ -24,24 +24,14 @@ class ReservationGetViewModel
     public string $summary;
 
     /**
-     * @var string $startAtDate
+     * @var string $startAt
      */
-    public string $startAtDate;
+    public string $startAt;
 
     /**
-     * @var string $startAtTime
+     * @var string $endAt
      */
-    public string $startAtTime;
-
-    /**
-     * @var string $endAtDate
-     */
-    public string $endAtDate;
-
-    /**
-     * @var string $endAtTime
-     */
-    public string $endAtTime;
+    public string $endAt;
 
     /**
      * @var string $note
@@ -49,9 +39,9 @@ class ReservationGetViewModel
     public string $note;
 
     /**
-     * @var string $roomUrl;
+     * @var string $detailUrl;
      */
-    public string $roomUrl;
+    public string $detailUrl;
 
     /**
      * @param string            $roomId
@@ -74,12 +64,11 @@ class ReservationGetViewModel
         $this->roomId = $roomId;
         $this->reservationId = $reservationId;
         $this->summary = $summary;
-        $this->startAtDate = $startAt->format('Y-m-d');
-        $this->startAtTime = $startAt->format('H:i');
-        $this->endAtDate = $endAt->format('Y-m-d');
-        $this->endAtTime = $endAt->format('H:i');
-        $this->note = $note;
+        $this->startAt = $startAt->format('H:i');
+        $this->endAt = $endAt->format('H:i');
+        // textareaのCRLFが画面上で再現できないのでエスケープする。
+        $this->note = nl2br(e($note));
 
-        $this->roomUrl = sprintf('/rooms/show/%s', $this->roomId);
+        $this->detailUrl = sprintf('/reservations/show/%s/%s', $this->roomId, $this->reservationId);
     }
 }

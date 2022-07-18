@@ -24,24 +24,30 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
      */
     private array $db;
 
+    /**
+     * @return void
+     */
     public function __construct()
     {
-        $this->db = array_map(function (int $i) {
-            return new Room(
-                new RoomId((string)$i),
-                new RoomName('Room . ' . $i),
-                array_map(function (int $j) use ($i): Reservation {
-                    return new Reservation(
-                        new RoomId((string)$i),
-                        new ReservationId((string)$j),
-                        new Summary('クライアント Aとの打ち合わせ'),
-                        new StartAt(new DateTime()),
-                        new EndAt((new DateTime())->modify('+' . $j . ' hours')),
-                        new Note(str_repeat('b', 10))
-                    );
-                }, range(1, 30))
-            );
-        }, range(1, 20));
+        foreach (range(1, 20) as $i) {
+            $roomId = new RoomId((string)$i);
+
+            $reservations = [];
+
+            foreach (range(1, 30) as $j) {
+                $reservationsId = new ReservationId((string)$j);
+                $reservations[$reservationsId->getValue()] = new Reservation(
+                    $roomId,
+                    $reservationsId,
+                    new Summary('概要 ' . $j),
+                    new StartAt(new DateTime()),
+                    new EndAt((new DateTime())->modify('+' . $j . ' hours')),
+                    new Note('備考 ' . $j)
+                );
+            }
+
+            $this->db[$roomId->getValue()] = new Room($roomId, new RoomName('会議室 ' . $i), $reservations);
+        }
     }
 
     /**
@@ -73,5 +79,8 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
      */
     public function store(Room $room): void
     {
+        $storedRoom = $this->db[$room->getRoomId()->getValue()] ?? $room;
+
+        $this->db[$storedRoom->getRoomId()->getValue()] = $room;
     }
 }

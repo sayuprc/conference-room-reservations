@@ -23,7 +23,7 @@ interface RoomRepositoryInterface
     public function findAll(): array;
 
     /**
-     * 会議室の保存。
+     * 会議室の保存を行う。
      *
      * @param Room $room
      *

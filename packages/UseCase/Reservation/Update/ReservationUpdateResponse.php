@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace packages\UseCase\Reservation\Register;
+namespace packages\UseCase\Reservation\Update;
 
 use packages\Domain\Domain\Reservation\Reservation;
 
-class ReservationRegisterResponse
+class ReservationUpdateResponse
 {
     /**
      * @var Reservation $reservation

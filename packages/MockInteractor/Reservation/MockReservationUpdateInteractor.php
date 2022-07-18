@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace packages\Domain\Application\Reservation;
+namespace packages\MockInteractor\Reservation;
 
 use DateTime;
-use Illuminate\Support\Str;
 use packages\Domain\Domain\Reservation\EndAt;
 use packages\Domain\Domain\Reservation\Exception\PeriodicDuplicationException;
 use packages\Domain\Domain\Reservation\Note;
@@ -16,11 +15,11 @@ use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
-use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
-use packages\UseCase\Reservation\Register\ReservationRegisterResponse;
-use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
+use packages\UseCase\Reservation\Update\ReservationUpdateRequest;
+use packages\UseCase\Reservation\Update\ReservationUpdateResponse;
+use packages\UseCase\Reservation\Update\ReservationUpdateUseCaseInterface;
 
-class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterface
+class MockReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
 {
     /**
      * @var RoomRepositoryInterface $repository
@@ -41,40 +40,38 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
     public function __construct(RoomRepositoryInterface $repository, ReservationService $service)
     {
         $this->repository = $repository;
-
         $this->service = $service;
     }
 
     /**
-     * 予約の登録処理を実行する。
-     *
-     * @param ReservationRegisterRequest $request
+     * @inheritdoc
      *
      * @throws PeriodicDuplicationException
-     *
-     * @return ReservationRegisterResponse
      */
-    public function handle(ReservationRegisterRequest $request): ReservationRegisterResponse
+    public function handle(ReservationUpdateRequest $request): ReservationUpdateResponse
     {
-        $newReservation = new Reservation(
+        $updatedReservation = new Reservation(
             new RoomId($request->getRoomId()),
-            new ReservationId((string)Str::uuid()),
+            new ReservationId($request->getReservationId()),
             new Summary($request->getSummary()),
             new StartAt(new DateTime($request->getStartAt())),
             new EndAt(new DateTime($request->getEndAt())),
             new Note($request->getNote())
         );
 
-        if (! $this->service->canRegistered($newReservation)) {
+        if (! $this->service->canUpdated($updatedReservation)) {
             throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');
         }
 
-        $room = $this->repository->find($newReservation->getRoomId());
+        $room = $this->repository->find($updatedReservation->getRoomId());
 
-        $newRoom = $room->addReservation($newReservation);
+        // 一度対象の予約を削除してから再度会議室に追加する。
+        $updatedRoom = $room
+            ->removeReservation($updatedReservation->getReservationId())
+            ->addReservation($updatedReservation);
 
-        $this->repository->store($newRoom);
+        $this->repository->store($updatedRoom);
 
-        return new ReservationRegisterResponse($newReservation);
+        return new ReservationUpdateResponse($updatedReservation);
     }
 }

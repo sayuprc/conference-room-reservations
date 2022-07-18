@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace packages\UseCase\Reservation\Register;
+namespace packages\UseCase\Reservation\Get;
 
 use packages\Domain\Domain\Reservation\Reservation;
 
-class ReservationRegisterResponse
+class ReservationGetResponse
 {
     /**
      * @var Reservation $reservation
@@ -24,7 +24,7 @@ class ReservationRegisterResponse
     }
 
     /**
-     * 登録した予約を取得する。
+     * 予約を取得する。
      *
      * @return Reservation
      */

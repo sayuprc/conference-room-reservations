@@ -13,7 +13,7 @@ class RegisterRoomTest extends FeatureTestCase
      *
      * @return void
      */
-    public function testShowRegister()
+    public function testShowRegister(): void
     {
         $response = $this->get('/rooms/register');
 
@@ -25,7 +25,7 @@ class RegisterRoomTest extends FeatureTestCase
      *
      * @return void
      */
-    public function testRegister()
+    public function testRegister(): void
     {
         $response = $this->post(
             '/rooms/register',
@@ -42,7 +42,7 @@ class RegisterRoomTest extends FeatureTestCase
      *
      * @return void
      */
-    public function testFailureRegister()
+    public function testFailureRegister(): void
     {
         $response = $this
             ->from('/rooms/register')
