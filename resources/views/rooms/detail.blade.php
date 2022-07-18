@@ -41,8 +41,9 @@
                 <div class="rounded shadow-lg">
                     <div class="px-6 py-4">
                         <div class="mb-2 text-xl font-bold">{{ $reservation->summary }}</div>
-                        <div>{{ $reservation->startAt }} ~ {{ $reservation->endAt }}</div>
-                        <p class="text-base text-gray-700">{{ $reservation->note }} </p>
+                        <div class="mb-2 text-base text-gray-700">{{ $reservation->startAt }} ~ {{ $reservation->endAt }}</div>
+                        {{-- ViewModelでエスケープ済みなので、HTMLタグエスケープはしない --}}
+                        <p class="text-base text-gray-700">{!! $reservation->note !!} </p>
                     </div>
                 </div>
             @endforeach
