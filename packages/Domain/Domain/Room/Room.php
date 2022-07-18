@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace packages\Domain\Domain\Room;
 
 use packages\Domain\Domain\Reservation\Reservation;
+use packages\Domain\Domain\Reservation\ReservationId;
 
 class Room
 {
@@ -80,6 +81,29 @@ class Room
             $this->roomId,
             $this->roomName,
             [...$this->reservations, $reservation]
+        );
+    }
+
+    /**
+     * 会議室から予約を削除する。
+     *
+     * @param ReservationId $reservationId
+     *
+     * @return Room
+     */
+    public function removeReservation(ReservationId $reservationId): Room
+    {
+        return new Room(
+            $this->roomId,
+            $this->roomName,
+            // 配列のインデックスを振りなおす
+            [...array_filter(
+                $this->reservations,
+                function (Reservation $reservation) use ($reservationId): bool {
+                    // 対象を取り除く
+                    return ! $reservation->getReservationId()->equals($reservationId);
+                }
+            )]
         );
     }
 }
