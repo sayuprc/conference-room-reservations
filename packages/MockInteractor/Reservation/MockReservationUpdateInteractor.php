@@ -44,9 +44,13 @@ class MockReservationUpdateInteractor implements ReservationUpdateUseCaseInterfa
     }
 
     /**
-     * @inheritdoc
+     * 予約の更新を行う。
+     *
+     * @param ReservationUpdateRequest $request
      *
      * @throws PeriodicDuplicationException
+     *
+     * @return ReservationUpdateResponse
      */
     public function handle(ReservationUpdateRequest $request): ReservationUpdateResponse
     {

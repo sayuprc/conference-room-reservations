@@ -27,7 +27,11 @@ class MockRoomGetListInteractor implements RoomGetListUseCaseInterface
     }
 
     /**
-     * @inheritdoc
+     * 会議室の一覧を取得する。
+     *
+     * @param RoomGetListRequest $request
+     *
+     * @return RoomGetListResponse
      */
     public function handle(RoomGetListRequest $request): RoomGetListResponse
     {
