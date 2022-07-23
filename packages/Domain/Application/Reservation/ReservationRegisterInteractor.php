@@ -71,9 +71,9 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
 
         $room = $this->repository->find($newReservation->getRoomId());
 
-        $newRoom = $room->addReservation($newReservation);
+        // $newRoom = $room->addReservation($newReservation);
 
-        $this->repository->store($newRoom);
+        // $this->repository->store($newRoom);
 
         return new ReservationRegisterResponse($newReservation);
     }

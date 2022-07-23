@@ -63,19 +63,20 @@ class MockReservationUpdateInteractor implements ReservationUpdateUseCaseInterfa
             new Note($request->getNote())
         );
 
-        if (! $this->service->canUpdated($updatedReservation)) {
-            throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');
-        }
+        // if (! $this->service->canUpdated($updatedReservation)) {
+        //     throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');
+        // }
 
-        $room = $this->repository->find($updatedReservation->getRoomId());
+        // $room = $this->repository->find($updatedReservation->getRoomId());
 
-        // 一度対象の予約を削除してから再度会議室に追加する。
-        $updatedRoom = $room
-            ->removeReservation($updatedReservation->getReservationId())
-            ->addReservation($updatedReservation);
+        // // 一度対象の予約を削除してから再度会議室に追加する。
+        // $updatedRoom = $room
+        //     ->removeReservation($updatedReservation->getReservationId())
+        //     ->addReservation($updatedReservation);
 
-        $this->repository->store($updatedRoom);
+        // $this->repository->store($updatedRoom);
 
+        // TODO 後で実装する。
         return new ReservationUpdateResponse($updatedReservation);
     }
 }

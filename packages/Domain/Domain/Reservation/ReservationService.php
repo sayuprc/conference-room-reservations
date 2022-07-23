@@ -39,25 +39,28 @@ class ReservationService
         $newStartAt = $newReservation->getStartAt()->getValue()->format('Y/m/d H:i');
         $newEndAt = $newReservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-        $duplicatedReservations = array_filter(
-            $room->getReservations(),
-            function (Reservation $reservation) use ($newStartAt, $newEndAt): bool {
-                $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
-                $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
+        // $duplicatedReservations = array_filter(
+        //     $room->getReservations(),
+        //     function (Reservation $reservation) use ($newStartAt, $newEndAt): bool {
+        //         $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
+        //         $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-                if (
-                    ($startAt <= $newStartAt && $newStartAt <= $endAt)
-                    || ($startAt <= $newEndAt && $newEndAt <= $endAt)
-                    || ($newStartAt <= $startAt && $endAt <= $newEndAt)
-                ) {
-                    return true;
-                }
+        //         if (
+        //             ($startAt <= $newStartAt && $newStartAt <= $endAt)
+        //             || ($startAt <= $newEndAt && $newEndAt <= $endAt)
+        //             || ($newStartAt <= $startAt && $endAt <= $newEndAt)
+        //         ) {
+        //             return true;
+        //         }
 
-                return false;
-            }
-        );
+        //         return false;
+        //     }
+        // );
 
-        return count($duplicatedReservations) < 1 ? true : false;
+        // return count($duplicatedReservations) < 1 ? true : false;
+
+        // TODO 後で実装する。
+        return true;
     }
 
     /**
@@ -77,29 +80,32 @@ class ReservationService
         $newStartAt = $newReservation->getStartAt()->getValue()->format('Y/m/d H:i');
         $newEndAt = $newReservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-        $duplicatedReservations = array_filter(
-            $room->getReservations(),
-            function (Reservation $reservation) use ($targetReservationId, $newStartAt, $newEndAt): bool {
-                // 同一の予約は判断の対象外
-                if ($reservation->getReservationId()->equals($targetReservationId)) {
-                    return false;
-                }
+        // $duplicatedReservations = array_filter(
+        //     $room->getReservations(),
+        //     function (Reservation $reservation) use ($targetReservationId, $newStartAt, $newEndAt): bool {
+        //         // 同一の予約は判断の対象外
+        //         if ($reservation->getReservationId()->equals($targetReservationId)) {
+        //             return false;
+        //         }
 
-                $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
-                $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
+        //         $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
+        //         $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-                if (
-                    ($startAt <= $newStartAt && $newStartAt <= $endAt)
-                    || ($startAt <= $newEndAt && $newEndAt <= $endAt)
-                    || ($newStartAt <= $startAt && $endAt <= $newEndAt)
-                ) {
-                    return true;
-                }
+        //         if (
+        //             ($startAt <= $newStartAt && $newStartAt <= $endAt)
+        //             || ($startAt <= $newEndAt && $newEndAt <= $endAt)
+        //             || ($newStartAt <= $startAt && $endAt <= $newEndAt)
+        //         ) {
+        //             return true;
+        //         }
 
-                return false;
-            }
-        );
+        //         return false;
+        //     }
+        // );
 
-        return count($duplicatedReservations) < 1 ? true : false;
+        // return count($duplicatedReservations) < 1 ? true : false;
+
+        // TODO 後で実装する。
+        return true;
     }
 }

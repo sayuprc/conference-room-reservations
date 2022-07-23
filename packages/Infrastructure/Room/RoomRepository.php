@@ -60,26 +60,26 @@ class RoomRepository implements RoomRepositoryInterface
 
         return new Room(
             $storedRoomId,
-            new RoomName($storedRoom->name),
-            $this->reservationSpecification->orderByStartAtAsc(
-                $this->reservationSpecification->removeFinished(
-                    array_map(
-                        fn (Reservation $r): Reservation => $r,
-                        $storedRoom->reservations()->get()->map(
-                            function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
-                                return new Reservation(
-                                    $storedRoomId,
-                                    new ReservationId($reservation->reservation_id),
-                                    new Summary($reservation->summary),
-                                    new StartAt(new DateTime($reservation->start_at)),
-                                    new EndAt(new DateTime($reservation->end_at)),
-                                    new Note($reservation->note)
-                                );
-                            }
-                        )->toArray()
-                    )
-                )
-            )
+            new RoomName($storedRoom->name)
+            // $this->reservationSpecification->orderByStartAtAsc(
+            //     $this->reservationSpecification->removeFinished(
+            //         array_map(
+            //             fn (Reservation $r): Reservation => $r,
+            //             $storedRoom->reservations()->get()->map(
+            //                 function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
+            //                     return new Reservation(
+            //                         $storedRoomId,
+            //                         new ReservationId($reservation->reservation_id),
+            //                         new Summary($reservation->summary),
+            //                         new StartAt(new DateTime($reservation->start_at)),
+            //                         new EndAt(new DateTime($reservation->end_at)),
+            //                         new Note($reservation->note)
+            //                     );
+            //                 }
+            //             )->toArray()
+            //         )
+            //     )
+            // )
         );
     }
 
@@ -122,30 +122,30 @@ class RoomRepository implements RoomRepositoryInterface
 
             $storedRoom->save();
 
-            // 予約は一度すべて消してからインサートしなおす。
+            // // 予約は一度すべて消してからインサートしなおす。
 
-            EloquentReservation::destroy(
-                array_map(
-                    fn (Reservation $reservation): string => $reservation->getReservationId()->getValue(),
-                    $room->getReservations()
-                )
-            );
+            // EloquentReservation::destroy(
+            //     array_map(
+            //         fn (Reservation $reservation): string => $reservation->getReservationId()->getValue(),
+            //         $room->getReservations()
+            //     )
+            // );
 
-            EloquentReservation::insert(
-                array_map(
-                    function (Reservation $reservation): array {
-                        return [
-                            'room_id' => $reservation->getRoomId()->getValue(),
-                            'reservation_id' => $reservation->getReservationId()->getValue(),
-                            'summary' => $reservation->getSummary()->getValue(),
-                            'start_at' => $reservation->getStartAt()->getValue()->format('Y/m/d H:i'),
-                            'end_at' => $reservation->getEndAt()->getValue()->format('Y/m/d H:i'),
-                            'note' => $reservation->getNote()->getValue(),
-                        ];
-                    },
-                    $room->getReservations()
-                ),
-            );
+            // EloquentReservation::insert(
+            //     array_map(
+            //         function (Reservation $reservation): array {
+            //             return [
+            //                 'room_id' => $reservation->getRoomId()->getValue(),
+            //                 'reservation_id' => $reservation->getReservationId()->getValue(),
+            //                 'summary' => $reservation->getSummary()->getValue(),
+            //                 'start_at' => $reservation->getStartAt()->getValue()->format('Y/m/d H:i'),
+            //                 'end_at' => $reservation->getEndAt()->getValue()->format('Y/m/d H:i'),
+            //                 'note' => $reservation->getNote()->getValue(),
+            //             ];
+            //         },
+            //         $room->getReservations()
+            //     ),
+            // );
         });
     }
 }

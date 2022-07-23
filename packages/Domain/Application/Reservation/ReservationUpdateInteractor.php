@@ -70,11 +70,11 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
         $room = $this->repository->find($updatedReservation->getRoomId());
 
         // 一度対象の予約を削除してから再度会議室に追加する。
-        $updatedRoom = $room
-            ->removeReservation($updatedReservation->getReservationId())
-            ->addReservation($updatedReservation);
+        // $updatedRoom = $room
+        //     ->removeReservation($updatedReservation->getReservationId())
+        //     ->addReservation($updatedReservation);
 
-        $this->repository->store($updatedRoom);
+        // $this->repository->store($updatedRoom);
 
         return new ReservationUpdateResponse($updatedReservation);
     }

@@ -30,38 +30,39 @@ class DetailRoomController extends Controller
             /**
              * @var array<ReservationViewModel> $reservationViewModels
              */
-            $reservationViewModels = array_map(
-                function (Reservation $reservation): ReservationViewModel {
-                    return new ReservationViewModel(
-                        $reservation->getRoomId()->getValue(),
-                        $reservation->getReservationId()->getValue(),
-                        $reservation->getSummary()->getValue(),
-                        $reservation->getStartAt()->getValue(),
-                        $reservation->getEndAt()->getValue(),
-                        $reservation->getNote()->getValue()
-                    );
-                },
-                $response->room->getReservations()
-            );
+            // $reservationViewModels = array_map(
+            //     function (Reservation $reservation): ReservationViewModel {
+            //         return new ReservationViewModel(
+            //             $reservation->getRoomId()->getValue(),
+            //             $reservation->getReservationId()->getValue(),
+            //             $reservation->getSummary()->getValue(),
+            //             $reservation->getStartAt()->getValue(),
+            //             $reservation->getEndAt()->getValue(),
+            //             $reservation->getNote()->getValue()
+            //         );
+            //     },
+            //     $response->room->getReservations()
+            // );
 
-            $reservationCollection = [];
+            // $reservationCollection = [];
 
-            foreach ($reservationViewModels as $viweModel) {
-                $startAt = $viweModel->startAt->format('Y/m/d');
-                $reservationCollection[$startAt][] = new ReservationGetListViewModel(
-                    $viweModel->roomId,
-                    $viweModel->reservationId,
-                    $viweModel->summary,
-                    $viweModel->startAt,
-                    $viweModel->endAt,
-                    $viweModel->note
-                );
-            }
+            // foreach ($reservationViewModels as $viweModel) {
+            //     $startAt = $viweModel->startAt->format('Y/m/d');
+            //     $reservationCollection[$startAt][] = new ReservationGetListViewModel(
+            //         $viweModel->roomId,
+            //         $viweModel->reservationId,
+            //         $viweModel->summary,
+            //         $viweModel->startAt,
+            //         $viweModel->endAt,
+            //         $viweModel->note
+            //     );
+            // }
 
             $roomViewModel = new RoomGetViewModel(
                 $response->room->getRoomId()->getValue(),
                 $response->room->getRoomName()->getValue(),
-                $reservationCollection
+                []
+                // $reservationCollection
             );
 
             return view('rooms.detail', ['room' => $roomViewModel]);
