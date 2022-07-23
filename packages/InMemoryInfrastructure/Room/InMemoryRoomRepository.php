@@ -51,9 +51,13 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     }
 
     /**
-     * @inheritdoc
+     * 特定の会議室を取得する。
+     *
+     * @param RoomId $roomId
      *
      * @throws NotFoundException
+     *
+     * @return Room
      */
     public function find(RoomId $roomId): Room
     {
@@ -67,7 +71,9 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     }
 
     /**
-     * @inheritdoc
+     * すべての会議室を取得する。
+     *
+     * @return array<Room>
      */
     public function findAll(): array
     {
@@ -75,7 +81,11 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     }
 
     /**
-     * @inheritdoc
+     * 会議室の保存を行う。
+     *
+     * @param Room $room
+     *
+     * @return void
      */
     public function store(Room $room): void
     {

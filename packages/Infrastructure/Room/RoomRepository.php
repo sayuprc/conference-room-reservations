@@ -40,9 +40,13 @@ class RoomRepository implements RoomRepositoryInterface
     }
 
     /**
-     * @inheritdoc
+     * 特定の会議室を取得する。
+     *
+     * @param RoomId $roomId
      *
      * @throws NotFoundException
+     *
+     * @return Room
      */
     public function find(RoomId $roomId): Room
     {
@@ -60,27 +64,29 @@ class RoomRepository implements RoomRepositoryInterface
             $this->reservationSpecification->orderByStartAtAsc(
                 $this->reservationSpecification->removeFinished(
                     array_map(
-                    fn (Reservation $r): Reservation => $r,
-                    $storedRoom->reservations()->get()->map(
-                        function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
-                            return new Reservation(
-                                $storedRoomId,
-                                new ReservationId($reservation->reservation_id),
-                                new Summary($reservation->summary),
-                                new StartAt(new DateTime($reservation->start_at)),
-                                new EndAt(new DateTime($reservation->end_at)),
-                                new Note($reservation->note)
-                            );
-                        }
-                    )->toArray()
-                )
+                        fn (Reservation $r): Reservation => $r,
+                        $storedRoom->reservations()->get()->map(
+                            function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
+                                return new Reservation(
+                                    $storedRoomId,
+                                    new ReservationId($reservation->reservation_id),
+                                    new Summary($reservation->summary),
+                                    new StartAt(new DateTime($reservation->start_at)),
+                                    new EndAt(new DateTime($reservation->end_at)),
+                                    new Note($reservation->note)
+                                );
+                            }
+                        )->toArray()
+                    )
                 )
             )
         );
     }
 
     /**
-     * @inheritdoc
+     * すべての会議室を取得する。
+     *
+     * @return array<Room>
      */
     public function findAll(): array
     {
@@ -94,7 +100,11 @@ class RoomRepository implements RoomRepositoryInterface
     }
 
     /**
-     * @inheritdoc
+     * 会議室の保存を行う。
+     *
+     * @param Room $room
+     *
+     * @return void
      */
     public function store(Room $room): void
     {

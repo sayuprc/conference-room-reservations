@@ -31,9 +31,13 @@ class MockReservationGetInteractor implements ReservationGetUseCaseInterface
     }
 
     /**
-     * @inheritdoc
+     * 予約の詳細を取得する。
+     *
+     * @param ReservationGetRequest $request
      *
      * @throws NotFoundException
+     *
+     * @return ReservationGetResponse
      */
     public function handle(ReservationGetRequest $request): ReservationGetResponse
     {

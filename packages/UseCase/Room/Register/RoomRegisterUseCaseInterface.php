@@ -9,7 +9,7 @@ interface RoomRegisterUseCaseInterface
     /**
      * 会議室の登録をする。
      *
-     * @param RoomRegisterRequest $request)
+     * @param RoomRegisterRequest $request
      *
      * @return RoomRegisterResponse
      */
