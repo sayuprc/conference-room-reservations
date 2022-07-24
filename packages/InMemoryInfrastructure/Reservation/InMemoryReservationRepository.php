@@ -17,6 +17,19 @@ use packages\Domain\Domain\Room\RoomId;
 class InMemoryReservationRepository implements ReservationRepositoryInterface
 {
     /**
+     * @var array<string, Reservation> $db
+     */
+    private array $db;
+
+    /**
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->db = [];
+    }
+
+    /**
      * 予約IDで予約を検索する。
      *
      * @param ReservationId $reservationId
@@ -45,8 +58,9 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function findByRoomId(RoomId $roomId): array
     {
-        // TODO 後で実装する。
-        return [];
+        return array_filter($this->db, function (Reservation $reservation) use ($roomId): bool {
+            return $reservation->getRoomId()->getValue() === $roomId->getValue();
+        });
     }
 
     /**
@@ -58,7 +72,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function insert(Reservation $reservation): void
     {
-        // TODO 後で実装する。
+        $this->db[$reservation->getReservationId()->getValue()] = $reservation;
     }
 
     /**
