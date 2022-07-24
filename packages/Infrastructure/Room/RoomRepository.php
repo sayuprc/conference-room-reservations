@@ -6,7 +6,6 @@ namespace packages\Infrastructure\Room;
 
 use App\Models\Room as EloquentRoom;
 use Illuminate\Support\Str;
-use packages\Domain\Domain\Reservation\ReservationSpecification;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
@@ -16,18 +15,10 @@ use packages\Domain\Domain\Room\RoomRepositoryInterface;
 class RoomRepository implements RoomRepositoryInterface
 {
     /**
-     * @var ReservationSpecification $reservationSpecification
-     */
-    private ReservationSpecification $reservationSpecification;
-
-    /**
-     * @param ReservationSpecification $reservationSpecification
-     *
      * @return void
      */
-    public function __construct(ReservationSpecification $reservationSpecification)
+    public function __construct()
     {
-        $this->reservationSpecification = $reservationSpecification;
     }
 
     /**
