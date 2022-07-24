@@ -41,7 +41,7 @@ class RoomRegisterInteractor implements RoomRegisterUseCaseInterface
     {
         $newRoom = new Room(new RoomId((string)Str::uuid()), new RoomName($request->name));
 
-        $this->reposiroty->store($newRoom);
+        $this->reposiroty->insert($newRoom);
 
         return new RoomRegisterResponse();
     }

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace packages\Infrastructure\Room;
 
 use App\Models\Room as EloquentRoom;
-use Illuminate\Support\Str;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
@@ -60,25 +59,52 @@ class RoomRepository implements RoomRepositoryInterface
     }
 
     /**
-     * 会議室の保存を行う。
+     * 会議室の新規保存を行う。
      *
      * @param Room $room
      *
      * @return void
      */
-    public function store(Room $room): void
+    public function insert(Room $room): void
+    {
+        $newRoom = new EloquentRoom([
+            'room_id' => $room->getRoomId()->getValue(),
+            'name' => $room->getRoomName()->getValue(),
+        ]);
+
+        $newRoom->save();
+    }
+
+    /**
+     * 会議室の更新を行う。
+     *
+     * @param Room $room
+     *
+     * @throws NotFoundException
+     *
+     * @return void
+     */
+    public function update(Room $room): void
     {
         $storedRoom = EloquentRoom::find($room->getRoomId()->getValue());
 
         if ($storedRoom === null) {
-            $storedRoom = new EloquentRoom([
-                'room_id' => (string)Str::uuid(),
-                'name' => $room->getRoomName()->getValue(),
-            ]);
-        } else {
-            $storedRoom->name = $room->getRoomName()->getValue();
+            throw new NotFoundException('ID: ' . $room->getRoomId()->getValue() . ' is not found.');
         }
 
+        $storedRoom->name = $room->getRoomName()->getValue();
         $storedRoom->save();
+    }
+
+    /**
+     * 会議室の削除を行う。
+     *
+     * @param RoomId $roomId
+     *
+     * @return void
+     */
+    public function delete(RoomId $roomId): void
+    {
+        // TODO 後で実装する。
     }
 }

@@ -23,11 +23,29 @@ interface RoomRepositoryInterface
     public function findAll(): array;
 
     /**
-     * 会議室の保存を行う。
+     * 会議室の新規保存を行う。
      *
      * @param Room $room
      *
      * @return void
      */
-    public function store(Room $room): void;
+    public function insert(Room $room): void;
+
+    /**
+     * 会議室の更新を行う。
+     *
+     * @param Room $room
+     *
+     * @return void
+     */
+    public function update(Room $room): void;
+
+    /**
+     * 会議室の削除を行う。
+     *
+     * @param RoomId $roomId
+     *
+     * @return void
+     */
+    public function delete(RoomId $roomId): void;
 }
