@@ -113,7 +113,7 @@
 
                 <div class="mt-6 flex justify-end">
                     <button
-                        class="transform rounded-md bg-gray-700 px-6 py-2 leading-5 text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">登録</button>
+                        class="transform rounded-md bg-gray-700 px-6 py-2 leading-5 text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">更新</button>
                 </div>
             </form>
         </section>
