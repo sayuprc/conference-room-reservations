@@ -27,9 +27,6 @@ class DetailRoomController extends Controller
         try {
             $response = $interactor->handle(new RoomGetRequest($request->validated('id')));
 
-            /**
-             * @var array<ReservationViewModel> $reservationViewModels
-             */
             $reservationViewModels = array_map(
                 function (Reservation $reservation): ReservationViewModel {
                     return new ReservationViewModel(
@@ -41,7 +38,7 @@ class DetailRoomController extends Controller
                         $reservation->getNote()->getValue()
                     );
                 },
-                $response->room->getReservations()
+                $response->reservations
             );
 
             $reservationCollection = [];

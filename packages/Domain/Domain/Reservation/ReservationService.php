@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace packages\Domain\Domain\Reservation;
 
-use packages\Domain\Domain\Room\RoomRepositoryInterface;
-
 class ReservationService
 {
     /**
-     * @var RoomRepositoryInterface $repository
+     * @var ReservationRepositoryInterface $repository
      */
-    private RoomRepositoryInterface $repository;
+    private ReservationRepositoryInterface $repository;
 
     /**
-     * @param RoomRepositoryInterface $repository
+     * @param ReservationRepositoryInterface $repository
      *
      * @return void
      */
-    public function __construct(RoomRepositoryInterface $repository)
+    public function __construct(ReservationRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }
@@ -34,13 +32,13 @@ class ReservationService
      */
     public function canRegistered(Reservation $newReservation): bool
     {
-        $room = $this->repository->find($newReservation->getRoomId());
+        $registeredReservations = $this->repository->findByRoomId($newReservation->getRoomId());
 
         $newStartAt = $newReservation->getStartAt()->getValue()->format('Y/m/d H:i');
         $newEndAt = $newReservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
         $duplicatedReservations = array_filter(
-            $room->getReservations(),
+            $registeredReservations,
             function (Reservation $reservation) use ($newStartAt, $newEndAt): bool {
                 $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
                 $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
@@ -71,14 +69,14 @@ class ReservationService
      */
     public function canUpdated(Reservation $newReservation): bool
     {
-        $room = $this->repository->find($newReservation->getRoomId());
+        $registeredReservations = $this->repository->findByRoomId($newReservation->getRoomId());
 
         $targetReservationId = $newReservation->getReservationId();
         $newStartAt = $newReservation->getStartAt()->getValue()->format('Y/m/d H:i');
         $newEndAt = $newReservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
         $duplicatedReservations = array_filter(
-            $room->getReservations(),
+            $registeredReservations,
             function (Reservation $reservation) use ($targetReservationId, $newStartAt, $newEndAt): bool {
                 // 同一の予約は判断の対象外
                 if ($reservation->getReservationId()->equals($targetReservationId)) {
