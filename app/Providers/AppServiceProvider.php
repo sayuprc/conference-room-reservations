@@ -11,8 +11,11 @@ use packages\Domain\Application\Reservation\ReservationUpdateInteractor;
 use packages\Domain\Application\Room\RoomGetInteractor;
 use packages\Domain\Application\Room\RoomGetListInteractor;
 use packages\Domain\Application\Room\RoomRegisterInteractor;
+use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
+use packages\Infrastructure\Reservation\ReservationRepository;
 use packages\Infrastructure\Room\RoomRepository;
+use packages\InMemoryInfrastructure\Reservation\InMemoryReservationRepository;
 use packages\InMemoryInfrastructure\Room\InMemoryRoomRepository;
 use packages\MockInteractor\Reservation\MockReservationGetInteractor;
 use packages\MockInteractor\Reservation\MockReservationRegisterInteractor;
@@ -49,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
             // 会議室取得ユースケース
             $this->app->bind(RoomGetUseCaseInterface::class, MockRoomGetInteractor::class);
 
+            // 予約リポジトリ
+            $this->app->bind(ReservationRepositoryInterface::class, InMemoryReservationRepository::class);
+
             // 予約登録ユースケース
             $this->app->bind(ReservationRegisterUseCaseInterface::class, MockReservationRegisterInteractor::class);
 
@@ -69,6 +75,9 @@ class AppServiceProvider extends ServiceProvider
 
             // 会議室取得ユースケース
             $this->app->bind(RoomGetUseCaseInterface::class, RoomGetInteractor::class);
+
+            // 予約リポジトリ
+            $this->app->bind(ReservationRepositoryInterface::class, ReservationRepository::class);
 
             // 予約登録ユースケース
             $this->app->bind(ReservationRegisterUseCaseInterface::class, ReservationRegisterInteractor::class);

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace packages\Infrastructure\Reservation;
 
+use App\Models\Reservation as EloquentReservation;
 use DateTime;
 use packages\Domain\Domain\Reservation\EndAt;
 use packages\Domain\Domain\Reservation\Note;
@@ -45,8 +46,20 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function findByRoomId(RoomId $roomId): array
     {
-        // TODO 後で実装する。
-        return [];
+        $collections = EloquentReservation::where(['room_id' => $roomId->getValue()])->get()->map(
+            function (EloquentReservation $reservation) use ($roomId): Reservation {
+                return new Reservation(
+                    $roomId,
+                    new ReservationId($reservation->reservation_id),
+                    new Summary($reservation->summary),
+                    new StartAt(new DateTime($reservation->start_at)),
+                    new EndAt(new DateTime($reservation->end_at)),
+                    new Note($reservation->note)
+                );
+            }
+        );
+
+        return array_map(fn (Reservation $reservation): Reservation => $reservation, $collections->toArray());
     }
 
     /**
@@ -58,7 +71,16 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function insert(Reservation $reservation): void
     {
-        // TODO 後で実装する。
+        $newReservation = new EloquentReservation([
+            'room_id' => $reservation->getRoomId()->getValue(),
+            'reservation_id' => $reservation->getReservationId()->getValue(),
+            'summary' => $reservation->getSummary()->getValue(),
+            'start_at' => $reservation->getStartAt()->getValue()->format('Y/m/d H:i:s'),
+            'end_at' => $reservation->getEndAt()->getValue()->format('Y/m/d H:i:s'),
+            'note' => $reservation->getNote()->getValue(),
+        ]);
+
+        $newReservation->save();
     }
 
     /**
