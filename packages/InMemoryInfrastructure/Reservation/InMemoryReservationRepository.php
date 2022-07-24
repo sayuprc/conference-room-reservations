@@ -81,7 +81,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function update(Reservation $reservation): void
     {
-        // TODO 後で実装する。
+        $this->db[$reservation->getReservationId()->getValue()] = $reservation;
     }
 
     /**

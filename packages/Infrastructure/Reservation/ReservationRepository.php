@@ -100,11 +100,27 @@ class ReservationRepository implements ReservationRepositoryInterface
      *
      * @param Reservation $reservation
      *
+     * @throws NotFoundException
+     *
      * @return void
      */
     public function update(Reservation $reservation): void
     {
-        // TODO 後で実装する。
+        $found = EloquentReservation::where([
+            'room_id' => $reservation->getRoomId()->getValue(),
+            'reservation_id' => $reservation->getReservationId()->getValue(),
+        ])->get()[0] ?? null;
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $reservation->getReservationId()->getValue() . ' is not found.');
+        }
+
+        $found->summary = $reservation->getSummary()->getValue();
+        $found->start_at = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
+        $found->end_at = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
+        $found->note = $reservation->getNote()->getValue();
+
+        $found->save();
     }
 
     /**
