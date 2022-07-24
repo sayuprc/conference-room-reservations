@@ -12,10 +12,8 @@ use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationService;
 use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
-use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
-use packages\Domain\Domain\Room\RoomName;
-use packages\InMemoryInfrastructure\Room\InMemoryRoomRepository;
+use packages\InMemoryInfrastructure\Reservation\InMemoryReservationRepository;
 use PHPUnit\Framework\TestCase;
 
 class ReservationServiceTest extends TestCase
@@ -27,26 +25,22 @@ class ReservationServiceTest extends TestCase
      */
     public function testCanRegister(): void
     {
-        $repository = new InMemoryRoomRepository();
+        $repository = new InMemoryReservationRepository();
 
         $service = new ReservationService($repository);
 
         $roomId = new RoomId('1');
 
-        $repository->store(new Room(
-            $roomId,
-            new RoomName('テスト'),
-            [
-                new Reservation(
-                    $roomId,
-                    new ReservationId('1'),
-                    new Summary('予約 A'),
-                    new StartAt(new DateTime('2022/07/01 10:00')),
-                    new EndAt(new DateTime('2022/07/01 11:30')),
-                    new Note('')
-                ),
-            ]
-        ));
+        $repository->insert(
+            new Reservation(
+                $roomId,
+                new ReservationId('1'),
+                new Summary('予約 A'),
+                new StartAt(new DateTime('2022/07/01 10:00')),
+                new EndAt(new DateTime('2022/07/01 11:30')),
+                new Note('')
+            )
+        );
 
         // 予約Aの後に開始
         $newReservation = new Reservation(
@@ -78,26 +72,22 @@ class ReservationServiceTest extends TestCase
      */
     public function testFailureCanRegister(): void
     {
-        $repository = new InMemoryRoomRepository();
+        $repository = new InMemoryReservationRepository();
 
         $service = new ReservationService($repository);
 
         $roomId = new RoomId('1');
 
-        $repository->store(new Room(
-            $roomId,
-            new RoomName('テスト'),
-            [
-                new Reservation(
-                    $roomId,
-                    new ReservationId('1'),
-                    new Summary('予約 A'),
-                    new StartAt(new DateTime('2022/07/01 10:00')),
-                    new EndAt(new DateTime('2022/07/01 11:30')),
-                    new Note('')
-                ),
-            ]
-        ));
+        $repository->insert(
+            new Reservation(
+                $roomId,
+                new ReservationId('1'),
+                new Summary('予約 A'),
+                new StartAt(new DateTime('2022/07/01 10:00')),
+                new EndAt(new DateTime('2022/07/01 11:30')),
+                new Note('')
+            )
+        );
 
         // 予約Aの開始日と被る
         $newReservation = new Reservation(
