@@ -126,12 +126,16 @@ class ReservationRepository implements ReservationRepositoryInterface
     /**
      * 予約を削除する。
      *
-     * @param Reservation $reservation
+     * @param RoomId        $roomId
+     * @param ReservationId $reservationId
      *
      * @return void
      */
-    public function delete(Reservation $reservation): void
+    public function delete(RoomId $roomId, ReservationId $reservationId): void
     {
-        // TODO 後で実装する。
+        EloquentReservation::where([
+            'room_id' => $roomId->getValue(),
+            'reservation_id' => $reservationId->getValue(),
+        ])->delete();
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use packages\Domain\Application\Reservation\ReservationDeleteInteractor;
 use packages\Domain\Application\Reservation\ReservationGetInteractor;
 use packages\Domain\Application\Reservation\ReservationRegisterInteractor;
 use packages\Domain\Application\Reservation\ReservationUpdateInteractor;
@@ -17,12 +18,14 @@ use packages\Infrastructure\Reservation\ReservationRepository;
 use packages\Infrastructure\Room\RoomRepository;
 use packages\InMemoryInfrastructure\Reservation\InMemoryReservationRepository;
 use packages\InMemoryInfrastructure\Room\InMemoryRoomRepository;
+use packages\MockInteractor\Reservation\MockReservationDeleteInteractor;
 use packages\MockInteractor\Reservation\MockReservationGetInteractor;
 use packages\MockInteractor\Reservation\MockReservationRegisterInteractor;
 use packages\MockInteractor\Reservation\MockReservationUpdateInteractor;
 use packages\MockInteractor\Room\MockRoomGetInteractor;
 use packages\MockInteractor\Room\MockRoomGetListInteractor;
 use packages\MockInteractor\Room\MockRoomRegisterInteractor;
+use packages\UseCase\Reservation\Delete\ReservationDeleteUseCaseInterface;
 use packages\UseCase\Reservation\Get\ReservationGetUseCaseInterface;
 use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
 use packages\UseCase\Reservation\Update\ReservationUpdateUseCaseInterface;
@@ -63,6 +66,9 @@ class AppServiceProvider extends ServiceProvider
 
             // 予約更新ユースケース
             $this->app->bind(ReservationUpdateUseCaseInterface::class, MockReservationUpdateInteractor::class);
+
+            // 予約削除ユースケース
+            $this->app->bind(ReservationDeleteUseCaseInterface::class, MockReservationDeleteInteractor::class);
         } else {
             // 会議室リポジトリ
             $this->app->bind(RoomRepositoryInterface::class, RoomRepository::class);
@@ -87,6 +93,9 @@ class AppServiceProvider extends ServiceProvider
 
             // 予約更新ユースケース
             $this->app->bind(ReservationUpdateUseCaseInterface::class, ReservationUpdateInteractor::class);
+
+            // 予約削除ユースケース
+            $this->app->bind(ReservationDeleteUseCaseInterface::class, ReservationDeleteInteractor::class);
         }
     }
 
