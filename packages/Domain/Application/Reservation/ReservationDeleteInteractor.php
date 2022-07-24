@@ -6,13 +6,12 @@ namespace packages\Domain\Application\Reservation;
 
 use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
-use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
-use packages\UseCase\Reservation\Get\ReservationGetRequest;
-use packages\UseCase\Reservation\Get\ReservationGetResponse;
-use packages\UseCase\Reservation\Get\ReservationGetUseCaseInterface;
+use packages\UseCase\Reservation\Delete\ReservationDeleteRequest;
+use packages\UseCase\Reservation\Delete\ReservationDeleteResponse;
+use packages\UseCase\Reservation\Delete\ReservationDeleteUseCaseInterface;
 
-class ReservationGetInteractor implements ReservationGetUseCaseInterface
+class ReservationDeleteInteractor implements ReservationDeleteUseCaseInterface
 {
     /**
      * @var ReservationRepositoryInterface $repository
@@ -30,21 +29,20 @@ class ReservationGetInteractor implements ReservationGetUseCaseInterface
     }
 
     /**
-     * 予約の詳細を取得する。
+     * 予約を削除する。
      *
-     * @param ReservationGetRequest $request
+     * @param ReservationDeleteRequest $request
      *
-     * @throws NotFoundException
-     *
-     * @return ReservationGetResponse
+     * @return ReservationDeleteResponse
      */
-    public function handle(ReservationGetRequest $request): ReservationGetResponse
+    public function handle(ReservationDeleteRequest $request): ReservationDeleteResponse
     {
         $roomId = new RoomId($request->getRoomId());
+
         $reservationId = new ReservationId($request->getReservationId());
 
-        $found = $this->repository->find($roomId, $reservationId);
+        $this->repository->delete($roomId, $reservationId);
 
-        return new ReservationGetResponse($found);
+        return new ReservationDeleteResponse($roomId->getValue());
     }
 }

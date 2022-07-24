@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Reservation\DeleteReservationController;
 use App\Http\Controllers\Reservation\DetailReservationController;
 use App\Http\Controllers\Reservation\RegisterReservationController;
 use App\Http\Controllers\Reservation\UpdateReservationController;
@@ -26,3 +27,4 @@ Route::get('/reservations/show/{room_id}/{reservation_id}', [DetailReservationCo
     ->name('reservations.detail');
 
 Route::post('/reservations/update', [UpdateReservationController::class, 'handle']);
+Route::post('/reservations/delete', [DeleteReservationController::class, 'handle']);

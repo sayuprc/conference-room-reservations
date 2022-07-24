@@ -31,13 +31,17 @@ class RoomRegisterInteractor implements RoomRegisterUseCaseInterface
     }
 
     /**
-     * @inheritdoc
+     * 会議室の登録をする。
+     *
+     * @param RoomRegisterRequest $request
+     *
+     * @return RoomRegisterResponse
      */
     public function handle(RoomRegisterRequest $request): RoomRegisterResponse
     {
         $newRoom = new Room(new RoomId((string)Str::uuid()), new RoomName($request->name));
 
-        $this->reposiroty->store($newRoom);
+        $this->reposiroty->insert($newRoom);
 
         return new RoomRegisterResponse();
     }

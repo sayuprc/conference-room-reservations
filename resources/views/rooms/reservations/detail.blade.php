@@ -55,7 +55,17 @@
         @endif
 
         <section class="mx-auto mt-4 w-3/4 rounded-md bg-white p-6 shadow-md dark:bg-gray-800">
-            <h2 class="text-lg font-semibold capitalize text-gray-700 dark:text-white">予約詳細</h2>
+            <div class="flex justify-between">
+                <h2 class="text-lg font-semibold capitalize text-gray-700 dark:text-white">予約詳細</h2>
+
+                <form action="/reservations/delete" method="post">
+                    @csrf
+                    <input type="hidden" name="room_id" value="{{ $reservation->roomId }}">
+                    <input type="hidden" name="reservation_id" value="{{ $reservation->reservationId }}">
+                    <button
+                        class="transform rounded-md bg-red-700 px-6 py-2 leading-5 text-white transition-colors duration-200 hover:bg-red-600 focus:bg-red-600 focus:outline-none">削除</button>
+                </form>
+            </div>
 
             <form action="/reservations/update" method="POST">
                 @csrf
@@ -103,7 +113,7 @@
 
                 <div class="mt-6 flex justify-end">
                     <button
-                        class="transform rounded-md bg-gray-700 px-6 py-2 leading-5 text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">登録</button>
+                        class="transform rounded-md bg-gray-700 px-6 py-2 leading-5 text-white transition-colors duration-200 hover:bg-gray-600 focus:bg-gray-600 focus:outline-none">更新</button>
                 </div>
             </form>
         </section>

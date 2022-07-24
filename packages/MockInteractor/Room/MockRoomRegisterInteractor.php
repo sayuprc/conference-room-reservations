@@ -18,7 +18,11 @@ class MockRoomRegisterInteractor implements RoomRegisterUseCaseInterface
     }
 
     /**
-     * @inheritdoc
+     * 会議室の登録をする。
+     *
+     * @param RoomRegisterRequest $request
+     *
+     * @return RoomRegisterResponse
      */
     public function handle(RoomRegisterRequest $request): RoomRegisterResponse
     {
