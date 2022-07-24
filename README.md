@@ -13,3 +13,9 @@
 ![image](https://user-images.githubusercontent.com/41261915/179521712-1884beff-ef3a-404a-8c27-d1c75ccfe67f.png)
 
 ![image](https://user-images.githubusercontent.com/41261915/179522008-7056f76f-7468-4406-8f18-8054632a4869.png)
+
+![image](https://user-images.githubusercontent.com/41261915/180629289-b93d5298-5593-4b56-b2f3-9ead9f14344c.png)
+
+## 変更履歴
+
+[CHANGELOG](https://github.com/sayuprc/conference-room-reservations/blob/main/CHANGELOG.md)を参照してください。

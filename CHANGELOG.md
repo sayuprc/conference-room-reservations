@@ -2,7 +2,21 @@
 
 アプリケーションの更新履歴。
 
-## 1.1.0 - 2022-07-18
+## [1.2.0](https://github.com/sayuprc/conference-room-reservations) - 2022-07-24
+
+### Added
+
+- 予約の削除機能を追加。
+
+### Changed
+
+- リポジトリの集約を変更。また、変更に伴いリファクタリングの実施。
+
+### Fix
+
+- 予約更新ボタンの文言を「登録」から「更新」に修正。
+
+## [1.1.0](https://github.com/sayuprc/conference-room-reservations/tree/3b9f9d3cd23bdfedd1a236d799bafe5788020bc0) - 2022-07-18
 
 ### Added
 
@@ -21,6 +35,6 @@
 
 - 会議室IDが存在しないものを指定したとき、アプリケーションが停止してしまうバグの修正。
 
-## 1.0.0 - 2022-07-13
+## [1.0.0](https://github.com/sayuprc/conference-room-reservations/tree/2a4fde1fa9cd530d2c2c4571b2dd513b530f5203) - 2022-07-13
 
 会議室予約アプリのリリース
