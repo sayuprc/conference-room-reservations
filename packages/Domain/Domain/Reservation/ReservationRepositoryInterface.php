@@ -9,13 +9,14 @@ use packages\Domain\Domain\Room\RoomId;
 interface ReservationRepositoryInterface
 {
     /**
-     * 予約IDで予約を検索する。
+     * 会議室IDと予約IDで予約を検索する。
      *
+     * @param RoomId        $roomId
      * @param ReservationId $reservationId
      *
      * @return Reservation
      */
-    public function find(ReservationId $reservationId): Reservation;
+    public function find(RoomId $roomId, ReservationId $reservationId): Reservation;
 
     /**
      * 会議室IDで予約を検索する。

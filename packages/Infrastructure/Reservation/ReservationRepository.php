@@ -13,27 +13,39 @@ use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 
 class ReservationRepository implements ReservationRepositoryInterface
 {
     /**
-     * 予約IDで予約を検索する。
+     * 会議室IDと予約IDで予約を検索する。
      *
+     * @param RoomId        $roomId
      * @param ReservationId $reservationId
+     *
+     * @throws NotFoundException
      *
      * @return Reservation
      */
-    public function find(ReservationId $reservationId): Reservation
+    public function find(RoomId $roomId, ReservationId $reservationId): Reservation
     {
-        // TODO 後で実装する。
+        $found = EloquentReservation::where([
+            'room_id' => $roomId->getValue(),
+            'reservation_id' => $reservationId->getValue(),
+        ])->get()[0] ?? null;
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
+        }
+
         return new Reservation(
-            new RoomId('1'),
+            $roomId,
             $reservationId,
-            new Summary('   '),
-            new StartAt(new DateTime()),
-            new EndAt(new DateTime()),
-            new Note('')
+            new Summary($found->summary),
+            new StartAt(new DateTime($found->start_at)),
+            new EndAt(new DateTime($found->end_at)),
+            new Note($found->note)
         );
     }
 

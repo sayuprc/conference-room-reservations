@@ -6,15 +6,11 @@ namespace packages\Infrastructure\Room;
 
 use App\Models\Reservation as EloquentReservation;
 use App\Models\Room as EloquentRoom;
-use DateTime;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use packages\Domain\Domain\Reservation\EndAt;
 use packages\Domain\Domain\Reservation\Note;
 use packages\Domain\Domain\Reservation\Reservation;
-use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationSpecification;
-use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
@@ -58,29 +54,7 @@ class RoomRepository implements RoomRepositoryInterface
 
         $storedRoomId = new RoomId($storedRoom->room_id);
 
-        return new Room(
-            $storedRoomId,
-            new RoomName($storedRoom->name)
-            // $this->reservationSpecification->orderByStartAtAsc(
-            //     $this->reservationSpecification->removeFinished(
-            //         array_map(
-            //             fn (Reservation $r): Reservation => $r,
-            //             $storedRoom->reservations()->get()->map(
-            //                 function (EloquentReservation $reservation) use ($storedRoomId): Reservation {
-            //                     return new Reservation(
-            //                         $storedRoomId,
-            //                         new ReservationId($reservation->reservation_id),
-            //                         new Summary($reservation->summary),
-            //                         new StartAt(new DateTime($reservation->start_at)),
-            //                         new EndAt(new DateTime($reservation->end_at)),
-            //                         new Note($reservation->note)
-            //                     );
-            //                 }
-            //             )->toArray()
-            //         )
-            //     )
-            // )
-        );
+        return new Room($storedRoomId, new RoomName($storedRoom->name));
     }
 
     /**

@@ -4,14 +4,10 @@ declare(strict_types=1);
 
 namespace packages\InMemoryInfrastructure\Reservation;
 
-use DateTime;
-use packages\Domain\Domain\Reservation\EndAt;
-use packages\Domain\Domain\Reservation\Note;
 use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
-use packages\Domain\Domain\Reservation\StartAt;
-use packages\Domain\Domain\Reservation\Summary;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 
 class InMemoryReservationRepository implements ReservationRepositoryInterface
@@ -30,23 +26,24 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
     }
 
     /**
-     * 予約IDで予約を検索する。
+     * 会議室IDと予約IDで予約を検索する。
      *
+     * @param RoomId        $roomId
      * @param ReservationId $reservationId
+     *
+     * @throws NotFoundException
      *
      * @return Reservation
      */
-    public function find(ReservationId $reservationId): Reservation
+    public function find(RoomId $roomId, ReservationId $reservationId): Reservation
     {
-        // TODO 後で実装する。
-        return new Reservation(
-            new RoomId('1'),
-            $reservationId,
-            new Summary('   '),
-            new StartAt(new DateTime()),
-            new EndAt(new DateTime()),
-            new Note('')
-        );
+        $found = $this->db[$reservationId->getValue()] ?? null;
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
+        }
+
+        return $found;
     }
 
     /**
