@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace packages\Infrastructure\Room;
 
-use App\Models\Reservation as EloquentReservation;
 use App\Models\Room as EloquentRoom;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use packages\Domain\Domain\Reservation\Note;
-use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Reservation\ReservationSpecification;
-use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
@@ -84,42 +79,15 @@ class RoomRepository implements RoomRepositoryInterface
     {
         $storedRoom = EloquentRoom::find($room->getRoomId()->getValue());
 
-        DB::transaction(function () use ($room, $storedRoom) {
-            if ($storedRoom === null) {
-                $storedRoom = new EloquentRoom([
-                    'room_id' => (string)Str::uuid(),
-                    'name' => $room->getRoomName()->getValue(),
-                ]);
-            } else {
-                $storedRoom->name = $room->getRoomName()->getValue();
-            }
+        if ($storedRoom === null) {
+            $storedRoom = new EloquentRoom([
+                'room_id' => (string)Str::uuid(),
+                'name' => $room->getRoomName()->getValue(),
+            ]);
+        } else {
+            $storedRoom->name = $room->getRoomName()->getValue();
+        }
 
-            $storedRoom->save();
-
-            // // 予約は一度すべて消してからインサートしなおす。
-
-            // EloquentReservation::destroy(
-            //     array_map(
-            //         fn (Reservation $reservation): string => $reservation->getReservationId()->getValue(),
-            //         $room->getReservations()
-            //     )
-            // );
-
-            // EloquentReservation::insert(
-            //     array_map(
-            //         function (Reservation $reservation): array {
-            //             return [
-            //                 'room_id' => $reservation->getRoomId()->getValue(),
-            //                 'reservation_id' => $reservation->getReservationId()->getValue(),
-            //                 'summary' => $reservation->getSummary()->getValue(),
-            //                 'start_at' => $reservation->getStartAt()->getValue()->format('Y/m/d H:i'),
-            //                 'end_at' => $reservation->getEndAt()->getValue()->format('Y/m/d H:i'),
-            //                 'note' => $reservation->getNote()->getValue(),
-            //             ];
-            //         },
-            //         $room->getReservations()
-            //     ),
-            // );
-        });
+        $storedRoom->save();
     }
 }
