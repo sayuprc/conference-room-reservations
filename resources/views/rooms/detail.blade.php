@@ -36,9 +36,9 @@
 
     <div class="mx-auto w-3/4">
         <div class="flex">
-            <div class="bg-white dark:bg-gray-800">
+            <div class="bg-white">
                 <div>
-                    <p class="text-2xl font-bold text-gray-700 dark:text-white"> {{ $room->name }}</p>
+                    <p class="text-2xl font-bold text-gray-700"> {{ $room->name }}</p>
                 </div>
             </div>
 
@@ -46,7 +46,7 @@
                 <form action="/reservations/register" method="GET">
                     <input type="hidden" name="room_id" value="{{ $room->id }}">
                     <button type="submit"
-                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">予約登録</button>
+                        class="rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300">予約登録</button>
                 </form>
             </div>
         </div>
