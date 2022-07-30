@@ -23,9 +23,9 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     public function __construct()
     {
         foreach (range(1, 20) as $i) {
-            $roomId = new RoomId((string)$i);
+            $roomid = new roomid((string)$i);
 
-            $this->db[$roomId->getValue()] = new Room($roomId, new RoomName('会議室 ' . $i));
+            $this->db[$roomid->getvalue()] = new room($roomid, new roomname('会議室 ' . $i));
         }
     }
 
@@ -69,6 +69,8 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     public function insert(Room $room): void
     {
         $this->db[$room->getRoomId()->getValue()] = $room;
+
+        dd($this->db);
     }
 
     /**
@@ -81,6 +83,8 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     public function update(Room $room): void
     {
         $this->db[$room->getRoomId()->getValue()] = $room;
+
+        dd($this->db);
     }
 
     /**
@@ -93,5 +97,7 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     public function delete(RoomId $roomId): void
     {
         unset($this->db[$roomId->getValue()]);
+
+        dd($this->db);
     }
 }
