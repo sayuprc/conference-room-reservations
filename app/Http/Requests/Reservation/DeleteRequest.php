@@ -30,17 +30,4 @@ class DeleteRequest extends FormRequest
             'reservation_id' => ['required', 'string'],
         ];
     }
-
-    /**
-     * 要素の名称
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return [
-            'room_id' => '会議室ID',
-            'reservation' => '予約ID',
-        ];
-    }
 }
