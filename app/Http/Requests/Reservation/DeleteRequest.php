@@ -26,21 +26,8 @@ class DeleteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'string', 'exists:rooms'],
-            'reservation_id' => ['required', 'string', 'exists:reservations'],
-        ];
-    }
-
-    /**
-     * 要素の名称
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return [
-            'room_id' => '会議室ID',
-            'reservation' => '予約ID',
+            'room_id' => ['required', 'string'],
+            'reservation_id' => ['required', 'string'],
         ];
     }
 }

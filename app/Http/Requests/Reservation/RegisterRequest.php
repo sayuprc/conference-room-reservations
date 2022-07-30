@@ -28,27 +28,11 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'string', 'exists:rooms'],
+            'room_id' => ['required', 'string'],
             'summary' => ['required', 'min:1', 'max:' . Summary::MAX_LENGTH],
             'start_at' => ['required', 'date_format:Y-m-d H:i', 'before:end_at'],
             'end_at' => ['required', 'date_format:Y-m-d H:i', 'after:start_at'],
             'note' => ['nullable', 'string', 'min:0', 'max:' . Note::MAX_LENGTH],
-        ];
-    }
-
-    /**
-     * 要素の名称
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return [
-            'room_id' => '会議室ID',
-            'summary' => '概要',
-            'start_at' => '開始日時',
-            'end_at' => '終了日時',
-            'note' => '備考',
         ];
     }
 

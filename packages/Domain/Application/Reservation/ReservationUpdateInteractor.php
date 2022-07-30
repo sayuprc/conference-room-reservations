@@ -14,6 +14,7 @@ use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\ReservationService;
 use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 use packages\UseCase\Reservation\Update\ReservationUpdateRequest;
 use packages\UseCase\Reservation\Update\ReservationUpdateResponse;
@@ -49,6 +50,7 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
      * @param ReservationUpdateRequest $request
      *
      * @throws PeriodicDuplicationException
+     * @throws NotFoundException
      *
      * @return ReservationUpdateResponse
      */
@@ -62,6 +64,16 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
             new EndAt(new DateTime($request->getEndAt())),
             new Note($request->getNote())
         );
+
+        if (! $this->service->exists($updatedReservation->getRoomId(), $updatedReservation->getReservationId())) {
+            throw new NotFoundException(
+                sprintf(
+                    'RoomID: %s ReservationID: %s is not found.',
+                    $updatedReservation->getRoomId()->getValue(),
+                    $updatedReservation->getReservationId()->getValue()
+                )
+            );
+        }
 
         if (! $this->service->canUpdated($updatedReservation)) {
             throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');

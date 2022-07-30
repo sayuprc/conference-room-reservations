@@ -26,7 +26,7 @@ class ShowRegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'string', 'exists:rooms'],
+            'room_id' => ['required', 'string'],
         ];
     }
 }

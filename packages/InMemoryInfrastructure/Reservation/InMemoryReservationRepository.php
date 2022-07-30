@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace packages\InMemoryInfrastructure\Reservation;
 
+use DateTime;
+use packages\Domain\Domain\Reservation\EndAt;
+use packages\Domain\Domain\Reservation\Note;
 use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
+use packages\Domain\Domain\Reservation\StartAt;
+use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 
@@ -23,6 +28,27 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
     public function __construct()
     {
         $this->db = [];
+
+        foreach (range(1, 20) as $i) {
+            $roomId = new roomid((string)$i);
+
+            foreach (range(1, 30) as $j) {
+                $reservationId = new ReservationId((string)$j);
+                $summary = new Summary('概要' . (string)$j);
+                $startAt = new StartAt((new DateTime())->modify('+' . ($j - 1) . ' hours'));
+                $endAt = new EndAt((new DateTime())->modify('+' . ($j - 1) . ' hours')->modify('+30 minutes'));
+                $note = new Note(str_repeat('備考', $j));
+
+                $this->db[$roomId->getValue()][$reservationId->getValue() ] = new Reservation(
+                    $roomId,
+                    $reservationId,
+                    $summary,
+                    $startAt,
+                    $endAt,
+                    $note
+                );
+            }
+        }
     }
 
     /**
@@ -37,7 +63,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function find(RoomId $roomId, ReservationId $reservationId): Reservation
     {
-        $found = $this->db[$reservationId->getValue()] ?? null;
+        $found = $this->db[$roomId->getValue()][$reservationId->getValue()] ?? null;
 
         if ($found === null) {
             throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
@@ -55,9 +81,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function findByRoomId(RoomId $roomId): array
     {
-        return array_filter($this->db, function (Reservation $reservation) use ($roomId): bool {
-            return $reservation->getRoomId()->getValue() === $roomId->getValue();
-        });
+        return $this->db[$roomId->getValue()] ?? [];
     }
 
     /**
@@ -69,7 +93,9 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function insert(Reservation $reservation): void
     {
-        $this->db[$reservation->getReservationId()->getValue()] = $reservation;
+        $this->db[$reservation->getRoomId()->getValue()][$reservation->getReservationId()->getValue()] = $reservation;
+
+        dd($this->db);
     }
 
     /**
@@ -81,7 +107,9 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function update(Reservation $reservation): void
     {
-        $this->db[$reservation->getReservationId()->getValue()] = $reservation;
+        $this->db[$reservation->getRoomId()->getValue()][$reservation->getReservationId()->getValue()] = $reservation;
+
+        dd($this->db);
     }
 
     /**
@@ -94,6 +122,8 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function delete(RoomId $roomId, ReservationId $reservationId): void
     {
-        unset($this->db[$reservationId->getValue()]);
+        unset($this->db[$roomId->getValue()][$reservationId->getValue()]);
+
+        dd($this->db);
     }
 }

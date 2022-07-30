@@ -30,16 +30,4 @@ class RegisterRequest extends FormRequest
             'name' => ['required', 'string', 'min:1', 'max:' . RoomName::MAX_LENGTH],
         ];
     }
-
-    /**
-     * 要素の名称
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return[
-            'name' => '会議室名',
-        ];
-    }
 }

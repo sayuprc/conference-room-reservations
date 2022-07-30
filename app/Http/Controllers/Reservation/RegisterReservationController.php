@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\RegisterRequest;
 use App\Http\Requests\Reservation\ShowRegisterRequest;
 use packages\Domain\Domain\Reservation\Exception\PeriodicDuplicationException;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
 use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
 
@@ -50,6 +51,11 @@ class RegisterReservationController extends Controller
             $url = '/rooms/show/' . $response->getReservation()->getRoomId()->getValue();
 
             return redirect($url)->with('message', '予約の登録が完了しました。');
+        } catch (NotFoundException $exception) {
+            return redirect()
+                ->route('reservations.register', ['room_id' => $validated['room_id']])
+                ->with('exception', '対象の会議室が存在しませんでした。')
+                ->withInput($request->all());
         } catch (PeriodicDuplicationException $exception) {
             return redirect()
                 ->route('reservations.register', ['room_id' => $validated['room_id']])
