@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace packages\Domain\Domain\Reservation;
 
+use packages\Domain\Domain\Room\Exception\NotFoundException;
+use packages\Domain\Domain\Room\RoomId;
+
 class ReservationService
 {
     /**
@@ -99,5 +102,24 @@ class ReservationService
         );
 
         return count($duplicatedReservations) < 1 ? true : false;
+    }
+
+    /**
+     * 予約がが存在するかのチェックを行う。
+     *
+     * @param RoomId        $roomId
+     * @param ReservationId $reservationId
+     *
+     * @return bool
+     */
+    public function exists(RoomId $roomId, ReservationId $reservationId): bool
+    {
+        try {
+            $found = $this->repository->find($roomId, $reservationId);
+
+            return true;
+        } catch (NotFoundException $exception) {
+            return false;
+        }
     }
 }

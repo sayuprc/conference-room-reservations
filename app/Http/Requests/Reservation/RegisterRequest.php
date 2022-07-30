@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'string', 'exists:rooms'],
+            'room_id' => ['required', 'string'],
             'summary' => ['required', 'min:1', 'max:' . Summary::MAX_LENGTH],
             'start_at' => ['required', 'date_format:Y-m-d H:i', 'before:end_at'],
             'end_at' => ['required', 'date_format:Y-m-d H:i', 'after:start_at'],
