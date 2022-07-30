@@ -11,17 +11,17 @@
 
 <body class="h-full w-full">
     <div class="flex h-full flex-col">
-        <div class="bg-shark-100 h-16 shrink-0 text-white">
+        <div class="bg-shark-100 dark:bg-outer-space dark:text-botticelli h-16 shrink-0 text-white">
             <section class="mx-auto h-full w-3/4">
                 @include('app.header')
             </section>
         </div>
 
-        <div class="text-shark-100 bg-white">
+        <div class="text-shark-100 dark:bg-shark-300 dark:text-cadet-blue grow bg-white">
             <div class="mx-auto w-3/4">
                 @if (session('message'))
                     <section
-                        class="bg-pattens-blue border-anakiwa mt-8 rounded-md border">
+                        class="bg-pattens-blue border-anakiwa dark:bg-pickled-bluewood dark:border-san-marino mt-8 rounded-md border">
                         <div class="container mx-auto px-6 py-4">
                             <svg class="inline h-6 w-6 fill-current" viewBox="0 0 40 40">
                                 <path
@@ -35,7 +35,7 @@
 
                 @if (session('exception'))
                     <section
-                        class="border-flax bg-lemon-chiffon mt-8 rounded-md border">
+                        class="border-flax bg-lemon-chiffon dark:bg-armadillo dark:border-dallas mt-8 rounded-md border">
                         <div class="container mx-auto px-6 py-4">
                             <svg class="inline h-6 w-6 fill-current" viewBox="0 0 40 40">
                                 <path
@@ -49,7 +49,7 @@
 
                 @if ($errors->any())
                     <section
-                        class="border-flax bg-lemon-chiffon mt-8 rounded-md border">
+                        class="border-flax bg-lemon-chiffon dark:bg-armadillo dark:border-dallas mt-8 rounded-md border">
                         <div class="container mx-auto px-6 py-4">
                             <svg class="inline h-6 w-6 fill-current" viewBox="0 0 40 40">
                                 <path
