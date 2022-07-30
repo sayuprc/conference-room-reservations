@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace packages\MockInteractor\Room;
 
+use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
+use packages\Domain\Domain\Reservation\ReservationSpecification;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\UseCase\Room\Get\RoomGetRequest;
@@ -18,13 +20,30 @@ class MockRoomGetInteractor implements RoomGetUseCaseInterface
     private RoomRepositoryInterface $repository;
 
     /**
-     * @param RoomRepositoryInterface $repository
+     * @var ReservationRepositoryInterface $reservationRepository
+     */
+    private ReservationRepositoryInterface $reservationRepository;
+
+    /**
+     * @var ReservationSpecification $reservationSpecification
+     */
+    private ReservationSpecification $reservationSpecification;
+
+    /**
+     * @param RoomRepositoryInterface        $repository
+     * @param ReservationRepositoryInterface $reservationRepository
+     * @param ReservationSpecification       $reservationSpecification
      *
      * @return void
      */
-    public function __construct(RoomRepositoryInterface $repository)
-    {
+    public function __construct(
+        RoomRepositoryInterface $repository,
+        ReservationRepositoryInterface $reservationRepository,
+        ReservationSpecification $reservationSpecification
+    ) {
         $this->repository = $repository;
+        $this->reservationRepository = $reservationRepository;
+        $this->reservationSpecification = $reservationSpecification;
     }
 
     /**
@@ -38,8 +57,13 @@ class MockRoomGetInteractor implements RoomGetUseCaseInterface
     {
         $roomId = new RoomId($request->roomId);
 
-        $found = $this->repository->find($roomId);
+        $foundRoom = $this->repository->find($roomId);
 
-        return new RoomGetResponse($found);
+        $foundReservation = $this->reservationRepository->findByRoomId($roomId);
+
+        return new RoomGetResponse(
+            $foundRoom,
+            $this->reservationSpecification->orderByStartAtAsc($this->reservationSpecification->removeFinished($foundReservation))
+        );
     }
 }
