@@ -28,8 +28,8 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'string', 'exists:rooms'],
-            'reservation_id' => ['required', 'string', 'exists:reservations'],
+            'room_id' => ['required', 'string'],
+            'reservation_id' => ['required', 'string'],
             'summary' => ['required', 'min:1', 'max:' . Summary::MAX_LENGTH],
             'start_at' => ['required', 'date_format:Y-m-d H:i', 'before:end_at'],
             'end_at' => ['required', 'date_format:Y-m-d H:i', 'after:start_at'],

@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\UpdateRequest;
 use packages\Domain\Domain\Reservation\Exception\PeriodicDuplicationException;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\UseCase\Reservation\Update\ReservationUpdateRequest;
 use packages\UseCase\Reservation\Update\ReservationUpdateUseCaseInterface;
 
@@ -43,6 +44,14 @@ class UpdateReservationController extends Controller
                     ]
                 )
                 ->with('message', '予約の更新が完了しました。');
+        } catch (NotFoundException $exception) {
+            return redirect()
+                ->route('reservations.detail', [
+                    'room_id' => $validated['room_id'],
+                    'reservation_id' => $validated['reservation_id'],
+                ])
+                ->with('exception', '対象IDの予約が見つかりませんでした。')
+                ->withInput($request->all());
         } catch (PeriodicDuplicationException $exception) {
             return redirect()
                 ->route('reservations.detail', [

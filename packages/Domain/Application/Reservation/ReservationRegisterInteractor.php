@@ -15,7 +15,9 @@ use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\ReservationService;
 use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
+use packages\Domain\Domain\Room\RoomService;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
 use packages\UseCase\Reservation\Register\ReservationRegisterResponse;
 use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
@@ -33,16 +35,27 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
     private ReservationService $service;
 
     /**
+     * @var RoomService $roomService
+     */
+    private RoomService $roomService;
+
+    /**
      * @param ReservationRepositoryInterface $repository
      * @param ReservationService             $service
+     * @param RoomService                    $roomService
      *
      * @return void
      */
-    public function __construct(ReservationRepositoryInterface $repository, ReservationService $service)
-    {
+    public function __construct(
+        ReservationRepositoryInterface $repository,
+        ReservationService $service,
+        RoomService $roomService
+    ) {
         $this->repository = $repository;
 
         $this->service = $service;
+
+        $this->roomService = $roomService;
     }
 
     /**
@@ -51,6 +64,7 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
      * @param ReservationRegisterRequest $request
      *
      * @throws PeriodicDuplicationException
+     * @throws NotFoundException
      *
      * @return ReservationRegisterResponse
      */
@@ -64,6 +78,10 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
             new EndAt(new DateTime($request->getEndAt())),
             new Note($request->getNote())
         );
+
+        if (! $this->roomService->exists($newReservation->getRoomId())) {
+            throw new NotFoundException('ID: ' . $newReservation->getRoomId()->getValue() . ' is not found.');
+        }
 
         if (! $this->service->canRegistered($newReservation)) {
             throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');
