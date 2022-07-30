@@ -2,7 +2,23 @@
 
 アプリケーションの更新履歴。
 
-## [1.2.0](https://github.com/sayuprc/conference-room-reservations) - 2022-07-24
+## [1.3.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.3.0) - 2022-07-30
+
+### Added
+
+- ダークモードの追加。
+
+### Changed
+
+- ライトモードの調整。
+- FormRequestからexistsルールを除外。ドメインサービスで存在チェックをするように変更。
+- モック用ソースコードの挙動を調整。
+
+### Fix
+
+- リクエストのエラー文言に、一部英語の項目名が出ていたバグの修正。
+
+## [1.2.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.2.0) - 2022-07-24
 
 ### Added
 
@@ -16,7 +32,7 @@
 
 - 予約更新ボタンの文言を「登録」から「更新」に修正。
 
-## [1.1.0](https://github.com/sayuprc/conference-room-reservations/tree/3b9f9d3cd23bdfedd1a236d799bafe5788020bc0) - 2022-07-18
+## [1.1.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.1.0) - 2022-07-18
 
 ### Added
 
@@ -35,6 +51,6 @@
 
 - 会議室IDが存在しないものを指定したとき、アプリケーションが停止してしまうバグの修正。
 
-## [1.0.0](https://github.com/sayuprc/conference-room-reservations/tree/2a4fde1fa9cd530d2c2c4571b2dd513b530f5203) - 2022-07-13
+## [1.0.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.0.0) - 2022-07-13
 
 会議室予約アプリのリリース
