@@ -32,19 +32,6 @@ class DetailRequest extends FormRequest
     }
 
     /**
-     * 要素の名称
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return[
-            'room_id' => '会議室ID',
-            'reservation_id' => '予約ID',
-        ];
-    }
-
-    /**
      * バリデーション対象データ
      *
      * ルートパラメータをバリデーション対象とするために、リクエストの配列とマージする。

@@ -37,22 +37,6 @@ class RegisterRequest extends FormRequest
     }
 
     /**
-     * 要素の名称
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return [
-            'room_id' => '会議室ID',
-            'summary' => '概要',
-            'start_at' => '開始日時',
-            'end_at' => '終了日時',
-            'note' => '備考',
-        ];
-    }
-
-    /**
      * バリデーション対象データ
      *
      * start_atとend_atは日付と時間が別々で飛んでくるので、それぞれ合体して検証する。
