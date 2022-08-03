@@ -26,10 +26,10 @@ class UpdateReservationTest extends TestCase
             'room_id' => $room->room_id,
             'reservation_id' => $reservation->reservation_id,
             'summary' => $reservation->summary,
-            'start_at_date' => (new DateTime($reservation->start_at))->format('Y-m-d'),
-            'start_at_time' => (new DateTime($reservation->start_at))->format('H:i'),
-            'end_at_date' => (new DateTime($reservation->end_at))->format('Y-m-d'),
-            'end_at_time' => (new DateTime($reservation->end_at))->format('H:i'),
+            'start_at_date' => (new DateTime($reservation->start_at))->modify('+1 years')->format('Y-m-d'),
+            'start_at_time' => (new DateTime($reservation->start_at))->modify('+1 years')->format('H:i'),
+            'end_at_date' => (new DateTime($reservation->end_at))->modify('+2 years')->format('Y-m-d'),
+            'end_at_time' => (new DateTime($reservation->end_at))->modify('+2 years')->format('H:i'),
             'note' => $reservation->note,
         ]);
 
