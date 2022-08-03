@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Room;
 
 use App\Http\Controllers\Controller;
 use App\Http\ViewModels\Room\GetList\RoomGetListViewModel;
-use packages\Domain\Domain\Room\Room;
+use packages\UseCase\Room\Common\RoomModel;
 use packages\UseCase\Room\GetList\RoomGetListRequest;
 use packages\UseCase\Room\GetList\RoomGetListUseCaseInterface;
 
@@ -22,8 +22,8 @@ class IndexRoomController extends Controller
         $response = $interactor->handle(new RoomGetListRequest());
 
         $roomViewModels = array_map(
-            function (Room $room) {
-                return new RoomGetListViewModel($room->getRoomId()->getValue(), $room->getRoomName()->getValue());
+            function (RoomModel $room): RoomGetListViewModel {
+                return new RoomGetListViewModel($room->roomId, $room->name);
             },
             $response->rooms
         );

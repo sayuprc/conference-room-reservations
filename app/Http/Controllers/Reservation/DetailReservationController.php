@@ -31,12 +31,12 @@ class DetailReservationController extends Controller
             $reservation = $response->getReservation();
 
             $viewModel = new ReservationGetViewModel(
-                $reservation->getRoomId()->getValue(),
-                $reservation->getReservationId()->getValue(),
-                $reservation->getSummary()->getValue(),
-                $reservation->getStartAt()->getValue(),
-                $reservation->getEndAt()->getValue(),
-                $reservation->getNote()->getValue()
+                $reservation->roomId,
+                $reservation->reservationId,
+                $reservation->summary,
+                $reservation->startAt,
+                $reservation->endAt,
+                $reservation->note
             );
 
             return view('rooms.reservations.detail', ['reservation' => $viewModel]);

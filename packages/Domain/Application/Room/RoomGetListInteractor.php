@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace packages\Domain\Application\Room;
 
+use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
+use packages\UseCase\Room\Common\RoomModel;
 use packages\UseCase\Room\GetList\RoomGetListRequest;
 use packages\UseCase\Room\GetList\RoomGetListResponse;
 use packages\UseCase\Room\GetList\RoomGetListUseCaseInterface;
@@ -35,6 +37,12 @@ class RoomGetListInteractor implements RoomGetListUseCaseInterface
      */
     public function handle(RoomGetListRequest $request): RoomGetListResponse
     {
-        return new RoomGetListResponse($this->repository->findAll());
+        $rooms = $this->repository->findAll();
+
+        $roomModels = array_map(function (Room $room): RoomModel {
+            return new RoomModel($room->getRoomId()->getValue(), $room->getRoomName()->getValue());
+        }, $rooms);
+
+        return new RoomGetListResponse($roomModels);
     }
 }
