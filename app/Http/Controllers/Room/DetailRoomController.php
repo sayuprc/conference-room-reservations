@@ -56,8 +56,8 @@ class DetailRoomController extends Controller
             }
 
             $roomViewModel = new RoomGetViewModel(
-                $response->room->getRoomId()->getValue(),
-                $response->room->getRoomName()->getValue(),
+                $response->room->roomId,
+                $response->room->name,
                 $reservationCollection
             );
 

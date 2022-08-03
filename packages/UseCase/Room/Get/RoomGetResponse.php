@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace packages\UseCase\Room\Get;
 
 use packages\Domain\Domain\Reservation\Reservation;
-use packages\Domain\Domain\Room\Room;
+use packages\UseCase\Room\Common\RoomModel;
 
 class RoomGetResponse
 {
     /**
-     * @var Room $room
+     * @var RoomModel $room
      */
-    public Room $room;
+    public RoomModel $room;
 
     /**
      * @var array<Reservation> $reservations
@@ -20,12 +20,12 @@ class RoomGetResponse
     public array $reservations;
 
     /**
-     * @param Room               $room
+     * @param RoomModel          $room
      * @param array<Reservation> $reservations
      *
      * @return void
      */
-    public function __construct(Room $room, array $reservations = [])
+    public function __construct(RoomModel $room, array $reservations = [])
     {
         $this->room = $room;
         $this->reservations = $reservations;
