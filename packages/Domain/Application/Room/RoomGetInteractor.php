@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace packages\Domain\Application\Room;
 
+use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\ReservationSpecification;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
+use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Room\Common\RoomModel;
 use packages\UseCase\Room\Get\RoomGetRequest;
 use packages\UseCase\Room\Get\RoomGetResponse;
@@ -64,7 +66,16 @@ class RoomGetInteractor implements RoomGetUseCaseInterface
 
         return new RoomGetResponse(
             new RoomModel($foundRoom->getRoomId()->getValue(), $foundRoom->getRoomName()->getValue()),
-            $this->reservationSpecification->orderByStartAtAsc($this->reservationSpecification->removeFinished($foundReservation))
+            array_map(function (Reservation $reservation): ReservationModel {
+                return new ReservationModel(
+                    $reservation->getRoomId()->getValue(),
+                    $reservation->getReservationId()->getValue(),
+                    $reservation->getSummary()->getValue(),
+                    $reservation->getStartAt()->getValue(),
+                    $reservation->getEndAt()->getValue(),
+                    $reservation->getNote()->getValue()
+                );
+            }, $this->reservationSpecification->orderByStartAtAsc($this->reservationSpecification->removeFinished($foundReservation)))
         );
     }
 }
