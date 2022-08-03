@@ -8,6 +8,7 @@ use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\ReservationSpecification;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
+use packages\UseCase\Room\Common\RoomModel;
 use packages\UseCase\Room\Get\RoomGetRequest;
 use packages\UseCase\Room\Get\RoomGetResponse;
 use packages\UseCase\Room\Get\RoomGetUseCaseInterface;
@@ -62,7 +63,7 @@ class RoomGetInteractor implements RoomGetUseCaseInterface
         $foundReservation = $this->reservationRepository->findByRoomId($roomId);
 
         return new RoomGetResponse(
-            $foundRoom,
+            new RoomModel($foundRoom->getRoomId()->getValue(), $foundRoom->getRoomName()->getValue()),
             $this->reservationSpecification->orderByStartAtAsc($this->reservationSpecification->removeFinished($foundReservation))
         );
     }

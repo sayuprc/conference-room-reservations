@@ -39,8 +39,8 @@ class UpdateReservationController extends Controller
                 ->route(
                     'reservations.detail',
                     [
-                        'room_id' => $reseravtion->getRoomId()->getValue(),
-                        'reservation_id' => $reseravtion->getReservationId()->getValue(),
+                        'room_id' => $reseravtion->roomId,
+                        'reservation_id' => $reseravtion->reservationId,
                     ]
                 )
                 ->with('message', '予約の更新が完了しました。');
