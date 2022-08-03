@@ -2,6 +2,17 @@
 
 アプリケーションの更新履歴。
 
+## [1.3.1](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.3.1) - 2022-08-03
+
+### Changed
+
+- 各UseCaseが返すResponseクラスで利用する型をエンティティからモデルに変更。
+- テストの実行順に依存しないFeatureテスト環境の構築。
+
+### Fix
+
+- 予約登録画面の登録ボタンの文言が「更新」になっていたのを修正。
+
 ## [1.3.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.3.0) - 2022-07-30
 
 ### Added
