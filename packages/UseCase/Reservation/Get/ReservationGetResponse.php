@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace packages\UseCase\Reservation\Get;
 
-use packages\Domain\Domain\Reservation\Reservation;
+use packages\UseCase\Reservation\Common\ReservationModel;
 
 class ReservationGetResponse
 {
     /**
-     * @var Reservation $reservation
+     * @var ReservationModel $reservation
      */
-    private Reservation $reservation;
+    private ReservationModel $reservation;
 
     /**
-     * @param Reservation $reservation
+     * @param ReservationModel $reservation
      *
      * @return void
      */
-    public function __construct(Reservation $reservation)
+    public function __construct(ReservationModel $reservation)
     {
         $this->reservation = $reservation;
     }
@@ -26,9 +26,9 @@ class ReservationGetResponse
     /**
      * 予約を取得する。
      *
-     * @return Reservation
+     * @return ReservationModel
      */
-    public function getReservation(): Reservation
+    public function getReservation(): ReservationModel
     {
         return $this->reservation;
     }

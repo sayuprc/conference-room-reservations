@@ -9,8 +9,8 @@ use App\Http\Requests\Room\DetailRequest;
 use App\Http\ViewModels\Reservation\Common\ReservationViewModel;
 use App\Http\ViewModels\Reservation\GetList\ReservationGetListViewModel;
 use App\Http\ViewModels\Room\Get\RoomGetViewModel;
-use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
+use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Room\Get\RoomGetRequest;
 use packages\UseCase\Room\Get\RoomGetUseCaseInterface;
 
@@ -28,14 +28,14 @@ class DetailRoomController extends Controller
             $response = $interactor->handle(new RoomGetRequest($request->validated('id')));
 
             $reservationViewModels = array_map(
-                function (Reservation $reservation): ReservationViewModel {
+                function (ReservationModel $reservation): ReservationViewModel {
                     return new ReservationViewModel(
-                        $reservation->getRoomId()->getValue(),
-                        $reservation->getReservationId()->getValue(),
-                        $reservation->getSummary()->getValue(),
-                        $reservation->getStartAt()->getValue(),
-                        $reservation->getEndAt()->getValue(),
-                        $reservation->getNote()->getValue()
+                        $reservation->roomId,
+                        $reservation->reservationId,
+                        $reservation->summary,
+                        $reservation->startAt,
+                        $reservation->endAt,
+                        $reservation->note
                     );
                 },
                 $response->reservations

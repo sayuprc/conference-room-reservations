@@ -18,6 +18,7 @@ use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomService;
+use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
 use packages\UseCase\Reservation\Register\ReservationRegisterResponse;
 use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
@@ -89,6 +90,15 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
 
         $this->repository->insert($newReservation);
 
-        return new ReservationRegisterResponse($newReservation);
+        $reservationModel = new ReservationModel(
+            $newReservation->getRoomId()->getValue(),
+            $newReservation->getReservationId()->getValue(),
+            $newReservation->getSummary()->getValue(),
+            $newReservation->getStartAt()->getValue(),
+            $newReservation->getEndAt()->getValue(),
+            $newReservation->getNote()->getValue()
+        );
+
+        return new ReservationRegisterResponse($reservationModel);
     }
 }

@@ -16,6 +16,7 @@ use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
+use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Update\ReservationUpdateRequest;
 use packages\UseCase\Reservation\Update\ReservationUpdateResponse;
 use packages\UseCase\Reservation\Update\ReservationUpdateUseCaseInterface;
@@ -81,6 +82,15 @@ class MockReservationUpdateInteractor implements ReservationUpdateUseCaseInterfa
 
         $this->repository->update($updatedReservation);
 
-        return new ReservationUpdateResponse($updatedReservation);
+        $reservationModel = new ReservationModel(
+            $updatedReservation->getRoomId()->getValue(),
+            $updatedReservation->getReservationId()->getValue(),
+            $updatedReservation->getSummary()->getValue(),
+            $updatedReservation->getStartAt()->getValue(),
+            $updatedReservation->getEndAt()->getValue(),
+            $updatedReservation->getNote()->getValue()
+        );
+
+        return new ReservationUpdateResponse($reservationModel);
     }
 }

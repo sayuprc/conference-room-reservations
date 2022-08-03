@@ -48,7 +48,7 @@ class RegisterReservationController extends Controller
                     $validated['note'] ?? '' // noteはnullの可能性がある
                 )
             );
-            $url = '/rooms/show/' . $response->getReservation()->getRoomId()->getValue();
+            $url = '/rooms/show/' . $response->getReservation()->roomId;
 
             return redirect($url)->with('message', '予約の登録が完了しました。');
         } catch (NotFoundException $exception) {

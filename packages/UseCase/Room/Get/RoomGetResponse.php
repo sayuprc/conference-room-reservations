@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace packages\UseCase\Room\Get;
 
-use packages\Domain\Domain\Reservation\Reservation;
+use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Room\Common\RoomModel;
 
 class RoomGetResponse
@@ -15,13 +15,13 @@ class RoomGetResponse
     public RoomModel $room;
 
     /**
-     * @var array<Reservation> $reservations
+     * @var array<ReservationModel> $reservations
      */
     public array $reservations;
 
     /**
-     * @param RoomModel          $room
-     * @param array<Reservation> $reservations
+     * @param RoomModel               $room
+     * @param array<ReservationModel> $reservations
      *
      * @return void
      */
