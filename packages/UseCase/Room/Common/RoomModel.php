@@ -6,8 +6,14 @@ namespace packages\UseCase\Room\Common;
 
 class RoomModel
 {
+    /**
+     * @var string $roomId
+     */
     public string $roomId;
 
+    /**
+     * @var string $name
+     */
     public string $name;
 
     /**
