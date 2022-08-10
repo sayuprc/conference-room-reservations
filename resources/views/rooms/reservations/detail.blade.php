@@ -37,6 +37,14 @@
                         class="bg-aqua-haze border-geyser focus-visible:border-science-blue dark:bg-shark-200 dark:border-mako dark:focus-visible:border-cornflower-blue dark:focus-visible:bg-shark-300 rounded-md border p-2 outline-none focus-visible:bg-white"
                         id="end_at_time" name="end_at_time" type="time" value="{{ $reservation->endAtTime }}">
                 </div>
+                <div class="ml-4 flex items-end">
+                    <button
+                        class="border-geyser bg-aqua-haze hover:border-science-blue dark:bg-shark-200 dark:border-mako dark:hover:bg-shark-300 dark:hover:border-cornflower-blue mr-2 rounded-md border p-2 outline-none hover:bg-white"
+                        id="add-hour-button">+1H</button>
+                    <button
+                        class="border-geyser bg-aqua-haze hover:border-science-blue dark:bg-shark-200 dark:border-mako dark:hover:bg-shark-300 dark:hover:border-cornflower-blue rounded-md border p-2 outline-none hover:bg-white"
+                        id="add-half-hour-button">+30min</button>
+                </div>
             </div>
 
             <div class="my-3">
