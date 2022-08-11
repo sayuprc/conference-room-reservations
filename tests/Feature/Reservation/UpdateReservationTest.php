@@ -36,6 +36,28 @@ class UpdateReservationTest extends TestCase
         $response->assertStatus(302);
 
         $response->assertSessionHas('message', '予約の更新が完了しました。');
+
+        // 会議室を変える
+        $rooms = Room::with('reservations')->get();
+        $reservation = $rooms[0]->reservations()->first();
+
+        $reservation->room_id = $rooms[1]->room_id;
+        $reservation->summary = '更新する';
+
+        $response = $this->post('/reservations/update', [
+            'room_id' => $reservation->room_id,
+            'reservation_id' => $reservation->reservation_id,
+            'summary' => $reservation->summary,
+            'start_at_date' => (new DateTime($reservation->start_at))->modify('+1 years')->format('Y-m-d'),
+            'start_at_time' => (new DateTime($reservation->start_at))->modify('+1 years')->format('H:i'),
+            'end_at_date' => (new DateTime($reservation->end_at))->modify('+2 years')->format('Y-m-d'),
+            'end_at_time' => (new DateTime($reservation->end_at))->modify('+2 years')->format('H:i'),
+            'note' => $reservation->note,
+        ]);
+
+        $response->assertStatus(302);
+
+        $response->assertSessionHas('message', '予約の更新が完了しました。');
     }
 
     /**

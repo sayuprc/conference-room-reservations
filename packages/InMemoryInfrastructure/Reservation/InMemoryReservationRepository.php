@@ -85,6 +85,37 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
     }
 
     /**
+     * 予約IDで予約を検索する。
+     *
+     * @param ReservationId $reservationId
+     *
+     * @throws NotFoundException
+     *
+     * @return Reservation
+     */
+    public function findByReservationId(ReservationId $reservationId): Reservation
+    {
+        $found = array_values(
+            array_filter($this->db, function (array $reservations) use ($reservationId): bool {
+                return count(
+                    array_filter(
+                        $reservations,
+                        function (Reservation $reservation) use ($reservationId): bool {
+                            return $reservationId->equals($reservation->getReservationId());
+                        }
+                    )
+                ) < 1 ? false : true;
+            })
+        )[0] ?? null;
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
+        }
+
+        return $found;
+    }
+
+    /**
      * 予約を新規登録する。
      *
      * @param Reservation $reservation

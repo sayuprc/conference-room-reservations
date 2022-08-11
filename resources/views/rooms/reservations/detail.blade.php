@@ -7,9 +7,23 @@
 
     <form action="/reservations/update" method="POST">
         @csrf
-        <input name="room_id" type="hidden" value="{{ $reservation->roomId }}">
         <input name="reservation_id" type="hidden" value="{{ $reservation->reservationId }}">
         <div>
+            <div class="my-3 flex">
+                <label class="my-auto mr-2 block font-bold" for="room_id">会議室<span class="text-valencia">*</span></label>
+                <select
+                    class="border-geyser bg-aqua-haze focus-visible:border-science-blue dark:border-mako dark:bg-shark-200 dark:focus-visible:border-cornflower-blue dark:focus-visible:bg-shark-300 rounded-md border p-2 outline-none"
+                    name="room_id" id="room_id">
+                    @foreach ($rooms as $room)
+                        @if ($room->id === $reservation->roomId)
+                            <option value="{{ $room->id }}" selected>{{ $room->name }}</option>
+                        @else
+                            <option value="{{ $room->id }}">{{ $room->name }}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+
             <div class="my-3">
                 <label class="mb-2 block font-bold" for="summary">概要<span class="text-valencia">*</span></label>
                 <input
@@ -36,6 +50,14 @@
                     <input
                         class="bg-aqua-haze border-geyser focus-visible:border-science-blue dark:bg-shark-200 dark:border-mako dark:focus-visible:border-cornflower-blue dark:focus-visible:bg-shark-300 rounded-md border p-2 outline-none focus-visible:bg-white"
                         id="end_at_time" name="end_at_time" type="time" value="{{ $reservation->endAtTime }}">
+                </div>
+                <div class="ml-4 flex items-end">
+                    <button
+                        class="border-geyser bg-aqua-haze hover:border-science-blue dark:bg-shark-200 dark:border-mako dark:hover:bg-shark-300 dark:hover:border-cornflower-blue mr-2 rounded-md border p-2 outline-none hover:bg-white"
+                        id="add-hour-button">+1H</button>
+                    <button
+                        class="border-geyser bg-aqua-haze hover:border-science-blue dark:bg-shark-200 dark:border-mako dark:hover:bg-shark-300 dark:hover:border-cornflower-blue rounded-md border p-2 outline-none hover:bg-white"
+                        id="add-half-hour-button">+30min</button>
                 </div>
             </div>
 

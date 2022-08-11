@@ -75,6 +75,33 @@ class ReservationRepository implements ReservationRepositoryInterface
     }
 
     /**
+     * 予約IDで予約を検索する。
+     *
+     * @param ReservationId $reservationId
+     *
+     * @throws NotFoundException
+     *
+     * @return Reservation
+     */
+    public function findByReservationId(ReservationId $reservationId): Reservation
+    {
+        $found = EloquentReservation::find($reservationId->getValue());
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
+        }
+
+        return new Reservation(
+            new RoomId($found->room_id),
+            new ReservationId($found->reservation_id),
+            new Summary($found->summary),
+            new StartAt(new DateTime($found->start_at)),
+            new EndAt(new DateTime($found->end_at)),
+            new Note($found->note)
+        );
+    }
+
+    /**
      * 予約を新規登録する。
      *
      * @param Reservation $reservation
@@ -106,15 +133,13 @@ class ReservationRepository implements ReservationRepositoryInterface
      */
     public function update(Reservation $reservation): void
     {
-        $found = EloquentReservation::where([
-            'room_id' => $reservation->getRoomId()->getValue(),
-            'reservation_id' => $reservation->getReservationId()->getValue(),
-        ])->get()[0] ?? null;
+        $found = EloquentReservation::find($reservation->getReservationId()->getValue());
 
         if ($found === null) {
             throw new NotFoundException('ID: ' . $reservation->getReservationId()->getValue() . ' is not found.');
         }
 
+        $found->room_id = $reservation->getRoomId()->getValue();
         $found->summary = $reservation->getSummary()->getValue();
         $found->start_at = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
         $found->end_at = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
