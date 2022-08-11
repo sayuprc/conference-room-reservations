@@ -1,6 +1,6 @@
 import './bootstrap';
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
+document.getElementById('theme-toggle')?.addEventListener('click', () => {
   if (document.documentElement.classList.contains('dark')) {
     document.documentElement.classList.remove('dark');
     document.getElementById('theme-toggle-light-icon').classList.add('hidden');

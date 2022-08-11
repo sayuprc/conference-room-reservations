@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace packages\Domain\Domain\Reservation;
 
 use packages\Domain\Domain\Room\Exception\NotFoundException;
-use packages\Domain\Domain\Room\RoomId;
 
 class ReservationService
 {
@@ -112,17 +111,16 @@ class ReservationService
     }
 
     /**
-     * 予約がが存在するかのチェックを行う。
+     * 予約が存在するかのチェックを行う。
      *
-     * @param RoomId        $roomId
      * @param ReservationId $reservationId
      *
      * @return bool
      */
-    public function exists(RoomId $roomId, ReservationId $reservationId): bool
+    public function exists(ReservationId $reservationId): bool
     {
         try {
-            $found = $this->repository->find($roomId, $reservationId);
+            $found = $this->repository->findByReservationId($reservationId);
 
             return true;
         } catch (NotFoundException $exception) {
