@@ -46,15 +46,7 @@ class ReservationService
                 $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
                 $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-                if (
-                    ($startAt <= $newStartAt && $newStartAt <= $endAt)
-                    || ($startAt <= $newEndAt && $newEndAt <= $endAt)
-                    || ($newStartAt <= $startAt && $endAt <= $newEndAt)
-                ) {
-                    return true;
-                }
-
-                return false;
+                return $this->isDuplicated($newStartAt, $newEndAt, $startAt, $endAt);
             }
         );
 
@@ -89,19 +81,34 @@ class ReservationService
                 $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
                 $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-                if (
-                    ($startAt <= $newStartAt && $newStartAt <= $endAt)
-                    || ($startAt <= $newEndAt && $newEndAt <= $endAt)
-                    || ($newStartAt <= $startAt && $endAt <= $newEndAt)
-                ) {
-                    return true;
-                }
-
-                return false;
+                return $this->isDuplicated($newStartAt, $newEndAt, $startAt, $endAt);
             }
         );
 
         return count($duplicatedReservations) < 1 ? true : false;
+    }
+
+    /**
+     * 日付が重複しているかチェックする。
+     *
+     * @param string $newStartAt
+     * @param string $newEndAt
+     * @param string $startAt
+     * @param string $endAt
+     *
+     * @return bool
+     */
+    private function isDuplicated(string $newStartAt, string $newEndAt, string $startAt, string $endAt): bool
+    {
+        if (
+            ($startAt <= $newStartAt && $newStartAt < $endAt)
+            || ($startAt <= $newEndAt && $newEndAt <= $endAt)
+            || ($newStartAt <= $startAt && $endAt <= $newEndAt)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
