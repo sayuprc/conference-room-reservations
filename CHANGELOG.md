@@ -2,6 +2,17 @@
 
 アプリケーションの更新履歴。
 
+## [1.4.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.4.0) - 2022-08-11
+
+### Added
+
+- 1時間後、30分後ボタンの追加。
+
+### Changed
+
+- 予約の重複ルールの変更。
+- 予約の更新対象に会議室を追加。
+
 ## [1.3.1](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.3.1) - 2022-08-03
 
 ### Changed
