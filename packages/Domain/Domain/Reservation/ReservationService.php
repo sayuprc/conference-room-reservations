@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace packages\Domain\Domain\Reservation;
 
 use packages\Domain\Domain\Room\Exception\NotFoundException;
+use packages\Domain\Domain\Room\RoomId;
 
 class ReservationService
 {
@@ -45,7 +46,15 @@ class ReservationService
                 $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
                 $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-                return $this->isDuplicated($newStartAt, $newEndAt, $startAt, $endAt);
+                if (
+                    ($startAt <= $newStartAt && $newStartAt <= $endAt)
+                    || ($startAt <= $newEndAt && $newEndAt <= $endAt)
+                    || ($newStartAt <= $startAt && $endAt <= $newEndAt)
+                ) {
+                    return true;
+                }
+
+                return false;
             }
         );
 
@@ -80,7 +89,15 @@ class ReservationService
                 $startAt = $reservation->getStartAt()->getValue()->format('Y/m/d H:i');
                 $endAt = $reservation->getEndAt()->getValue()->format('Y/m/d H:i');
 
-                return $this->isDuplicated($newStartAt, $newEndAt, $startAt, $endAt);
+                if (
+                    ($startAt <= $newStartAt && $newStartAt <= $endAt)
+                    || ($startAt <= $newEndAt && $newEndAt <= $endAt)
+                    || ($newStartAt <= $startAt && $endAt <= $newEndAt)
+                ) {
+                    return true;
+                }
+
+                return false;
             }
         );
 
@@ -88,39 +105,17 @@ class ReservationService
     }
 
     /**
-     * 日付が重複しているかチェックする。
+     * 予約がが存在するかのチェックを行う。
      *
-     * @param string $newStartAt
-     * @param string $newEndAt
-     * @param string $startAt
-     * @param string $endAt
-     *
-     * @return bool
-     */
-    private function isDuplicated(string $newStartAt, string $newEndAt, string $startAt, string $endAt): bool
-    {
-        if (
-            ($startAt <= $newStartAt && $newStartAt < $endAt)
-            || ($startAt <= $newEndAt && $newEndAt <= $endAt)
-            || ($newStartAt <= $startAt && $endAt <= $newEndAt)
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * 予約が存在するかのチェックを行う。
-     *
+     * @param RoomId        $roomId
      * @param ReservationId $reservationId
      *
      * @return bool
      */
-    public function exists(ReservationId $reservationId): bool
+    public function exists(RoomId $roomId, ReservationId $reservationId): bool
     {
         try {
-            $found = $this->repository->findByReservationId($reservationId);
+            $found = $this->repository->find($roomId, $reservationId);
 
             return true;
         } catch (NotFoundException $exception) {
