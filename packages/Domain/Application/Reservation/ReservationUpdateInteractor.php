@@ -66,9 +66,13 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
             new Note($request->getNote())
         );
 
-        if (! $this->service->exists($updatedReservation->getReservationId())) {
+        if (! $this->service->exists($updatedReservation->getRoomId(), $updatedReservation->getReservationId())) {
             throw new NotFoundException(
-                sprintf('ID: %s is not found.', $updatedReservation->getReservationId()->getValue())
+                sprintf(
+                    'RoomID: %s ReservationID: %s is not found.',
+                    $updatedReservation->getRoomId()->getValue(),
+                    $updatedReservation->getReservationId()->getValue()
+                )
             );
         }
 

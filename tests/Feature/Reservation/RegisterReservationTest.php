@@ -43,20 +43,6 @@ class RegisterReservationTest extends FeatureTestCase
         $response->assertStatus(302);
 
         $response->assertSessionHas('message', '予約の登録が完了しました。');
-
-        $response = $this->post('/reservations/register', [
-            'room_id' => Room::get()->first()->room_id,
-            'summary' => '予約登録テスト',
-            'start_at_date' => '2022-10-01',
-            'start_at_time' => '14:00',
-            'end_at_date' => '2022-10-01',
-            'end_at_time' => '15:00',
-            'note' => 'テスト備考',
-        ]);
-
-        $response->assertStatus(302);
-
-        $response->assertSessionHas('message', '予約の登録が完了しました。');
     }
 
     /**

@@ -28,15 +28,6 @@ interface ReservationRepositoryInterface
     public function findByRoomId(RoomId $roomId): array;
 
     /**
-     * 予約IDで予約を検索する。
-     *
-     * @param ReservationId $reservationId
-     *
-     * @return Reservation
-     */
-    public function findByReservationId(ReservationId $reservationId): Reservation;
-
-    /**
      * 予約を新規登録する。
      *
      * @param Reservation $reservation

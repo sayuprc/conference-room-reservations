@@ -7,11 +7,9 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\DetailRequest;
 use App\Http\ViewModels\Reservation\Get\ReservationGetViewModel;
-use App\Http\ViewModels\Room\Common\RoomViewModel;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\UseCase\Reservation\Get\ReservationGetRequest;
 use packages\UseCase\Reservation\Get\ReservationGetUseCaseInterface;
-use packages\UseCase\Room\Common\RoomModel;
 
 class DetailReservationController extends Controller
 {
@@ -41,14 +39,7 @@ class DetailReservationController extends Controller
                 $reservation->note
             );
 
-            $roomViewModels = array_map(
-                function (RoomModel $room): RoomViewModel {
-                    return new RoomViewModel($room->roomId, $room->name, []);
-                },
-                $response->getRooms()
-            );
-
-            return view('rooms.reservations.detail', ['reservation' => $viewModel, 'rooms' => $roomViewModels]);
+            return view('rooms.reservations.detail', ['reservation' => $viewModel]);
         } catch (NotFoundException $exception) {
             return redirect()
                 ->route('detail', ['id' => $validated['room_id']])

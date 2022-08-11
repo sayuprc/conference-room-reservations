@@ -7,40 +7,27 @@ namespace packages\Domain\Application\Reservation;
 use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
-use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
-use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Get\ReservationGetRequest;
 use packages\UseCase\Reservation\Get\ReservationGetResponse;
 use packages\UseCase\Reservation\Get\ReservationGetUseCaseInterface;
-use packages\UseCase\Room\Common\RoomModel;
 
 class ReservationGetInteractor implements ReservationGetUseCaseInterface
 {
     /**
-     * @var ReservationRepositoryInterface $reservationRepository
+     * @var ReservationRepositoryInterface $repository
      */
-    private ReservationRepositoryInterface $reservationRepository;
+    private ReservationRepositoryInterface $repository;
 
     /**
-     * @var RoomRepositoryInterface $roomRepository
-     */
-    private RoomRepositoryInterface $roomRepository;
-
-    /**
-     * @param ReservationRepositoryInterface $reservationRepository
-     * @param RoomRepositoryInterface        $roomRepository
+     * @param ReservationRepositoryInterface $repository
      *
      * @return void
      */
-    public function __construct(
-        ReservationRepositoryInterface $reservationRepository,
-        RoomRepositoryInterface $roomRepository
-    ) {
-        $this->reservationRepository = $reservationRepository;
-
-        $this->roomRepository = $roomRepository;
+    public function __construct(ReservationRepositoryInterface $repository)
+    {
+        $this->repository = $repository;
     }
 
     /**
@@ -57,7 +44,7 @@ class ReservationGetInteractor implements ReservationGetUseCaseInterface
         $roomId = new RoomId($request->getRoomId());
         $reservationId = new ReservationId($request->getReservationId());
 
-        $found = $this->reservationRepository->find($roomId, $reservationId);
+        $found = $this->repository->find($roomId, $reservationId);
 
         $reservationModel = new ReservationModel(
             $found->getRoomId()->getValue(),
@@ -68,10 +55,6 @@ class ReservationGetInteractor implements ReservationGetUseCaseInterface
             $found->getNote()->getValue()
         );
 
-        $roomModels = array_map(function (Room $room): RoomModel {
-            return new RoomModel($room->getRoomId()->getValue(), $room->getRoomName()->getValue());
-        }, $this->roomRepository->findAll());
-
-        return new ReservationGetResponse($reservationModel, $roomModels);
+        return new ReservationGetResponse($reservationModel);
     }
 }
