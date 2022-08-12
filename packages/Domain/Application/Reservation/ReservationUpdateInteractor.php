@@ -98,9 +98,18 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
             $updatedReservation->getNote()->getValue()
         );
 
+        $showLimit = 25;
+
         $this->slackAPIRepository->postMessage(
             sprintf(
-                "予約が更新されました。\n%s/reservations/show/%s/%s",
+                "予約が更新されました。\n```概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s/%s",
+                $reservationModel->summary,
+                $reservationModel->startAt->format('Y/m/d H:i'),
+                $reservationModel->endAt->format('Y/m/d H:i'),
+                // 25文字以上は...にする
+                $showLimit < mb_strlen($reservationModel->note)
+                    ? mb_substr($reservationModel->note, 0, $showLimit) . '...'
+                    : $reservationModel->note,
                 config('app.url'),
                 $reservationModel->roomId,
                 $reservationModel->reservationId
