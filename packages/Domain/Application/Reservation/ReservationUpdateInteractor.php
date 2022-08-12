@@ -16,6 +16,7 @@ use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
+use packages\Domain\Domain\Slack\SlackAPIRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Update\ReservationUpdateRequest;
 use packages\UseCase\Reservation\Update\ReservationUpdateResponse;
@@ -34,15 +35,25 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
     private ReservationService $service;
 
     /**
+     * @var SlackAPIRepositoryInterface $slackAPIRepository
+     */
+    private SlackAPIRepositoryInterface $slackAPIRepository;
+
+    /**
      * @param ReservationRepositoryInterface $repository
      * @param ReservationService             $service
+     * @param SlackAPIRepositoryInterface    $slackAPIRepository
      *
      * @return void
      */
-    public function __construct(ReservationRepositoryInterface $repository, ReservationService $service)
-    {
+    public function __construct(
+        ReservationRepositoryInterface $repository,
+        ReservationService $service,
+        SlackAPIRepositoryInterface $slackAPIRepository
+    ) {
         $this->repository = $repository;
         $this->service = $service;
+        $this->slackAPIRepository = $slackAPIRepository;
     }
 
     /**
@@ -85,6 +96,15 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
             $updatedReservation->getStartAt()->getValue(),
             $updatedReservation->getEndAt()->getValue(),
             $updatedReservation->getNote()->getValue()
+        );
+
+        $this->slackAPIRepository->postMessage(
+            sprintf(
+                "予約が更新されました。\n%s/reservations/show/%s/%s",
+                config('app.url'),
+                $reservationModel->roomId,
+                $reservationModel->reservationId
+            )
         );
 
         return new ReservationUpdateResponse($reservationModel);

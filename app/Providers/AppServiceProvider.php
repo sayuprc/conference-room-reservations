@@ -14,10 +14,13 @@ use packages\Domain\Application\Room\RoomGetListInteractor;
 use packages\Domain\Application\Room\RoomRegisterInteractor;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
+use packages\Domain\Domain\Slack\SlackAPIRepositoryInterface;
 use packages\Infrastructure\Reservation\ReservationRepository;
 use packages\Infrastructure\Room\RoomRepository;
+use packages\Infrastructure\Slack\SlackAPIRepository;
 use packages\InMemoryInfrastructure\Reservation\InMemoryReservationRepository;
 use packages\InMemoryInfrastructure\Room\InMemoryRoomRepository;
+use packages\InMemoryInfrastructure\Slack\InMemorySlackAPIRepository;
 use packages\MockInteractor\Reservation\MockReservationDeleteInteractor;
 use packages\MockInteractor\Reservation\MockReservationGetInteractor;
 use packages\MockInteractor\Reservation\MockReservationRegisterInteractor;
@@ -96,6 +99,14 @@ class AppServiceProvider extends ServiceProvider
 
             // 予約削除ユースケース
             $this->app->bind(ReservationDeleteUseCaseInterface::class, ReservationDeleteInteractor::class);
+        }
+
+        if (config('services.slack.is_linked')) {
+            // Slack API リポジトリ
+            $this->app->bind(SlackAPIRepositoryInterface::class, SlackAPIRepository::class);
+        } else {
+            // Slack API リポジトリ
+            $this->app->bind(SlackAPIRepositoryInterface::class, InMemorySlackAPIRepository::class);
         }
     }
 
