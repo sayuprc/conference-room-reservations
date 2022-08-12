@@ -18,6 +18,7 @@ use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomService;
+use packages\Domain\Domain\Slack\SlackAPIRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
 use packages\UseCase\Reservation\Register\ReservationRegisterResponse;
@@ -41,22 +42,31 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
     private RoomService $roomService;
 
     /**
+     * @var SlackAPIRepositoryInterface $slackAPIRepository
+     */
+    private SlackAPIRepositoryInterface $slackAPIRepository;
+
+    /**
      * @param ReservationRepositoryInterface $repository
      * @param ReservationService             $service
      * @param RoomService                    $roomService
+     * @param SlackAPIRepositoryInterface    $slackAPIRepository
      *
      * @return void
      */
     public function __construct(
         ReservationRepositoryInterface $repository,
         ReservationService $service,
-        RoomService $roomService
+        RoomService $roomService,
+        SlackAPIRepositoryInterface $slackAPIRepository
     ) {
         $this->repository = $repository;
 
         $this->service = $service;
 
         $this->roomService = $roomService;
+
+        $this->slackAPIRepository = $slackAPIRepository;
     }
 
     /**
@@ -97,6 +107,15 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
             $newReservation->getStartAt()->getValue(),
             $newReservation->getEndAt()->getValue(),
             $newReservation->getNote()->getValue()
+        );
+
+        $this->slackAPIRepository->postMessage(
+            sprintf(
+                "予約が登録されました。\n%s/reservations/show/%s/%s",
+                config('app.url'),
+                $reservationModel->roomId,
+                $reservationModel->reservationId
+            )
         );
 
         return new ReservationRegisterResponse($reservationModel);

@@ -33,4 +33,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'slack' => [
+        'is_linked' => env('SLACK_LINKED', false),
+        'bot_token' => env('SLACK_BOT_TOKEN', ''),
+        'send_channel' => env('SLACK_SEND_CHANNEL', ''),
+        'message_prefix' => env('SLACK_MESSAGE_PREFIX', ''),
+    ],
 ];
