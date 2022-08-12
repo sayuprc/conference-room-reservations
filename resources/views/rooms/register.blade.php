@@ -9,6 +9,7 @@
         @csrf
         <label class="mb-2 block font-bold" for="room_name">会議室名<span class="text-valencia">*</span></label>
         <input
+            autocomplete="off"
             class="bg-aqua-haze border-geyser focus-visible:border-science-blue dark:border-mako dark:bg-shark-200 dark:focus-visible:bg-shark-300 dark:focus-visible:border-cornflower-blue w-1/2 rounded-md border p-2 outline-none focus-visible:bg-white"
             id="room_name" name="name" type="text">
         <button
