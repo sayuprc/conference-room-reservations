@@ -26,9 +26,7 @@ class DetailReservationController extends Controller
         $validated = $request->validated();
 
         try {
-            $response = $interactor->handle(
-                new ReservationGetRequest($validated['room_id'], $validated['reservation_id'])
-            );
+            $response = $interactor->handle(new ReservationGetRequest($validated['reservation_id']));
 
             $reservation = $response->getReservation();
 
@@ -51,7 +49,7 @@ class DetailReservationController extends Controller
             return view('rooms.reservations.detail', ['reservation' => $viewModel, 'rooms' => $roomViewModels]);
         } catch (NotFoundException $exception) {
             return redirect()
-                ->route('detail', ['id' => $validated['room_id']])
+                ->route('index')
                 ->with('exception', '予約が存在しませんでした。');
         }
     }

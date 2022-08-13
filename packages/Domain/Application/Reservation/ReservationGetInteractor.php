@@ -8,7 +8,6 @@ use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
-use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Get\ReservationGetRequest;
@@ -54,10 +53,9 @@ class ReservationGetInteractor implements ReservationGetUseCaseInterface
      */
     public function handle(ReservationGetRequest $request): ReservationGetResponse
     {
-        $roomId = new RoomId($request->getRoomId());
         $reservationId = new ReservationId($request->getReservationId());
 
-        $found = $this->reservationRepository->find($roomId, $reservationId);
+        $found = $this->reservationRepository->findByReservationId($reservationId);
 
         if ($found === null) {
             throw new NotFoundException('ID: ' . $request->getReservationId() . ' is not found.');

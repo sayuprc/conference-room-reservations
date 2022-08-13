@@ -19,7 +19,7 @@ class DetailReservationTest extends TestCase
         $room = Room::get()->first();
 
         $response = $this->get(
-            sprintf('/reservations/show/%s/%s', $room->room_id, $room->reservations()->first()->reservation_id)
+            sprintf('/reservations/show/%s', $room->reservations()->first()->reservation_id)
         );
 
         $response->assertStatus(200);
@@ -34,7 +34,7 @@ class DetailReservationTest extends TestCase
     {
         $room = Room::get()->first();
 
-        $response = $this->get(sprintf('/reservations/show/%s/hogefugapiyo', $room->room_id));
+        $response = $this->get('/reservations/show/hogefugapiyo');
 
         $response->assertStatus(302);
     }
