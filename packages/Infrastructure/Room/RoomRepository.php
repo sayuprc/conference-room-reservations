@@ -93,16 +93,4 @@ class RoomRepository implements RoomRepositoryInterface
         $storedRoom->name = $room->getRoomName()->getValue();
         $storedRoom->save();
     }
-
-    /**
-     * 会議室の削除を行う。
-     *
-     * @param RoomId $roomId
-     *
-     * @return void
-     */
-    public function delete(RoomId $roomId): void
-    {
-        // TODO 後で実装する。
-    }
 }

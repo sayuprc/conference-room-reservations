@@ -39,13 +39,4 @@ interface RoomRepositoryInterface
      * @return void
      */
     public function update(Room $room): void;
-
-    /**
-     * 会議室の削除を行う。
-     *
-     * @param RoomId $roomId
-     *
-     * @return void
-     */
-    public function delete(RoomId $roomId): void;
 }
