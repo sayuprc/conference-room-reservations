@@ -10,6 +10,16 @@ use Tests\Feature\FeatureTestCase;
 class RegisterReservationTest extends FeatureTestCase
 {
     /**
+     * テスト用会議室取得
+     *
+     * @return Room
+     */
+    private function getTestRoom(): Room
+    {
+        return Room::find('1');
+    }
+
+    /**
      * 登録画面表示
      *
      * @return void
@@ -17,7 +27,7 @@ class RegisterReservationTest extends FeatureTestCase
     public function testShowRegisterView(): void
     {
         $response = $this->get(route('reservations.register', [
-            'room_id' => Room::get()->first()->room_id,
+            'room_id' => $this->getTestRoom()->room_id,
         ]));
 
         $response->assertStatus(200);
@@ -31,7 +41,7 @@ class RegisterReservationTest extends FeatureTestCase
     public function testRegisterReservation(): void
     {
         $response = $this->post('/reservations/register', [
-            'room_id' => Room::get()->first()->room_id,
+            'room_id' => $this->getTestRoom()->room_id,
             'summary' => '予約登録テスト',
             'start_at_date' => '2022-10-01',
             'start_at_time' => '13:00',
@@ -45,7 +55,7 @@ class RegisterReservationTest extends FeatureTestCase
         $response->assertSessionHas('message', '予約の登録が完了しました。');
 
         $response = $this->post('/reservations/register', [
-            'room_id' => Room::get()->first()->room_id,
+            'room_id' => $this->getTestRoom()->room_id,
             'summary' => '予約登録テスト',
             'start_at_date' => '2022-10-01',
             'start_at_time' => '14:00',
@@ -66,7 +76,7 @@ class RegisterReservationTest extends FeatureTestCase
      */
     public function testFailureRegisterReservation(): void
     {
-        $roomId = Room::get()->first()->room_id;
+        $roomId = $this->getTestRoom()->room_id;
 
         $from = '/reservatinos/register?room_id=' . $roomId;
 

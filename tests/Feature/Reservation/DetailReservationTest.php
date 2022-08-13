@@ -10,16 +10,26 @@ use Tests\TestCase;
 class DetailReservationTest extends TestCase
 {
     /**
+     * テスト用会議室取得
+     *
+     * @return Room
+     */
+    public function getTestRoom(): Room
+    {
+        return Room::with('reservations')->where('room_id', '=', '2')->first();
+    }
+
+    /**
      * 予約の詳細画面表示テスト
      *
      * @return void
      */
     public function testShowReservationDetail(): void
     {
-        $room = Room::get()->first();
+        $room = $this->getTestRoom();
 
         $response = $this->get(
-            sprintf('/reservations/show/%s/%s', $room->room_id, $room->reservations()->first()->reservation_id)
+            sprintf('/reservations/show/%s', $room->reservations()->first()->reservation_id)
         );
 
         $response->assertStatus(200);
@@ -32,9 +42,7 @@ class DetailReservationTest extends TestCase
      */
     public function testFailureShowReservationDetail(): void
     {
-        $room = Room::get()->first();
-
-        $response = $this->get(sprintf('/reservations/show/%s/hogefugapiyo', $room->room_id));
+        $response = $this->get('/reservations/show/hogefugapiyo');
 
         $response->assertStatus(302);
     }

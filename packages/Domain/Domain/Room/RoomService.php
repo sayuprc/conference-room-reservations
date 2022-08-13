@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace packages\Domain\Domain\Room;
 
-use packages\Domain\Domain\Room\Exception\NotFoundException;
-
 class RoomService
 {
     /**
@@ -32,12 +30,6 @@ class RoomService
      */
     public function exists(RoomId $roomId): bool
     {
-        try {
-            $found = $this->repository->find($roomId);
-
-            return true;
-        } catch (NotFoundException $exception) {
-            return false;
-        }
+        return $this->repository->find($roomId) === null ? false : true;
     }
 }

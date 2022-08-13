@@ -10,13 +10,23 @@ use Tests\TestCase;
 class DeleteReservationTest extends TestCase
 {
     /**
+     * テスト用会議室取得
+     *
+     * @return Room
+     */
+    private function getTestRoom(): Room
+    {
+        return Room::with('reservations')->where('room_id', '=', '3')->first();
+    }
+    
+    /**
      * 予約削除成功テスト
      *
      * @return void
      */
     public function testDeleteReservation(): void
     {
-        $room = Room::with('reservations')->first();
+        $room = $this->getTestRoom();
 
         $reservation = $room->reservations()->first();
 
@@ -37,7 +47,8 @@ class DeleteReservationTest extends TestCase
      */
     public function testFailureDeleteReservation(): void
     {
-        $room = Room::with('reservations')->first();
+        $room = $this->getTestRoom();
+
         $reservation = $room->reservations()->first();
 
         $from = sprintf('/reservatinos/show/%s/%s', $room->room_id, $reservation->reservation_id);

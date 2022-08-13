@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace packages\InMemoryInfrastructure\Room;
 
-use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomName;
@@ -34,19 +33,20 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
      *
      * @param RoomId $roomId
      *
-     * @throws NotFoundException
-     *
-     * @return Room
+     * @return Room|null
      */
-    public function find(RoomId $roomId): Room
+    public function find(RoomId $roomId): ?Room
     {
+        $found = null;
+
         foreach ($this->db as $room) {
             if ($room->getRoomId()->getValue() === $roomId->getValue()) {
-                return $room;
+                $found = $room;
+                break;
             }
         }
 
-        throw new NotFoundException('ID: ' . $roomId->getValue() . ' is not found.');
+        return $found;
     }
 
     /**
@@ -83,20 +83,6 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     public function update(Room $room): void
     {
         $this->db[$room->getRoomId()->getValue()] = $room;
-
-        dd($this->db);
-    }
-
-    /**
-     * 会議室の削除を行う。
-     *
-     * @param RoomId $roomId
-     *
-     * @return void
-     */
-    public function delete(RoomId $roomId): void
-    {
-        unset($this->db[$roomId->getValue()]);
 
         dd($this->db);
     }

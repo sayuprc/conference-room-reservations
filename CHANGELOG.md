@@ -2,6 +2,24 @@
 
 アプリケーションの更新履歴。
 
+## [1.5.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.5.0) - 2022-08-13
+
+### Added
+
+- 予約の登録、更新時にSlackへ投稿する機能の追加。
+
+### Changed
+
+- 検索メソッドの返り値にnullを追加。
+- 利用していないメソッドの削除。
+- 予約詳細URLの変更。
+- モック用クラスの整備。
+- テスト環境の整備。
+
+### Fix
+
+- ダークモード時に自動補完によって入力欄の背景色が白になってしまう現象の修正。
+
 ## [1.4.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.4.0) - 2022-08-11
 
 ### Added

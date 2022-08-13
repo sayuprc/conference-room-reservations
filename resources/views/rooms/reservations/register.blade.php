@@ -12,6 +12,7 @@
             <div class="my-3">
                 <label class="mb-2 block font-bold" for="summary">概要<span class="text-valencia">*</span></label>
                 <input
+                    autocomplete="off"
                     class="bg-aqua-haze border-geyser focus-visible:border-science-blue dark:border-mako dark:bg-shark-200 dark:focus-visible:border-cornflower-blue dark:focus-visible:bg-shark-300 w-full rounded-md border p-2 outline-none focus-visible:bg-white"
                     id="summary" name="summary" type="text" value="{{ old('summary') }}">
             </div>

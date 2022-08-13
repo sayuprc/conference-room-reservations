@@ -69,6 +69,6 @@ class ReservationGetListViewModel
         // textareaのCRLFが画面上で再現できないのでエスケープする。
         $this->note = nl2br(e($note));
 
-        $this->detailUrl = sprintf('/reservations/show/%s/%s', $this->roomId, $this->reservationId);
+        $this->detailUrl = sprintf('/reservations/show/%s', $this->reservationId);
     }
 }

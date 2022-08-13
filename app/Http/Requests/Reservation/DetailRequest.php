@@ -26,7 +26,6 @@ class DetailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'room_id' => ['required', 'string'],
             'reservation_id' => ['required', 'string'],
         ];
     }
@@ -36,12 +35,12 @@ class DetailRequest extends FormRequest
      *
      * ルートパラメータをバリデーション対象とするために、リクエストの配列とマージする。
      *
-     * /reservations/show/{room_id}/{reservation_id}
+     * /reservations/show/{reservation_id}
      *
      * @return array<string, mixed>
      */
     public function validationData(): array
     {
-        return [...$this->request->all(), 'room_id' => $this->room_id, 'reservation_id' => $this->reservation_id];
+        return [...$this->request->all(), 'reservation_id' => $this->reservation_id];
     }
 }

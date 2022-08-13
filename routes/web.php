@@ -23,7 +23,7 @@ Route::post('/rooms/register', [RegisterController::class, 'handle']);
 Route::get('/reservations/register', [RegisterReservationController::class, 'create'])->name('reservations.register');
 Route::post('/reservations/register', [RegisterReservationController::class, 'handle']);
 
-Route::get('/reservations/show/{room_id}/{reservation_id}', [DetailReservationController::class, 'handle'])
+Route::get('/reservations/show/{reservation_id}', [DetailReservationController::class, 'handle'])
     ->name('reservations.detail');
 
 Route::post('/reservations/update', [UpdateReservationController::class, 'handle']);

@@ -36,28 +36,16 @@ class UpdateReservationController extends Controller
             $reseravtion = $response->getReservation();
 
             return redirect()
-                ->route(
-                    'reservations.detail',
-                    [
-                        'room_id' => $reseravtion->roomId,
-                        'reservation_id' => $reseravtion->reservationId,
-                    ]
-                )
+                ->route('reservations.detail', ['reservation_id' => $reseravtion->reservationId])
                 ->with('message', '予約の更新が完了しました。');
         } catch (NotFoundException $exception) {
             return redirect()
-                ->route('reservations.detail', [
-                    'room_id' => $validated['room_id'],
-                    'reservation_id' => $validated['reservation_id'],
-                ])
+                ->route('reservations.detail', ['reservation_id' => $validated['reservation_id']])
                 ->with('exception', '対象IDの予約が見つかりませんでした。')
                 ->withInput($request->all());
         } catch (PeriodicDuplicationException $exception) {
             return redirect()
-                ->route('reservations.detail', [
-                    'room_id' => $validated['room_id'],
-                    'reservation_id' => $validated['reservation_id'],
-                ])
+                ->route('reservations.detail', ['reservation_id' => $validated['reservation_id']])
                 ->with('exception', 'すでに予約が入っています。')
                 ->withInput($request->all());
         }
