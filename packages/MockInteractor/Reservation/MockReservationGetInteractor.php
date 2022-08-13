@@ -6,6 +6,7 @@ namespace packages\MockInteractor\Reservation;
 
 use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\Room;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
@@ -57,6 +58,10 @@ class MockReservationGetInteractor implements ReservationGetUseCaseInterface
         $reservationId = new ReservationId($request->getReservationId());
 
         $found = $this->reservationRepository->find($roomId, $reservationId);
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $request->getReservationId() . ' is not found.');
+        }
 
         $reservationModel = new ReservationModel(
             $found->getRoomId()->getValue(),

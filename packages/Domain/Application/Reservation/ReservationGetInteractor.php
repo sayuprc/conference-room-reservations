@@ -59,6 +59,10 @@ class ReservationGetInteractor implements ReservationGetUseCaseInterface
 
         $found = $this->reservationRepository->find($roomId, $reservationId);
 
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $request->getReservationId() . ' is not found.');
+        }
+
         $reservationModel = new ReservationModel(
             $found->getRoomId()->getValue(),
             $found->getReservationId()->getValue(),

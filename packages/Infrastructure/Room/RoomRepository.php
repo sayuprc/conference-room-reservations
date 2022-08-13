@@ -25,16 +25,14 @@ class RoomRepository implements RoomRepositoryInterface
      *
      * @param RoomId $roomId
      *
-     * @throws NotFoundException
-     *
-     * @return Room
+     * @return Room|null
      */
-    public function find(RoomId $roomId): Room
+    public function find(RoomId $roomId): ?Room
     {
         $storedRoom = EloquentRoom::with('reservations')->find($roomId->getValue());
 
         if ($storedRoom === null) {
-            throw new NotFoundException('ID: ' . $roomId->getValue() . ' is not found.');
+            return $storedRoom;
         }
 
         $storedRoomId = new RoomId($storedRoom->room_id);
