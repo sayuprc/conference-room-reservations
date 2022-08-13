@@ -86,18 +86,4 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
 
         dd($this->db);
     }
-
-    /**
-     * 会議室の削除を行う。
-     *
-     * @param RoomId $roomId
-     *
-     * @return void
-     */
-    public function delete(RoomId $roomId): void
-    {
-        unset($this->db[$roomId->getValue()]);
-
-        dd($this->db);
-    }
 }
