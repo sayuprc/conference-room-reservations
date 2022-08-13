@@ -20,8 +20,10 @@ class RoomSeeder extends Seeder
         DB::table('rooms')->delete();
 
         DB::table('rooms')->insert([
-            ['room_id' => '1', 'name' => '会議室1'],
-            ['room_id' => '2', 'name' => '会議室2'],
+            ['room_id' => '1', 'name' => '予約新規作成用'],
+            ['room_id' => '2', 'name' => '予約更新用'],
+            ['room_id' => '3', 'name' => '予約削除用'],
+            ['room_id' => '4', 'name' => '予約付け替え用'],
         ]);
     }
 }

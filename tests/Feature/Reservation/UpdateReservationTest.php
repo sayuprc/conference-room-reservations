@@ -11,13 +11,23 @@ use Tests\TestCase;
 class UpdateReservationTest extends TestCase
 {
     /**
+     * テスト用会議室取得
+     *
+     * @return Room
+     */
+    private function getTestRoom(): Room
+    {
+        return Room::with('reservations')->where('room_id', '=', '2')->first();
+    }
+
+    /**
      * 予約更新成功テスト
      *
      * @return void
      */
     public function testUpdateReservation(): void
     {
-        $room = Room::with('reservations')->first();
+        $room = $this->getTestRoom();
         $reservation = $room->reservations()->first();
 
         $reservation->summary = '更新する';
@@ -38,10 +48,10 @@ class UpdateReservationTest extends TestCase
         $response->assertSessionHas('message', '予約の更新が完了しました。');
 
         // 会議室を変える
-        $rooms = Room::with('reservations')->get();
-        $reservation = $rooms[0]->reservations()->first();
+        $otherRoomId = Room::with('reservations')->where('room_id', '=', '4')->first()->room_id;
+        $reservation = $room->reservations()->first();
 
-        $reservation->room_id = $rooms[1]->room_id;
+        $reservation->room_id = $otherRoomId;
         $reservation->summary = '更新する';
 
         $response = $this->post('/reservations/update', [
