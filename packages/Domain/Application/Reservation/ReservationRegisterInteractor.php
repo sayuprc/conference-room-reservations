@@ -17,7 +17,7 @@ use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
-use packages\Domain\Domain\Room\RoomService;
+use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\Domain\Domain\Slack\SlackAPIRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
@@ -27,9 +27,14 @@ use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
 class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterface
 {
     /**
-     * @var ReservationRepositoryInterface $repository
+     * @var RoomRepositoryInterface $roomRepository
      */
-    private ReservationRepositoryInterface $repository;
+    private RoomRepositoryInterface $roomRepository;
+
+    /**
+     * @var ReservationRepositoryInterface $reservationRepository
+     */
+    private ReservationRepositoryInterface $reservationRepository;
 
     /**
      * @var ReservationService $service
@@ -37,34 +42,29 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
     private ReservationService $service;
 
     /**
-     * @var RoomService $roomService
-     */
-    private RoomService $roomService;
-
-    /**
      * @var SlackAPIRepositoryInterface $slackAPIRepository
      */
     private SlackAPIRepositoryInterface $slackAPIRepository;
 
     /**
-     * @param ReservationRepositoryInterface $repository
+     * @param RoomRepositoryInterface        $roomRepository
+     * @param ReservationRepositoryInterface $reservationRepository
      * @param ReservationService             $service
-     * @param RoomService                    $roomService
      * @param SlackAPIRepositoryInterface    $slackAPIRepository
      *
      * @return void
      */
     public function __construct(
-        ReservationRepositoryInterface $repository,
+        RoomRepositoryInterface $roomRepository,
+        ReservationRepositoryInterface $reservationRepository,
         ReservationService $service,
-        RoomService $roomService,
         SlackAPIRepositoryInterface $slackAPIRepository
     ) {
-        $this->repository = $repository;
+        $this->roomRepository = $roomRepository;
+
+        $this->reservationRepository = $reservationRepository;
 
         $this->service = $service;
-
-        $this->roomService = $roomService;
 
         $this->slackAPIRepository = $slackAPIRepository;
     }
@@ -90,7 +90,9 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
             new Note($request->getNote())
         );
 
-        if (! $this->roomService->exists($newReservation->getRoomId())) {
+        $room = $this->roomRepository->find($newReservation->getRoomId());
+
+        if ($room === null) {
             throw new NotFoundException('ID: ' . $newReservation->getRoomId()->getValue() . ' is not found.');
         }
 
@@ -98,7 +100,7 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
             throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');
         }
 
-        $this->repository->insert($newReservation);
+        $this->reservationRepository->insert($newReservation);
 
         $reservationModel = new ReservationModel(
             $newReservation->getRoomId()->getValue(),
@@ -113,7 +115,8 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
 
         $this->slackAPIRepository->postMessage(
             sprintf(
-                "予約が登録されました。\n```概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s",
+                "予約が登録されました。\n```会議室名: %s\n概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s",
+                $room->getRoomName()->getValue(),
                 $reservationModel->summary,
                 $reservationModel->startAt->format('Y/m/d H:i'),
                 $reservationModel->endAt->format('Y/m/d H:i'),
