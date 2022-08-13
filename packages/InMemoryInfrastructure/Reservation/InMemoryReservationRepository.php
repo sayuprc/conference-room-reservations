@@ -12,7 +12,6 @@ use packages\Domain\Domain\Reservation\ReservationId;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
-use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 
 class InMemoryReservationRepository implements ReservationRepositoryInterface
@@ -57,17 +56,11 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      * @param RoomId        $roomId
      * @param ReservationId $reservationId
      *
-     * @throws NotFoundException
-     *
-     * @return Reservation
+     * @return Reservation|null
      */
-    public function find(RoomId $roomId, ReservationId $reservationId): Reservation
+    public function find(RoomId $roomId, ReservationId $reservationId): ?Reservation
     {
         $found = $this->db[$roomId->getValue()][$reservationId->getValue()] ?? null;
-
-        if ($found === null) {
-            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
-        }
 
         return $found;
     }
@@ -89,11 +82,9 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      *
      * @param ReservationId $reservationId
      *
-     * @throws NotFoundException
-     *
-     * @return Reservation
+     * @return Reservation|null
      */
-    public function findByReservationId(ReservationId $reservationId): Reservation
+    public function findByReservationId(ReservationId $reservationId): ?Reservation
     {
         $found = array_values(
             array_filter($this->db, function (array $reservations) use ($reservationId): bool {
@@ -107,10 +98,6 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
                 ) < 1 ? false : true;
             })
         )[0] ?? null;
-
-        if ($found === null) {
-            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
-        }
 
         return $found;
     }

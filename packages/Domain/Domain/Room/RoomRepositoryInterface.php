@@ -11,9 +11,9 @@ interface RoomRepositoryInterface
      *
      * @param RoomId $roomId
      *
-     * @return Room
+     * @return Room|null
      */
-    public function find(RoomId $roomId): Room;
+    public function find(RoomId $roomId): ?Room;
 
     /**
      * すべての会議室を取得する。

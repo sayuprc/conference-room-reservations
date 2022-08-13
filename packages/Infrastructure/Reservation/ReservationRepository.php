@@ -24,11 +24,9 @@ class ReservationRepository implements ReservationRepositoryInterface
      * @param RoomId        $roomId
      * @param ReservationId $reservationId
      *
-     * @throws NotFoundException
-     *
-     * @return Reservation
+     * @return Reservation|null
      */
-    public function find(RoomId $roomId, ReservationId $reservationId): Reservation
+    public function find(RoomId $roomId, ReservationId $reservationId): ?Reservation
     {
         $found = EloquentReservation::where([
             'room_id' => $roomId->getValue(),
@@ -36,7 +34,7 @@ class ReservationRepository implements ReservationRepositoryInterface
         ])->get()[0] ?? null;
 
         if ($found === null) {
-            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
+            return $found;
         }
 
         return new Reservation(
@@ -79,16 +77,14 @@ class ReservationRepository implements ReservationRepositoryInterface
      *
      * @param ReservationId $reservationId
      *
-     * @throws NotFoundException
-     *
-     * @return Reservation
+     * @return Reservation|null
      */
-    public function findByReservationId(ReservationId $reservationId): Reservation
+    public function findByReservationId(ReservationId $reservationId): ?Reservation
     {
         $found = EloquentReservation::find($reservationId->getValue());
 
         if ($found === null) {
-            throw new NotFoundException('ID: ' . $reservationId->getValue() . ' is not found.');
+            return $found;
         }
 
         return new Reservation(

@@ -14,9 +14,9 @@ interface ReservationRepositoryInterface
      * @param RoomId        $roomId
      * @param ReservationId $reservationId
      *
-     * @return Reservation
+     * @return Reservation|null
      */
-    public function find(RoomId $roomId, ReservationId $reservationId): Reservation;
+    public function find(RoomId $roomId, ReservationId $reservationId): ?Reservation;
 
     /**
      * 会議室IDで予約を検索する。
@@ -32,9 +32,9 @@ interface ReservationRepositoryInterface
      *
      * @param ReservationId $reservationId
      *
-     * @return Reservation
+     * @return Reservation|null
      */
-    public function findByReservationId(ReservationId $reservationId): Reservation;
+    public function findByReservationId(ReservationId $reservationId): ?Reservation;
 
     /**
      * 予約を新規登録する。

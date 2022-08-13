@@ -7,6 +7,7 @@ namespace packages\Domain\Application\Room;
 use packages\Domain\Domain\Reservation\Reservation;
 use packages\Domain\Domain\Reservation\ReservationRepositoryInterface;
 use packages\Domain\Domain\Reservation\ReservationSpecification;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
 use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
@@ -54,6 +55,8 @@ class RoomGetInteractor implements RoomGetUseCaseInterface
      *
      * @param RoomGetRequest $request
      *
+     * @throws NotFoundException
+     *
      * @return RoomGetResponse
      */
     public function handle(RoomGetRequest $request): RoomGetResponse
@@ -61,6 +64,10 @@ class RoomGetInteractor implements RoomGetUseCaseInterface
         $roomId = new RoomId($request->roomId);
 
         $foundRoom = $this->repository->find($roomId);
+
+        if ($foundRoom === null) {
+            throw new NotFoundException('ID: ' . $request->roomId . ' is not found.');
+        }
 
         $foundReservation = $this->reservationRepository->findByRoomId($roomId);
 
