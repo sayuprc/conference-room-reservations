@@ -16,6 +16,7 @@ use packages\Domain\Domain\Reservation\StartAt;
 use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\Domain\Domain\Room\RoomId;
+use packages\Domain\Domain\Room\RoomRepositoryInterface;
 use packages\Domain\Domain\Slack\SlackAPIRepositoryInterface;
 use packages\UseCase\Reservation\Common\ReservationModel;
 use packages\UseCase\Reservation\Update\ReservationUpdateRequest;
@@ -25,9 +26,14 @@ use packages\UseCase\Reservation\Update\ReservationUpdateUseCaseInterface;
 class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
 {
     /**
-     * @var ReservationRepositoryInterface $repository
+     * @var RoomRepositoryInterface $roomRepository
      */
-    private ReservationRepositoryInterface $repository;
+    private RoomRepositoryInterface $roomRepository;
+
+    /**
+     * @var ReservationRepositoryInterface $reservationRepository
+     */
+    private ReservationRepositoryInterface $reservationRepository;
 
     /**
      * @var ReservationService $service
@@ -40,18 +46,21 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
     private SlackAPIRepositoryInterface $slackAPIRepository;
 
     /**
-     * @param ReservationRepositoryInterface $repository
+     * @param RoomRepositoryInterface        $roomRepository
+     * @param ReservationRepositoryInterface $reservationRepository
      * @param ReservationService             $service
      * @param SlackAPIRepositoryInterface    $slackAPIRepository
      *
      * @return void
      */
     public function __construct(
-        ReservationRepositoryInterface $repository,
+        RoomRepositoryInterface $roomRepository,
+        ReservationRepositoryInterface $reservationRepository,
         ReservationService $service,
         SlackAPIRepositoryInterface $slackAPIRepository
     ) {
-        $this->repository = $repository;
+        $this->roomRepository = $roomRepository;
+        $this->reservationRepository = $reservationRepository;
         $this->service = $service;
         $this->slackAPIRepository = $slackAPIRepository;
     }
@@ -77,7 +86,9 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
             new Note($request->getNote())
         );
 
-        if (! $this->service->exists($updatedReservation->getReservationId())) {
+        $room = $this->roomRepository->find($updatedReservation->getRoomId());
+
+        if ($room === null) {
             throw new NotFoundException(
                 sprintf('ID: %s is not found.', $updatedReservation->getReservationId()->getValue())
             );
@@ -87,7 +98,7 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
             throw new PeriodicDuplicationException('There is a reservation for a specified period of time.');
         }
 
-        $this->repository->update($updatedReservation);
+        $this->reservationRepository->update($updatedReservation);
 
         $reservationModel = new ReservationModel(
             $updatedReservation->getRoomId()->getValue(),
@@ -102,7 +113,8 @@ class ReservationUpdateInteractor implements ReservationUpdateUseCaseInterface
 
         $this->slackAPIRepository->postMessage(
             sprintf(
-                "予約が更新されました。\n```概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s",
+                "予約が更新されました。\n```会議室名: %s\n概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s",
+                $room->getRoomName()->getValue(),
                 $reservationModel->summary,
                 $reservationModel->startAt->format('Y/m/d H:i'),
                 $reservationModel->endAt->format('Y/m/d H:i'),
