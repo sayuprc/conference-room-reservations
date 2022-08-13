@@ -113,7 +113,7 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
 
         $this->slackAPIRepository->postMessage(
             sprintf(
-                "予約が登録されました。\n```概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s/%s",
+                "予約が登録されました。\n```概要: %s\n日時: %s ~ %s\n備考: %s```\n%s/reservations/show/%s",
                 $reservationModel->summary,
                 $reservationModel->startAt->format('Y/m/d H:i'),
                 $reservationModel->endAt->format('Y/m/d H:i'),
@@ -122,7 +122,6 @@ class ReservationRegisterInteractor implements ReservationRegisterUseCaseInterfa
                     ? mb_substr($reservationModel->note, 0, $showLimit) . '...'
                     : $reservationModel->note,
                 config('app.url'),
-                $reservationModel->roomId,
                 $reservationModel->reservationId
             )
         );
