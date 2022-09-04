@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\RegisterRequest;
 use App\Http\Requests\Reservation\ShowRegisterRequest;
+use App\Models\ReservationTemplate;
 use packages\Domain\Domain\Reservation\Exception\PeriodicDuplicationException;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
@@ -25,7 +26,19 @@ class RegisterReservationController extends Controller
 
         $detailUrl = sprintf('/rooms/show/%s', $roomId);
 
-        return view('rooms.reservations.register', ['room_id' => $roomId, 'detail_url' => $detailUrl]);
+        $templates = ReservationTemplate::all([
+            'template_id',
+            'summary',
+            'start_at',
+            'end_at',
+            'note',
+        ]);
+
+        return view('rooms.reservations.register', [
+            'room_id' => $roomId,
+            'detail_url' => $detailUrl,
+            'templates' => $templates,
+        ]);
     }
 
     /**
