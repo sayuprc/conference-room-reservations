@@ -83,3 +83,23 @@ function toyyyyMMdd(date) {
 function toHHmm(date) {
   return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 }
+
+document.getElementById('template')?.addEventListener('change', event => {
+  const selectedId = event.target.value;
+
+  const templates = JSON.parse(localStorage.getItem('templates') ?? []);
+
+  const template = templates.filter(item => item.template_id == selectedId)[0] ?? undefined;
+
+  if (template != undefined) {
+    const summary = document.getElementById('summary');
+    const startAtTime = document.getElementById('start_at_time');
+    const endAtTime = document.getElementById('end_at_time');
+    const note = document.getElementById('note');
+
+    summary.value = template.summary;
+    startAtTime.value = template.start_at;
+    endAtTime.value = template.end_at;
+    note.value = template.note;
+  }
+});

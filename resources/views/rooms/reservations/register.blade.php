@@ -3,7 +3,23 @@
 @section('title', '予約登録')
 
 @section('content')
+    <script>
+        localStorage.setItem('templates', JSON.stringify(@json($templates)));
+    </script>
+
     <h2 class="text-xl">予約登録</h2>
+
+    <div class="flex">
+        <label class="my-auto mr-2 block font-bold" for="template">テンプレート</label>
+        <select
+            class="border-geyser bg-aqua-haze focus-visible:border-science-blue dark:border-mako dark:bg-shark-200 dark:focus-visible:border-cornflower-blue dark:focus-visible:bg-shark-300 rounded-md border p-2 outline-none"
+            id="template" name="template_id">
+            <option value="">---</option>
+            @foreach ($templates as $template)
+                <option value="{{ $template->template_id }}">{{ $template->summary }}</option>
+            @endforeach
+        </select>
+    </div>
 
     <form action="/reservations/register" method="POST">
         @csrf
