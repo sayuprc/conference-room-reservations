@@ -2,6 +2,20 @@
 
 アプリケーションの更新履歴。
 
+## [1.6.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.6.0) - 2022-09-13
+
+### Added
+
+- 予約のテンプレートを追加。
+
+### Changed
+
+- モッククラスの整備。
+
+### Fix
+
+- モッククラスで予約データ参照時に発生するエラーを修正。
+
 ## [1.5.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.5.0) - 2022-08-13
 
 ### Added
