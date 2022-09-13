@@ -38,7 +38,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
                 $endAt = new EndAt((new DateTime())->modify('+' . ($j - 1) . ' hours')->modify('+30 minutes'));
                 $note = new Note(str_repeat('備考', $j));
 
-                $this->db[$roomId->getValue()][$reservationId->getValue() ] = new Reservation(
+                $this->db[$roomId->getValue()][$reservationId->getValue()] = new Reservation(
                     $roomId,
                     $reservationId,
                     $summary,
@@ -112,7 +112,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
     {
         $this->db[$reservation->getRoomId()->getValue()][$reservation->getReservationId()->getValue()] = $reservation;
 
-        dd($this->db);
+        dd($this->db[$reservation->getRoomId()->getValue()][$reservation->getReservationId()->getValue()]);
     }
 
     /**
@@ -126,7 +126,7 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
     {
         $this->db[$reservation->getRoomId()->getValue()][$reservation->getReservationId()->getValue()] = $reservation;
 
-        dd($this->db);
+        dd($this->db[$reservation->getRoomId()->getValue()][$reservation->getReservationId()->getValue()]);
     }
 
     /**
@@ -141,6 +141,6 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
     {
         unset($this->db[$roomId->getValue()][$reservationId->getValue()]);
 
-        dd($this->db);
+        dd($this->db[$roomId->getValue()]);
     }
 }

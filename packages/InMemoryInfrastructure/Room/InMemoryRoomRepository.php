@@ -12,7 +12,7 @@ use packages\Domain\Domain\Room\RoomRepositoryInterface;
 class InMemoryRoomRepository implements RoomRepositoryInterface
 {
     /**
-     * @var array<Room> $db
+     * @var array<string, Room> $db
      */
     private array $db;
 
@@ -84,6 +84,6 @@ class InMemoryRoomRepository implements RoomRepositoryInterface
     {
         $this->db[$room->getRoomId()->getValue()] = $room;
 
-        dd($this->db);
+        dd($this->db[$room->getRoomId()->getValue()]);
     }
 }
