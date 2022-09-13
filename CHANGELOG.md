@@ -2,7 +2,7 @@
 
 アプリケーションの更新履歴。
 
-## [1.5.1](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.5.1) - 2022-09-13
+## [1.6.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.6.0) - 2022-09-13
 
 ### Added
 
