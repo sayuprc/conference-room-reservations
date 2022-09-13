@@ -15,4 +15,12 @@ class ReservationTemplate extends Model
      * 主キーの名前
      */
     protected $primaryKey = 'template_id';
+
+    /**
+     * 日付型としてみなすカラム
+     */
+    protected $dates = [
+        'start_at',
+        'end_at',
+    ];
 }

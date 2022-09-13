@@ -89,7 +89,7 @@ document.getElementById('template')?.addEventListener('change', event => {
 
   const templates = JSON.parse(localStorage.getItem('templates') ?? []);
 
-  const template = templates.filter(item => item.template_id == selectedId)[0] ?? undefined;
+  const template = templates.filter(item => item.templateId == selectedId)[0] ?? undefined;
 
   if (template != undefined) {
     const summary = document.getElementById('summary');
@@ -98,8 +98,8 @@ document.getElementById('template')?.addEventListener('change', event => {
     const note = document.getElementById('note');
 
     summary.value = template.summary;
-    startAtTime.value = template.start_at;
-    endAtTime.value = template.end_at;
+    startAtTime.value = template.startAt;
+    endAtTime.value = template.endAt;
     note.value = template.note;
   }
 });
