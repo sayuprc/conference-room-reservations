@@ -17,7 +17,7 @@ use packages\Domain\Domain\Room\RoomId;
 class InMemoryReservationRepository implements ReservationRepositoryInterface
 {
     /**
-     * @var array<string, Reservation> $db
+     * @var array<string, array<string, Reservation> $db
      */
     private array $db;
 
@@ -86,18 +86,17 @@ class InMemoryReservationRepository implements ReservationRepositoryInterface
      */
     public function findByReservationId(ReservationId $reservationId): ?Reservation
     {
-        $found = array_values(
-            array_filter($this->db, function (array $reservations) use ($reservationId): bool {
-                return count(
-                    array_filter(
-                        $reservations,
-                        function (Reservation $reservation) use ($reservationId): bool {
-                            return $reservationId->equals($reservation->getReservationId());
-                        }
-                    )
-                ) < 1 ? false : true;
-            })
-        )[0] ?? null;
+        $found = null;
+
+        foreach ($this->db as $reservations) {
+            foreach ($reservations as $reservation) {
+                if ($reservationId->equals($reservation->getReservationId())) {
+                    $found = $reservation;
+
+                    break;
+                }
+            }
+        }
 
         return $found;
     }
