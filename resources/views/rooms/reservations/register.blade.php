@@ -16,7 +16,7 @@
             id="template" name="template_id">
             <option value="">---</option>
             @foreach ($templates as $template)
-                <option value="{{ $template->template_id }}">{{ $template->summary }}</option>
+                <option value="{{ $template->templateId }}">{{ $template->summary }}</option>
             @endforeach
         </select>
     </div>

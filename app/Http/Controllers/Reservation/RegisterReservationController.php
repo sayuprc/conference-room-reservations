@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\RegisterRequest;
 use App\Http\Requests\Reservation\ShowRegisterRequest;
+use App\Http\ViewModels\ReservationTemplate\Common\ReservationTemplateViewModel;
 use App\Models\ReservationTemplate;
 use packages\Domain\Domain\Reservation\Exception\PeriodicDuplicationException;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
@@ -32,7 +33,15 @@ class RegisterReservationController extends Controller
             'start_at',
             'end_at',
             'note',
-        ]);
+        ])->map(function (ReservationTemplate $template): ReservationTemplateViewModel {
+            return new ReservationTemplateViewModel(
+                $template->template_id,
+                $template->summary,
+                $template->start_at,
+                $template->end_at,
+                $template->note
+            );
+        });
 
         return view('rooms.reservations.register', [
             'room_id' => $roomId,
