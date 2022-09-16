@@ -69,9 +69,11 @@ class ReservationTemplate
     }
 
     /**
-     * テンプレートIDのValueObjectを取得する。
+     * 予約テンプレートIDのValueObjectを取得する。
      *
-     * @return RoomId
+     * @throws Exception
+     *
+     * @return TemplateId
      */
     public function getTemplateId(): TemplateId
     {
