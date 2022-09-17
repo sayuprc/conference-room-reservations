@@ -23,4 +23,9 @@ class ReservationTemplate extends Model
         'start_at',
         'end_at',
     ];
+
+    /**
+     * @var array<string> $guarded 代入負荷属性
+     */
+    protected $guarded = [];
 }
