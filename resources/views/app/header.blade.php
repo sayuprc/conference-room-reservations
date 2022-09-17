@@ -2,7 +2,8 @@
     <div class="my-auto grow">
         <nav class="flex justify-start">
             <a class="hover:text-silver-sand mr-8" href="/rooms">会議室一覧</a>
-            <a class="hover:text-silver-sand" href="/rooms/register">会議室登録</a>
+            <a class="hover:text-silver-sand mr-8" href="/rooms/register">会議室登録</a>
+            <a class="hover:text-silver-sand" href="/templates/register">予約テンプレート登録</a>
         </nav>
     </div>
 
