@@ -197,6 +197,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // 自作サービスプロバイダ
+        App\Providers\Room\RoomServiceProvider::class,
+        App\Providers\Reservation\ReservationServiceProvider::class,
+        App\Providers\ReservationTemplate\ReservationTemplateServiceProvider::class,
+        App\Providers\Slack\SlackServiceProvider::class,
     ],
 
     /*
