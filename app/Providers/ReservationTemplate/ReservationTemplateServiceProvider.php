@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Providers\ReservationTemplate;
 
 use Illuminate\Support\ServiceProvider;
+use packages\Domain\Application\ReservationTemplate\ReservationTemplateGetListInteractor;
 use packages\Domain\Application\ReservationTemplate\ReservationTemplateRegisterInteractor;
 use packages\Domain\Domain\ReservationTemplate\ReservationTemplateRepositoryInterface;
 use packages\Infrastructure\ReservationTemplate\ReservationTemplateRepository;
 use packages\InMemoryInfrastructure\ReservationTemplate\InMemoryReservationTemplateRepository;
+use packages\MockInteractor\ReservationTemplate\MockReservationTemplateGetListInteractor;
 use packages\MockInteractor\ReservationTemplate\MockReservationTemplateRegisterInteractor;
+use packages\UseCase\ReservationTemplate\GetList\ReservationTemplateGetListUseCaseInterface;
 use packages\UseCase\ReservationTemplate\Register\ReservationTemplateRegisterUseCaseInterface;
 
 class ReservationTemplateServiceProvider extends ServiceProvider
@@ -27,17 +30,24 @@ class ReservationTemplateServiceProvider extends ServiceProvider
 
             // 予約テンプレート登録ユースケース
             $registerInteractor = MockReservationTemplateRegisterInteractor::class;
+
+            // 予約テンプレート一覧取得ユースケース
+            $getListInteractor = MockReservationTemplateGetListInteractor::class;
         } else {
             // 予約テンプレートリポジトリ
             $repository = ReservationTemplateRepository::class;
 
             // 予約テンプレート登録ユースケース
             $registerInteractor = ReservationTemplateRegisterInteractor::class;
+
+            // 予約テンプレート一覧取得ユースケース
+            $getListInteractor = ReservationTemplateGetListInteractor::class;
         }
 
         $this->app->bind(ReservationTemplateRepositoryInterface::class, $repository);
 
         $this->app->bind(ReservationTemplateRegisterUseCaseInterface::class, $registerInteractor);
+        $this->app->bind(ReservationTemplateGetListUseCaseInterface::class, $getListInteractor);
     }
 
     /**

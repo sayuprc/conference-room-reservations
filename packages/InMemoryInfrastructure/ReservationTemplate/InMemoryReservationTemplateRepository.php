@@ -53,4 +53,14 @@ class InMemoryReservationTemplateRepository implements ReservationTemplateReposi
         
         $this->db[$nextIndex] = $reservationTemplate;
     }
+
+    /**
+     * 予約テンプレートすべてを取得する。
+     *
+     * @return array<ReservationTemplate>
+     */
+    public function getAll(): array
+    {
+        return array_map(fn (ReservationTemplate $t) => $t, $this->db);
+    }
 }
