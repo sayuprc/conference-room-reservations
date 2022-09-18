@@ -13,7 +13,7 @@ class IndexReservationTemplateTest extends FeatureTestCase
      *
      * @return void
      */
-    public function testShowTemplateIndex()
+    public function testShowTemplateIndex(): void
     {
         $response = $this->get(route('templates.index'));
 

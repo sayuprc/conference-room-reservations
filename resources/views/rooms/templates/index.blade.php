@@ -6,9 +6,6 @@
     @if (!empty($templates))
         <div class="grid grid-cols-3 justify-center gap-4">
             @foreach ($templates as $template)
-                {{-- <div class="bg-aqua-haze border-geyser dark:bg-outer-space dark:border-mako rounded-md border p-4">
-                    <a class="hover:text-science-blue text-xl hover:underline" href="{{ $room->detailUrl }}">{{ $room->name }}</a>
-                </div> --}}
                 <div class="bg-aqua-haze border-geyser dark:bg-outer-space dark:border-mako rounded-md border p-4">
                     <div class="mb-4 text-lg font-bold">{{ $template->summary }}</div>
                     <div>{{ $template->startAt }} ~ {{ $template->endAt }}</div>
