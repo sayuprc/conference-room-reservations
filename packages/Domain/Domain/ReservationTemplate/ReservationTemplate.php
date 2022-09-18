@@ -56,6 +56,7 @@ class ReservationTemplate
         EndAt $endAt,
         Note $note
     ) {
+        // 日を跨ぐことはない前提とする
         // 開始日と終了日の前後関係が逆転することはない
         if ($endAt->getValue()->format('H:i') < $startAt->getValue()->format('H:i')) {
             throw new InvalidArgumentException('values: ' . $startAt->getValue()->format('H:i') . ' and ' . $endAt->getValue()->format('H:i') . ' are invalid values.');

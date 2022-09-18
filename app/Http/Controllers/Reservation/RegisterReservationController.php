@@ -7,41 +7,43 @@ namespace App\Http\Controllers\Reservation;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Reservation\RegisterRequest;
 use App\Http\Requests\Reservation\ShowRegisterRequest;
-use App\Http\ViewModels\ReservationTemplate\Common\ReservationTemplateViewModel;
-use App\Models\ReservationTemplate;
+use App\Http\ViewModels\ReservationTemplate\GetList\ReservationTemplateGetListViewModel;
 use packages\Domain\Domain\Reservation\Exception\PeriodicDuplicationException;
 use packages\Domain\Domain\Room\Exception\NotFoundException;
 use packages\UseCase\Reservation\Register\ReservationRegisterRequest;
 use packages\UseCase\Reservation\Register\ReservationRegisterUseCaseInterface;
+use packages\UseCase\ReservationTemplate\Common\ReservationTemplateModel;
+use packages\UseCase\ReservationTemplate\GetList\ReservationTemplateGetListRequest;
+use packages\UseCase\ReservationTemplate\GetList\ReservationTemplateGetListUseCaseInterface;
 
 class RegisterReservationController extends Controller
 {
     /**
      * 登録画面を表示する。
      *
-     * @param ShowRegisterRequest $request
+     * @param ShowRegisterRequest                        $request
+     * @param ReservationTemplateGetListUseCaseInterface $interactor
      */
-    public function create(ShowRegisterRequest $request)
+    public function create(ShowRegisterRequest $request, ReservationTemplateGetListUseCaseInterface $interactor)
     {
         $roomId = $request->validated('room_id');
 
         $detailUrl = sprintf('/rooms/show/%s', $roomId);
 
-        $templates = ReservationTemplate::all([
-            'template_id',
-            'summary',
-            'start_at',
-            'end_at',
-            'note',
-        ])->map(function (ReservationTemplate $template): ReservationTemplateViewModel {
-            return new ReservationTemplateViewModel(
-                $template->template_id,
-                $template->summary,
-                $template->start_at,
-                $template->end_at,
-                $template->note
-            );
-        });
+        $response = $interactor->handle(new ReservationTemplateGetListRequest());
+
+        $templates = array_map(
+            function (ReservationTemplateModel $template): ReservationTemplateGetListViewModel {
+                return new ReservationTemplateGetListViewModel(
+                    $template->templateId,
+                    $template->summary,
+                    $template->startAt,
+                    $template->endAt,
+                    $template->note
+                );
+            },
+            $response->templates
+        );
 
         return view('rooms.reservations.register', [
             'room_id' => $roomId,

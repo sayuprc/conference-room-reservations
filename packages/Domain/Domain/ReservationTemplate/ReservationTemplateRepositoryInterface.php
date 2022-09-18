@@ -14,4 +14,11 @@ interface ReservationTemplateRepositoryInterface
      * @return void
      */
     public function insert(ReservationTemplate $reservationTemplate): void;
+
+    /**
+     * 予約テンプレートすべてを取得する。
+     *
+     * @return array<ReservationTemplate>
+     */
+    public function getAll(): array;
 }

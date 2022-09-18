@@ -1,5 +1,20 @@
 import './bootstrap';
 
+const dropdownArea = document.getElementById('dropdown-area');
+
+if (dropdownArea != undefined) {
+  const menu = document.getElementById('dropdown-menu');
+
+  if (menu != undefined) {
+    // 表示
+    dropdownArea.onmousemove = () => menu.classList.remove('invisible');
+
+    // 非表示
+    dropdownArea.onmouseout = () => menu.classList.add('invisible');
+  }
+}
+
+
 document.getElementById('theme-toggle')?.addEventListener('click', () => {
   if (document.documentElement.classList.contains('dark')) {
     document.documentElement.classList.remove('dark');
