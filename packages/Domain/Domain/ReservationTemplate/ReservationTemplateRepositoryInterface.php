@@ -21,4 +21,13 @@ interface ReservationTemplateRepositoryInterface
      * @return array<ReservationTemplate>
      */
     public function getAll(): array;
+
+    /**
+     * 予約テンプレートを検索する。
+     *
+     * @param TemplateId $templateId
+     *
+     * @return ReservationTemplate|null
+     */
+    public function find(TemplateId $templateId): ?ReservationTemplate;
 }
