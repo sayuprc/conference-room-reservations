@@ -55,6 +55,18 @@ class InMemoryReservationTemplateRepository implements ReservationTemplateReposi
     }
 
     /**
+     * 予約テンプレートの更新を行う。
+     *
+     * @param ReservationTemplate $reservationTemplate
+     *
+     * @return void
+     */
+    public function update(ReservationTemplate $reservationTemplate): void
+    {
+        $this->db[$reservationTemplate->getTemplateId()->getValue()] = $reservationTemplate;
+    }
+
+    /**
      * 予約テンプレートすべてを取得する。
      *
      * @return array<ReservationTemplate>

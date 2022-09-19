@@ -13,6 +13,7 @@ use packages\Domain\Domain\Reservation\Summary;
 use packages\Domain\Domain\ReservationTemplate\ReservationTemplate;
 use packages\Domain\Domain\ReservationTemplate\ReservationTemplateRepositoryInterface;
 use packages\Domain\Domain\ReservationTemplate\TemplateId;
+use packages\Domain\Domain\Room\Exception\NotFoundException;
 
 class ReservationTemplateRepository implements ReservationTemplateRepositoryInterface
 {
@@ -33,6 +34,31 @@ class ReservationTemplateRepository implements ReservationTemplateRepositoryInte
         ]);
 
         $newTemplate->save();
+    }
+
+    /**
+     * 予約テンプレートの更新を行う。
+     *
+     * @param ReservationTemplate $reservationTemplate
+     *
+     * @throws NotFoundException
+     *
+     * @return void
+     */
+    public function update(ReservationTemplate $reservationTemplate): void
+    {
+        $found = EloquentReservationTemplate::find($reservationTemplate->getTemplateId()->getValue());
+
+        if ($found === null) {
+            throw new NotFoundException('ID: ' . $reservationTemplate->getTemplateId()->getValue() . ' is not found.');
+        }
+
+        $found->summary = $reservationTemplate->getSummary()->getValue();
+        $found->start_at = $reservationTemplate->getStartAt()->getValue()->format('H:i');
+        $found->end_at = $reservationTemplate->getEndAt()->getValue()->format('H:i');
+        $found->note = $reservationTemplate->getNote()->getValue();
+
+        $found->save();
     }
 
     /**
