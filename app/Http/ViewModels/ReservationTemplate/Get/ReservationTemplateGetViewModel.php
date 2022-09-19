@@ -58,7 +58,6 @@ class ReservationTemplateGetViewModel
         $this->summary = $summary;
         $this->startAt = $startAt->format('H:i');
         $this->endAt = $endAt->format('H:i');
-        // textareaのCRLFが画面上で再現できないのでエスケープする。
-        $this->note = nl2br(e($note));
+        $this->note = $note;
     }
 }
