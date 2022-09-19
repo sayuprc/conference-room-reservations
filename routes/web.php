@@ -6,6 +6,7 @@ use App\Http\Controllers\Reservation\DeleteReservationController;
 use App\Http\Controllers\Reservation\DetailReservationController;
 use App\Http\Controllers\Reservation\RegisterReservationController;
 use App\Http\Controllers\Reservation\UpdateReservationController;
+use App\Http\Controllers\ReservationTemplate\GetReservationTemplateController;
 use App\Http\Controllers\ReservationTemplate\IndexReservationTemplateController;
 use App\Http\Controllers\ReservationTemplate\RegisterReservationTemplateController;
 use App\Http\Controllers\Room\DetailRoomController;
@@ -35,3 +36,6 @@ Route::get('/templates', [IndexReservationTemplateController::class, 'handle'])-
 
 Route::get('/templates/register', [RegisterReservationTemplateController::class, 'create'])->name('templates.register');
 Route::post('/templates/register', [RegisterReservationTemplateController::class, 'handle']);
+
+Route::get('/templates/show/{template_id}', [GetReservationTemplateController::class, 'handle'])
+    ->name('templates.detail');

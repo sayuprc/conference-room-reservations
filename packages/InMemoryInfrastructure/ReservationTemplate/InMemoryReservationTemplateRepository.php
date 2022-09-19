@@ -63,4 +63,18 @@ class InMemoryReservationTemplateRepository implements ReservationTemplateReposi
     {
         return array_map(fn (ReservationTemplate $t) => $t, $this->db);
     }
+
+    /**
+     * 予約テンプレートを検索する。
+     *
+     * @param TemplateId $templateId
+     *
+     * @return ReservationTemplate|null
+     */
+    public function find(TemplateId $templateId): ?ReservationTemplate
+    {
+        $found = $this->db[$templateId->getValue()] ?? null;
+
+        return $found;
+    }
 }

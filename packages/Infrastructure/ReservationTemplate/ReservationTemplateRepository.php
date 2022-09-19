@@ -56,4 +56,28 @@ class ReservationTemplateRepository implements ReservationTemplateRepositoryInte
 
         return $templates->toArray();
     }
+
+    /**
+     * 予約テンプレートを検索する。
+     *
+     * @param TemplateId $templateId
+     *
+     * @return ReservationTemplate|null
+     */
+    public function find(TemplateId $templateId): ?ReservationTemplate
+    {
+        $found = EloquentReservationTemplate::find($templateId->getValue());
+
+        if ($found === null) {
+            return $found;
+        }
+
+        return new ReservationTemplate(
+            new TemplateId($templateId->getValue()),
+            new Summary($found->summary),
+            new StartAt(new DateTime($found->start_at)),
+            new EndAt(new DateTime($found->end_at)),
+            new Note($found->note)
+        );
+    }
 }
