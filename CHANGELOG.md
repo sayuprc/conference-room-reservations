@@ -2,6 +2,16 @@
 
 アプリケーションの更新履歴。
 
+## [1.7.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.7.0) - 2022-09-19
+
+### Added
+
+- 予約のテンプレートの新規追加、更新機能を追加。
+
+### Changed
+
+- サービスプロバイダのリファクタリングを実施。
+
 ## [1.6.0](https://github.com/sayuprc/conference-room-reservations/releases/tag/v1.6.0) - 2022-09-13
 
 ### Added
