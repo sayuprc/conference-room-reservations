@@ -6,6 +6,7 @@ namespace packages\MockInteractor\ReservationTemplate;
 
 use packages\Domain\Domain\ReservationTemplate\ReservationTemplate;
 use packages\Domain\Domain\ReservationTemplate\ReservationTemplateRepositoryInterface;
+use packages\Domain\Domain\ReservationTemplate\ReservationTemplateSpecification;
 use packages\UseCase\ReservationTemplate\Common\ReservationTemplateModel;
 use packages\UseCase\ReservationTemplate\GetList\ReservationTemplateGetListRequest;
 use packages\UseCase\ReservationTemplate\GetList\ReservationTemplateGetListResponse;
@@ -19,13 +20,23 @@ class MockReservationTemplateGetListInteractor implements ReservationTemplateGet
     private ReservationTemplateRepositoryInterface $reservationTemplateRepository;
 
     /**
+     * @var ReservationTemplateSpecification $reservationTemplateSpecification
+     */
+    private ReservationTemplateSpecification $reservationTemplateSpecification;
+
+    /**
      * @param ReservationTemplateRepositoryInterface $reservationTemplateRepository
+     * @param ReservationTemplateSpecification       $reservationTemplateSpecification
      *
      * @return void
      */
-    public function __construct(ReservationTemplateRepositoryInterface $reservationTemplateRepository)
-    {
+    public function __construct(
+        ReservationTemplateRepositoryInterface $reservationTemplateRepository,
+        ReservationTemplateSpecification $reservationTemplateSpecification
+    ) {
         $this->reservationTemplateRepository = $reservationTemplateRepository;
+
+        $this->reservationTemplateSpecification = $reservationTemplateSpecification;
     }
 
     /**
@@ -50,7 +61,7 @@ class MockReservationTemplateGetListInteractor implements ReservationTemplateGet
                     $template->getNote()->getValue()
                 );
             },
-            $this->reservationTemplateRepository->getAll()
+            $this->reservationTemplateSpecification->orderByTemplateIdAsc($this->reservationTemplateRepository->getAll())
         );
 
         return new ReservationTemplateGetListResponse($templateModels);
