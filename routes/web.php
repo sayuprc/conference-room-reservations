@@ -9,6 +9,7 @@ use App\Http\Controllers\Reservation\UpdateReservationController;
 use App\Http\Controllers\ReservationTemplate\GetReservationTemplateController;
 use App\Http\Controllers\ReservationTemplate\IndexReservationTemplateController;
 use App\Http\Controllers\ReservationTemplate\RegisterReservationTemplateController;
+use App\Http\Controllers\ReservationTemplate\UpdateReservationTemplateController;
 use App\Http\Controllers\Room\DetailRoomController;
 use App\Http\Controllers\Room\IndexRoomController;
 use App\Http\Controllers\Room\RegisterController;
@@ -39,3 +40,5 @@ Route::post('/templates/register', [RegisterReservationTemplateController::class
 
 Route::get('/templates/show/{template_id}', [GetReservationTemplateController::class, 'handle'])
     ->name('templates.detail');
+
+Route::post('/templates/update', [UpdateReservationTemplateController::class, 'handle']);

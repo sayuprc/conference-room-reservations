@@ -16,6 +16,15 @@ interface ReservationTemplateRepositoryInterface
     public function insert(ReservationTemplate $reservationTemplate): void;
 
     /**
+     * 予約テンプレートの更新を行う。
+     *
+     * @param ReservationTemplate $reservationTemplate
+     *
+     * @return void
+     */
+    public function update(ReservationTemplate $reservationTemplate): void;
+
+    /**
      * 予約テンプレートすべてを取得する。
      *
      * @return array<ReservationTemplate>

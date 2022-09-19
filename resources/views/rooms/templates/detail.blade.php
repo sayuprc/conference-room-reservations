@@ -41,13 +41,13 @@
             </div>
         </div>
 
-        {{-- <div class="my-3 flex justify-between">
+        <div class="my-3 flex justify-between">
             <button
                 class="bg-dodger-blue border-curious-blue hover:border-denim hover:bg-science-blue dark:border-goblin-100 dark:bg-goblin-200 dark:hover:bg-fruit-salad rounded-md border py-1 px-3 text-white">更新</button>
-            <button
+            {{-- <button
                 class="hover:border-tamarillo hover:bg-shiraz text-valencia border-iron bg-aqua-haze dark:text-mandy dark:bg-bright-gray dark:border-river-bed-100 dark:hover:text-botticelli dark:hover:bg-flush-mahogany dark:hover:border-mandy rounded-md border py-1 px-3 hover:text-white"
-                id="template-delete-button">削除</button>
-        </div> --}}
+                id="template-delete-button">削除</button> --}}
+        </div>
     </form>
 
     {{-- <form action="/templates/delete" method="post" id="template-delete-form">
