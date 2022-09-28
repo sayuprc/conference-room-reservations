@@ -43,8 +43,15 @@ class DetailRoomController extends Controller
 
             $reservationCollection = [];
 
+            $dayOfWeek = ['日', '月', '火', '水', '木', '金', '土'];
+
             foreach ($reservationViewModels as $viweModel) {
-                $startAt = $viweModel->startAt->format('Y/m/d');
+                $startAt = sprintf(
+                    '%s (%s)',
+                    $viweModel->startAt->format('Y/m/d'),
+                    $dayOfWeek[(int)$viweModel->startAt->format('w')]
+                );
+
                 $reservationCollection[$startAt][] = new ReservationGetListViewModel(
                     $viweModel->roomId,
                     $viweModel->reservationId,
