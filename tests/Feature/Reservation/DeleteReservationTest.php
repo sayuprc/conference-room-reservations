@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Tests\Feature\Reservation;
 
 use App\Models\Room;
-use Tests\TestCase;
+use Tests\Feature\FeatureTestCase;
 
-class DeleteReservationTest extends TestCase
+class DeleteReservationTest extends FeatureTestCase
 {
     /**
      * テスト用会議室取得
