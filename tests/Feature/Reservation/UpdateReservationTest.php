@@ -6,9 +6,9 @@ namespace Tests\Feature\Reservation;
 
 use App\Models\Room;
 use DateTime;
-use Tests\TestCase;
+use Tests\Feature\FeatureTestCase;
 
-class UpdateReservationTest extends TestCase
+class UpdateReservationTest extends FeatureTestCase
 {
     /**
      * テスト用会議室取得
