@@ -45,7 +45,7 @@ class RegisterReservationController extends Controller
             $response->templates
         );
 
-        return view('rooms.reservations.register', [
+        return view('reservations.register', [
             'room_id' => $roomId,
             'detail_url' => $detailUrl,
             'templates' => $templates,

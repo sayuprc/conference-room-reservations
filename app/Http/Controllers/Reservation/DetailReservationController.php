@@ -46,7 +46,7 @@ class DetailReservationController extends Controller
                 $response->getRooms()
             );
 
-            return view('rooms.reservations.detail', ['reservation' => $viewModel, 'rooms' => $roomViewModels]);
+            return view('reservations.detail', ['reservation' => $viewModel, 'rooms' => $roomViewModels]);
         } catch (NotFoundException $exception) {
             return redirect()
                 ->route('index')

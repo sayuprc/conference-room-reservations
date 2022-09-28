@@ -16,7 +16,7 @@ class RegisterReservationTemplateController extends Controller
      */
     public function create()
     {
-        return view('rooms.templates.register');
+        return view('templates.register');
     }
 
     /**

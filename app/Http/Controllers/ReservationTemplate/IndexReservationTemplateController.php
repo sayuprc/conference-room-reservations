@@ -32,6 +32,6 @@ class IndexReservationTemplateController extends Controller
             $response->templates
         );
 
-        return view('rooms.templates.index', ['templates' => $templateViewModels]);
+        return view('templates.index', ['templates' => $templateViewModels]);
     }
 }

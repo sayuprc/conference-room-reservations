@@ -34,7 +34,7 @@ class GetReservationTemplateController extends Controller
                 $templateModel->note
             );
 
-            return view('rooms.templates.detail', ['template' => $template]);
+            return view('templates.detail', ['template' => $template]);
         } catch (NotFoundException $exception) {
             return redirect()
                 ->route('templates.index')
